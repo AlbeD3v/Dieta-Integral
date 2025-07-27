@@ -61,12 +61,13 @@
 
 @layer base {
   * {
-    /* Cambiado de @apply border-border; */
-    @apply border; /* Aplica la utilidad base de borde de Tailwind (1px) */
-    border-color: hsl(var(--border)); /* Aplica el color usando la variable CSS directamente */
+    @apply border;
+    border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    /* Cambiado de @apply bg-background text-foreground; */
+    background-color: hsl(var(--background)); /* Aplica el color de fondo directamente */
+    color: hsl(var(--foreground)); /* Aplica el color de texto directamente */
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
