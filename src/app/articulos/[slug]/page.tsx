@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 
 async function getArticle(slug: string) {
-  const filePath = path.join(process.cwd(), 'd-i', 'articulos', `articulo${slug}.text`);
+  const filePath = path.join(process.cwd(), 'd-i', 'articulos', `articulo${slug}.txt`);
   const content = await fs.readFile(filePath, 'utf-8');
   
   // Simple parsing logic, assuming title is the first line
@@ -20,7 +20,8 @@ async function getArticle(slug: string) {
   };
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function ArticlePage({ params }: any) {
   const article = await getArticle(params.slug);
 
   return (
