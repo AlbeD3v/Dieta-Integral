@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 
 async function getArticle(slug: string) {
-  const filePath = path.join(process.cwd(), 'd-i', 'articulos', `articulo${slug}.txt`);
+  const filePath = path.join(process.cwd(), 'articulos', `articulo${slug}.txt`);
   const content = await fs.readFile(filePath, 'utf-8');
   
   // Simple parsing logic, assuming title is the first line
