@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Button } from "@/components/ui/button" 
 import Link from 'next/link';
 
 interface ArticleCardProps {
@@ -11,15 +12,19 @@ interface ArticleCardProps {
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, imageUrl, articleUrl, publicationDate }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-card rounded-lg shadow-md overflow-hidden">
       <Image src={imageUrl} alt={title} width={400} height={250} className="w-full h-48 object-cover" />
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-500 mt-1">{publicationDate}</p>
-        <p className="text-gray-600 mt-4">{description}</p>
-        <Link href={articleUrl} className="inline-block mt-4 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600">
-          Ver más
-        </Link>
+        <h3 className="text-xl font-bold text-card-foreground">{title}</h3>
+        <p className="text-sm text-muted-foreground mt-1">{publicationDate}</p>
+        <p className="text-card-foreground/80 mt-4 line-clamp-5">{description}</p>
+        <div className="flex justify-end">
+          <Button asChild className="inline-block mt-4 px-4 py-2">
+            <Link href={articleUrl} >
+            Saber más...
+          </Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

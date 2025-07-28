@@ -21,22 +21,30 @@ async function getArticle(slug: string) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function ArticlePage({ params }: any) {
-  const article = await getArticle(params.slug);
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }>})  {
+  
+  const {slug} = await params;
+  
+  const article = await getArticle(slug);
 
   return (
     <div>
       <Header />
-      <main className="container mx-auto px-6 py-12">
-        <article>
-          <h1 className="text-4xl font-bold text-gray-800">{article.title}</h1>
-          <p className="text-sm text-gray-500 mt-2">{article.publicationDate}</p>
-          <div className="mt-8">
-            <Image src={article.imageUrl} alt={article.title} width={800} height={400} className="w-full h-auto object-cover rounded-lg" />
+      <main>
+        <section className="relative h-96">
+          <Image src={article.imageUrl} alt={article.title} fill sizes="100vw" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
+            <h1 className="text-4xl font-bold">{article.title}</h1>
+            <p className="mt-4 text-lg">{article.publicationDate}</p>
           </div>
-          <div className="mt-8 text-lg text-gray-700" dangerouslySetInnerHTML={{ __html: article.description.replace(/\n/g, '<br />') }}>
-          </div>
-        </article>
+        </section>
+        <section className="container mx-auto px-6 py-12">
+          <article className="prose lg:prose-xl max-w-none">
+            <div dangerouslySetInnerHTML={{ __html: article.description.replace(/\n/g, '<br />') }}>
+            </div>
+          </article>
+        </section>
       </main>
       <Footer />
     </div>

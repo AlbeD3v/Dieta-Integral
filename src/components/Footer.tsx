@@ -1,10 +1,10 @@
 const Footer = () => {
   return (
-    <footer className="bg-gray-100">
+    <footer className="bg-secondary">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <p className="text-gray-600">&copy; 2025 Dieta Integral. Todos los derechos reservados.</p>
+        <p className="text-secondary-foreground/80">&copy; 2025 Dieta Integral. Todos los derechos reservados.</p>
         <div className="flex items-center space-x-4">
-          <a href="mailto:contacto@dietaintegral.com" className="text-gray-600 hover:text-gray-800">contacto@dietaintegral.com</a>
+          <a href="mailto:contacto@dietaintegral.com" className="text-secondary-foreground/80 hover:text-primary">contacto@dietaintegral.com</a>
         </div>
       </div>
     </footer>
