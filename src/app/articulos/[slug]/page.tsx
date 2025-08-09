@@ -1,5 +1,3 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
@@ -18,43 +16,61 @@ interface ImageSegment {
 type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
-  const filePath = path.join(process.cwd(), 'articulos', `articulo${slug}`, `articulo${slug}.txt`);
-  const content = await fs.readFile(filePath, 'utf-8');
-  
-  // Simple parsing logic, assuming title is the first line
-  const [title, ...contentLines] = content.split('\n');
-  const contentWithImages = contentLines.join('\n');
-
-  // Get all images from the article directory
-  const articleDir = path.join(process.cwd(), 'public/articulos', `articulo${slug}`);
-  const files = await fs.readdir(articleDir);
-  const images = files.filter(file => file.endsWith('.png') || file.endsWith('.jpg') || file.endsWith('.jpeg'));
-  const imageUrls = images.map(image => `/articulos/articulo${slug}/${image}`);
-
-  // Split content by image markers and create segments
-  const segments: Segment[] = contentWithImages.split(/\[Img:(\d+)\]/).map((part, index) => {
-    if (index % 2 === 0) {
-      // Text content
-      return { type: 'text', content: part } as TextSegment;
-    } else {
-      // Image marker - part will be the number from regex capture
-      const imageIndex = parseInt(part) - 1;
-      return { 
-        type: 'image',
-        url: imageUrls[imageIndex] || '',
-        alt: `${title} - Imagen ${imageIndex + 1}`
-      } as ImageSegment;
+  try {
+    // Obtener la URL base
+    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+    
+    // Leer el contenido del artículo desde public
+    const response = await fetch(`${baseUrl}/articulos/articulo${slug}/articulo${slug}.txt`);
+    if (!response.ok) {
+      throw new Error(`Error al cargar el artículo: ${response.statusText}`);
     }
-  }).filter((segment): segment is Segment => 
-    segment.type === 'text' ? segment.content.trim() !== '' : segment.url !== ''
-  );
+    const content = await response.text();
+    
+    // Simple parsing logic, assuming title is the first line
+    const [title, ...contentLines] = content.split('\n');
+    const contentWithImages = contentLines.join('\n');
 
-  return {
-    title,
-    segments,
-    heroImage: imageUrls[0] || '',
-    publicationDate: "Fecha de Publicación de Ejemplo" // Placeholder
-  };
+    // Obtener lista de imágenes usando un archivo manifest.json
+    const manifestResponse = await fetch(`${baseUrl}/articulos/articulo${slug}/manifest.json`);
+    let imageUrls: string[] = [];
+    
+    if (manifestResponse.ok) {
+      const manifest = await manifestResponse.json();
+      imageUrls = manifest.images || [];
+    } else {
+      console.warn(`No se encontró manifest.json para el artículo ${slug}`);
+    }
+
+    // Split content by image markers and create segments
+    const segments: Segment[] = contentWithImages.split(/\[Img:(\d+)\]/).map((part: string, index: number) => {
+      if (index % 2 === 0) {
+        // Text content
+        return { type: 'text', content: part } as TextSegment;
+      } else {
+        // Image marker - part will be the number from regex capture
+        const imageIndex = parseInt(part) - 1;
+        return { 
+          type: 'image',
+          url: imageUrls[imageIndex] || '',
+          alt: `${title} - Imagen ${imageIndex + 1}`
+        } as ImageSegment;
+      }
+    }).filter((segment: Segment): segment is Segment => 
+      segment.type === 'text' ? segment.content.trim() !== '' : segment.url !== ''
+    );
+
+    return {
+      title,
+      segments,
+      heroImage: imageUrls[0] || '',
+      publicationDate: "Fecha de Publicación de Ejemplo" // Placeholder
+    };
+
+  } catch (error) {
+    console.error('Error al cargar el artículo:', error);
+    throw error;
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
