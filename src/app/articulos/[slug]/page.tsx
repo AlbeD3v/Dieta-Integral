@@ -17,63 +17,41 @@ type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
   try {
-    // Usar fetch para cargar el contenido del artículo
-    const articlePath = `/articulos/articulo${slug}/articulo${slug}.txt`;
-    console.log('Intentando cargar artículo desde:', articlePath);
+    // Importar los datos de los artículos
+    const articles = (await import('../../../data/articles')).default;
     
-    const response = await fetch(articlePath);
-    if (!response.ok) {
-      console.error(`Error al cargar el artículo ${slug}:`, response.status, response.statusText);
-      throw new Error('No se pudo encontrar el artículo solicitado');
+    // Buscar el artículo por su slug
+    const article = articles[slug];
+    if (!article) {
+      throw new Error(`No se pudo encontrar el artículo ${slug}`);
     }
 
-    const content = await response.text();
-    
-    // Simple parsing logic, assuming title is the first line
-    const [title, ...contentLines] = content.split('\n');
-    const contentWithImages = contentLines.join('\n');
-
-    // Cargar manifest.json
-    const manifestPath = `/articulos/articulo${slug}/manifest.json`;
-    console.log('Intentando cargar manifest desde:', manifestPath);
-    
-    let imageUrls: string[] = [];
-    try {
-      const manifestResponse = await fetch(manifestPath);
-      if (manifestResponse.ok) {
-        const manifest = await manifestResponse.json();
-        imageUrls = manifest.images || [];
-      } else {
-        console.warn(`No se encontró manifest.json para el artículo ${slug}`);
-      }
-    } catch (error) {
-      console.warn(`Error al cargar manifest.json para el artículo ${slug}:`, error);
-    }
-
-    // Split content by image markers and create segments
-    const segments: Segment[] = contentWithImages.split(/\[Img:(\d+)\]/).map((part: string, index: number) => {
+    // Separar el contenido en segmentos usando los marcadores de imagen
+    const segments = article.content.split(/\[Img:(\d+)\]/).map((part, index) => {
       if (index % 2 === 0) {
-        // Text content
-        return { type: 'text', content: part } as TextSegment;
+        // Contenido de texto
+        return { type: 'text', content: part.trim() } as TextSegment;
       } else {
-        // Image marker - part will be the number from regex capture
+        // Marcador de imagen
         const imageIndex = parseInt(part) - 1;
-        return { 
+        return {
           type: 'image',
-          url: imageUrls[imageIndex] || '',
-          alt: `${title} - Imagen ${imageIndex + 1}`
+          url: article.images[imageIndex] || '',
+          alt: `${article.title} - Imagen ${imageIndex + 1}`
         } as ImageSegment;
       }
-    }).filter((segment: Segment): segment is Segment => 
-      segment.type === 'text' ? segment.content.trim() !== '' : segment.url !== ''
+    }).filter(segment => 
+      segment.type === 'text' ? segment.content !== '' : segment.url !== ''
     );
 
     return {
-      title,
+      title: article.title,
       segments,
-      heroImage: imageUrls[0] || '',
+      heroImage: article.images[0] || '',
       publicationDate: "Fecha de Publicación de Ejemplo" // Placeholder
     };
+
+
 
   } catch (error) {
     console.error('Error al cargar el artículo:', error);
