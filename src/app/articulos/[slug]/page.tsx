@@ -17,11 +17,10 @@ type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
   try {
-    // Obtener la URL base
-    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
-    
-    // Leer el contenido del artículo desde public
-    const response = await fetch(`${baseUrl}/articulos/articulo${slug}/articulo${slug}.txt`);
+    // Leer el contenido del artículo desde public usando una ruta relativa
+    const response = await fetch(`/articulos/articulo${slug}/articulo${slug}.txt`, {
+      cache: 'no-store'
+    });
     if (!response.ok) {
       throw new Error(`Error al cargar el artículo: ${response.statusText}`);
     }
@@ -32,7 +31,9 @@ async function getArticle(slug: string) {
     const contentWithImages = contentLines.join('\n');
 
     // Obtener lista de imágenes usando un archivo manifest.json
-    const manifestResponse = await fetch(`${baseUrl}/articulos/articulo${slug}/manifest.json`);
+    const manifestResponse = await fetch(`/articulos/articulo${slug}/manifest.json`, {
+      cache: 'no-store'
+    });
     let imageUrls: string[] = [];
     
     if (manifestResponse.ok) {
