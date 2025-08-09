@@ -17,45 +17,36 @@ type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
   try {
-    // Construir la URL del artículo
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    // Asegurarse de que la URL sea absoluta para fetch en el servidor
-    const articleUrl = baseUrl.startsWith('http') ? 
-      new URL(`/articulos/articulo${slug}/articulo${slug}.txt`, baseUrl).toString() :
-      `${baseUrl}/articulos/articulo${slug}/articulo${slug}.txt`;
-    console.log('Intentando cargar artículo desde:', articleUrl);
+    // Importar el contenido del artículo directamente
+    const articlePath = `/articulos/articulo${slug}/articulo${slug}.txt`;
+    console.log('Intentando cargar artículo desde:', articlePath);
     
-    const response = await fetch(articleUrl, {
-      cache: 'no-store'
-    });
-    
-    if (!response.ok) {
-      console.error(`Error al cargar el artículo ${slug}:`, response.status, response.statusText);
-      throw new Error(`No se pudo encontrar el artículo solicitado`);
+    let content: string;
+    try {
+      content = await import(`../../../public${articlePath}`)
+        .then(module => module.default);
+    } catch (error) {
+      console.error('Error al importar el artículo:', error);
+      throw new Error('No se pudo encontrar el artículo solicitado');
     }
-    
-    const content = await response.text();
-    
+
     // Simple parsing logic, assuming title is the first line
     const [title, ...contentLines] = content.split('\n');
     const contentWithImages = contentLines.join('\n');
 
-    // Obtener lista de imágenes usando un archivo manifest.json
-    const manifestUrl = baseUrl.startsWith('http') ?
-      new URL(`/articulos/articulo${slug}/manifest.json`, baseUrl).toString() :
-      `${baseUrl}/articulos/articulo${slug}/manifest.json`;
-    console.log('Intentando cargar manifest desde:', manifestUrl);
+    // Importar el manifest.json
+    const manifestPath = `/articulos/articulo${slug}/manifest.json`;
+    console.log('Intentando cargar manifest desde:', manifestPath);
     
-    const manifestResponse = await fetch(manifestUrl, {
-      cache: 'no-store'
-    });
     let imageUrls: string[] = [];
-    
-    if (manifestResponse.ok) {
-      const manifest = await manifestResponse.json();
+    try {
+      const manifest = await import(`../../../public${manifestPath}`)
+        .then(module => module.default);
       imageUrls = manifest.images || [];
-    } else {
-      console.warn(`No se encontró manifest.json para el artículo ${slug}`);
+    } catch (error) {
+      console.warn(`No se encontró manifest.json para el artículo ${slug}:`, error);
+      // Si no hay manifest, continuamos con un array vacío de imágenes
+      imageUrls = [];
     }
 
     // Split content by image markers and create segments
