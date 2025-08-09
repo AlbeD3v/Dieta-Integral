@@ -17,13 +17,19 @@ type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
   try {
-    // Leer el contenido del artículo desde public usando una ruta relativa
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articulos/articulo${slug}/articulo${slug}.txt`, {
+    // Construir la URL del artículo
+    const articleUrl = `/articulos/articulo${slug}/articulo${slug}.txt`;
+    console.log('Intentando cargar artículo desde:', articleUrl);
+    
+    const response = await fetch(articleUrl, {
       cache: 'no-store'
     });
+    
     if (!response.ok) {
-      throw new Error(`Error al cargar el artículo: ${response.statusText}`);
+      console.error(`Error al cargar el artículo ${slug}:`, response.status, response.statusText);
+      throw new Error(`No se pudo encontrar el artículo solicitado`);
     }
+    
     const content = await response.text();
     
     // Simple parsing logic, assuming title is the first line
@@ -31,7 +37,10 @@ async function getArticle(slug: string) {
     const contentWithImages = contentLines.join('\n');
 
     // Obtener lista de imágenes usando un archivo manifest.json
-    const manifestResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articulos/articulo${slug}/manifest.json`, {
+    const manifestUrl = `/articulos/articulo${slug}/manifest.json`;
+    console.log('Intentando cargar manifest desde:', manifestUrl);
+    
+    const manifestResponse = await fetch(manifestUrl, {
       cache: 'no-store'
     });
     let imageUrls: string[] = [];
