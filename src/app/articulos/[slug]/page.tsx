@@ -17,36 +17,37 @@ type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
   try {
-    // Importar el contenido del artículo directamente
+    // Usar fetch para cargar el contenido del artículo
     const articlePath = `/articulos/articulo${slug}/articulo${slug}.txt`;
     console.log('Intentando cargar artículo desde:', articlePath);
     
-    let content: string;
-    try {
-      content = await import(`../../../public${articlePath}`)
-        .then(module => module.default);
-    } catch (error) {
-      console.error('Error al importar el artículo:', error);
+    const response = await fetch(articlePath);
+    if (!response.ok) {
+      console.error(`Error al cargar el artículo ${slug}:`, response.status, response.statusText);
       throw new Error('No se pudo encontrar el artículo solicitado');
     }
 
+    const content = await response.text();
+    
     // Simple parsing logic, assuming title is the first line
     const [title, ...contentLines] = content.split('\n');
     const contentWithImages = contentLines.join('\n');
 
-    // Importar el manifest.json
+    // Cargar manifest.json
     const manifestPath = `/articulos/articulo${slug}/manifest.json`;
     console.log('Intentando cargar manifest desde:', manifestPath);
     
     let imageUrls: string[] = [];
     try {
-      const manifest = await import(`../../../public${manifestPath}`)
-        .then(module => module.default);
-      imageUrls = manifest.images || [];
+      const manifestResponse = await fetch(manifestPath);
+      if (manifestResponse.ok) {
+        const manifest = await manifestResponse.json();
+        imageUrls = manifest.images || [];
+      } else {
+        console.warn(`No se encontró manifest.json para el artículo ${slug}`);
+      }
     } catch (error) {
-      console.warn(`No se encontró manifest.json para el artículo ${slug}:`, error);
-      // Si no hay manifest, continuamos con un array vacío de imágenes
-      imageUrls = [];
+      console.warn(`Error al cargar manifest.json para el artículo ${slug}:`, error);
     }
 
     // Split content by image markers and create segments
