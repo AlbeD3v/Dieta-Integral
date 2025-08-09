@@ -17,8 +17,9 @@ type Segment = TextSegment | ImageSegment;
 
 async function getArticle(slug: string) {
   try {
-    // Construir la URL del artículo
-    const articleUrl = `/articulos/articulo${slug}/articulo${slug}.txt`;
+    // Construir la URL del artículo usando URL absoluta
+    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+    const articleUrl = new URL(`/articulos/articulo${slug}/articulo${slug}.txt`, baseUrl).toString();
     console.log('Intentando cargar artículo desde:', articleUrl);
     
     const response = await fetch(articleUrl, {
@@ -37,7 +38,7 @@ async function getArticle(slug: string) {
     const contentWithImages = contentLines.join('\n');
 
     // Obtener lista de imágenes usando un archivo manifest.json
-    const manifestUrl = `/articulos/articulo${slug}/manifest.json`;
+    const manifestUrl = new URL(`/articulos/articulo${slug}/manifest.json`, baseUrl).toString();
     console.log('Intentando cargar manifest desde:', manifestUrl);
     
     const manifestResponse = await fetch(manifestUrl, {
