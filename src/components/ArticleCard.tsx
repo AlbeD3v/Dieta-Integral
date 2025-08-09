@@ -18,6 +18,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, images, a
           src={images[0].startsWith('/') ? images[0] : `/${images[0]}`} 
           alt={title} 
           fill 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority
           className="object-cover"
         />
         {images.length > 1 && (

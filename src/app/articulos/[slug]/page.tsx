@@ -18,7 +18,7 @@ type Segment = TextSegment | ImageSegment;
 async function getArticle(slug: string) {
   try {
     // Leer el contenido del artículo desde public usando una ruta relativa
-    const response = await fetch(`/articulos/articulo${slug}/articulo${slug}.txt`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articulos/articulo${slug}/articulo${slug}.txt`, {
       cache: 'no-store'
     });
     if (!response.ok) {
@@ -31,7 +31,7 @@ async function getArticle(slug: string) {
     const contentWithImages = contentLines.join('\n');
 
     // Obtener lista de imágenes usando un archivo manifest.json
-    const manifestResponse = await fetch(`/articulos/articulo${slug}/manifest.json`, {
+    const manifestResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/articulos/articulo${slug}/manifest.json`, {
       cache: 'no-store'
     });
     let imageUrls: string[] = [];
@@ -84,7 +84,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <Header />
       <main>
         <section className="relative h-96">
-          <Image src={article.heroImage} alt={article.title} fill sizes="100vw" className="w-full h-full object-cover" />
+          <Image 
+            src={article.heroImage} 
+            alt={article.title} 
+            fill 
+            sizes="100vw" 
+            priority 
+            className="w-full h-full object-cover" 
+          />
           <div className="absolute inset-0 bg-black opacity-50"></div>
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
             <h1 className="text-4xl font-bold">{article.title}</h1>
@@ -102,6 +109,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     src={segment.url}
                     alt={segment.alt}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                     className="object-cover rounded-lg"
                   />
                 </div>
