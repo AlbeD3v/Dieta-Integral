@@ -12,7 +12,7 @@ const FeaturedArticles = () => {
               key={article.id} 
               title={article.title}
               description={article.summary}
-              imageUrl={article.imageUrl}
+              images={article.images}
               articleUrl={article.articleUrl}
               publicationDate={article.publicationDate}
             />

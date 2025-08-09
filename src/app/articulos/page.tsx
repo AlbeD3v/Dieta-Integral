@@ -19,7 +19,7 @@ export default function ArticlesPage() {
                 key={article.id}
                 title={article.title}
                 description={article.summary}
-                imageUrl={article.imageUrl}
+                images={article.images}
                 articleUrl={`/articulos/${article.slug}`}
                 publicationDate={article.publicationDate}
               />

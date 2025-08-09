@@ -5,15 +5,27 @@ import Link from 'next/link';
 interface ArticleCardProps {
   title: string;
   description: string;
-  imageUrl: string;
+  images: string[];
   articleUrl: string;
   publicationDate: string;
 }
 
-const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, imageUrl, articleUrl, publicationDate }) => {
+const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, images, articleUrl, publicationDate }) => {
   return (
     <div className="bg-card rounded-lg shadow-md overflow-hidden">
-      <Image src={imageUrl} alt={title} width={400} height={250} className="w-full h-48 object-cover" />
+      <div className="relative w-full h-48">
+        <Image 
+          src={images[0].startsWith('/') ? images[0] : `/${images[0]}`} 
+          alt={title} 
+          fill 
+          className="object-cover"
+        />
+        {images.length > 1 && (
+          <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
+            +{images.length - 1} fotos
+          </div>
+        )}
+      </div>
       <div className="p-6">
         <h3 className="text-xl font-bold text-card-foreground">{title}</h3>
         <p className="text-sm text-muted-foreground mt-1">{publicationDate}</p>

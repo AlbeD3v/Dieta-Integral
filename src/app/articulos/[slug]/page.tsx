@@ -4,27 +4,62 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
 
+interface TextSegment {
+  type: 'text';
+  content: string;
+}
+
+interface ImageSegment {
+  type: 'image';
+  url: string;
+  alt: string;
+}
+
+type Segment = TextSegment | ImageSegment;
+
 async function getArticle(slug: string) {
-  const filePath = path.join(process.cwd(), 'articulos', `articulo${slug}.txt`);
+  const filePath = path.join(process.cwd(), 'articulos', `articulo${slug}`, `articulo${slug}.txt`);
   const content = await fs.readFile(filePath, 'utf-8');
   
   // Simple parsing logic, assuming title is the first line
-  const [title, ...rest] = content.split('\n');
-  const description = rest.join('\n');
+  const [title, ...contentLines] = content.split('\n');
+  const contentWithImages = contentLines.join('\n');
+
+  // Get all images from the article directory
+  const articleDir = path.join(process.cwd(), 'public/articulos', `articulo${slug}`);
+  const files = await fs.readdir(articleDir);
+  const images = files.filter(file => file.endsWith('.png') || file.endsWith('.jpg') || file.endsWith('.jpeg'));
+  const imageUrls = images.map(image => `/articulos/articulo${slug}/${image}`);
+
+  // Split content by image markers and create segments
+  const segments: Segment[] = contentWithImages.split(/\[Img:(\d+)\]/).map((part, index) => {
+    if (index % 2 === 0) {
+      // Text content
+      return { type: 'text', content: part } as TextSegment;
+    } else {
+      // Image marker - part will be the number from regex capture
+      const imageIndex = parseInt(part) - 1;
+      return { 
+        type: 'image',
+        url: imageUrls[imageIndex] || '',
+        alt: `${title} - Imagen ${imageIndex + 1}`
+      } as ImageSegment;
+    }
+  }).filter((segment): segment is Segment => 
+    segment.type === 'text' ? segment.content.trim() !== '' : segment.url !== ''
+  );
 
   return {
     title,
-    description,
-    imageUrl: `/articulos/articulo${slug}_1.png`, // Assuming image naming convention
+    segments,
+    heroImage: imageUrls[0] || '',
     publicationDate: "Fecha de Publicación de Ejemplo" // Placeholder
   };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }>})  {
-  
   const {slug} = await params;
-  
   const article = await getArticle(slug);
 
   return (
@@ -32,7 +67,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <Header />
       <main>
         <section className="relative h-96">
-          <Image src={article.imageUrl} alt={article.title} fill sizes="100vw" className="w-full h-full object-cover" />
+          <Image src={article.heroImage} alt={article.title} fill sizes="100vw" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black opacity-50"></div>
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center">
             <h1 className="text-4xl font-bold">{article.title}</h1>
@@ -41,8 +76,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </section>
         <section className="container mx-auto px-6 py-12">
           <article className="prose lg:prose-xl max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: article.description.replace(/\n/g, '<br />') }}>
-            </div>
+            {article.segments.map((segment, index) => (
+              segment.type === 'text' ? (
+                <div key={index} dangerouslySetInnerHTML={{ __html: segment.content.replace(/\n/g, '<br />') }} />
+              ) : (
+                <div key={index} className="my-8 relative aspect-video">
+                  <Image 
+                    src={segment.url}
+                    alt={segment.alt}
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </div>
+              )
+            ))}
           </article>
         </section>
       </main>
