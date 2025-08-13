@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const AboutSection = () => {
   return (
-    <section className="py-20 bg-background">
+    <section className="py-20 bg-primary/10">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2">
           <Image src="/nutricionista.png" alt="Nutricionista" width={400} height={400} className="rounded-full" />
