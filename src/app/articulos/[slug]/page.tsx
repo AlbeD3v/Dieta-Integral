@@ -13,8 +13,6 @@ interface ImageSegment {
   alt: string;
 }
 
-type Segment = TextSegment | ImageSegment;
-
 async function getArticle(slug: string) {
   try {
     // Importar los datos de los artículos
