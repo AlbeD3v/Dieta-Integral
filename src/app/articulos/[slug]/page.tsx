@@ -66,7 +66,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <div>
       <Header />
       <main>
-        <section className="relative h-96">
+        <section className="relative h-96 mx-auto">
           <Image 
             src={article.heroImage} 
             alt={article.title} 
@@ -81,11 +81,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <p className="mt-4 text-lg">{article.publicationDate}</p>
           </div>
         </section>
-        <section className="container mx-auto px-6 py-12">
-          <article className="prose lg:prose-xl max-w-none">
+        <section className="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-full md:max-w-[800px]">
+          <article className="prose prose-sm md:prose lg:prose-xl max-w-none">
             {article.segments.map((segment, index) => (
               segment.type === 'text' ? (
-                <div key={index} dangerouslySetInnerHTML={{ __html: segment.content.replace(/\n/g, '<br />') }} />
+                <div key={index} className="text-justify text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: segment.content.replace(/\n/g, '<br />') }} />
               ) : (
                 <div key={index} className="my-8 relative aspect-video">
                   <Image 
