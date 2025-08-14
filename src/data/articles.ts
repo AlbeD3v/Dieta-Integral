@@ -40,7 +40,14 @@ Cada vez que priorizas ese snack procesado sobre comida real, eliges el sofá en
 
 ## *La conspiración contra tu vitalidad*
 
-¿Te has dado cuenta de que toda la industria está diseñada para mantenerte enfermo y dependiente? Te venden comida basura que te enferma, después te venden medicinas para los síntomas. Te mantienen en un ciclo de dependencia donde nunca resuelves el problema real. Te dicen que comas cada dos horas para "acelerar tu metabolismo". *MENTIRA*. Tu sistema digestivo necesita descanso para repararse. Te dicen que hagas ejercicio una hora al gimnasio y después pases 8 horas sentado. *ABSURDO*. Tu cuerpo está diseñado para moverse constantemente. Te dicen que duermas 8 horas pero después te bombardean con pantallas y cafeína hasta tarde. *CONTRADICTORIO*.
+¿Te has dado cuenta de que toda la industria está diseñada para mantenerte enfermo y dependiente? Te venden comida basura que te enferma, después te venden medicinas para los síntomas. Te mantienen en un ciclo de dependencia donde nunca resuelves el problema real. 
+
+Te dicen que comas cada dos horas para "acelerar tu metabolismo" *MENTIRA*.
+
+Tu sistema digestivo necesita descanso para repararse. Te dicen que hagas ejercicio una hora al gimnasio y después pases 8 horas sentado. 
+*ABSURDO*. 
+
+Tu cuerpo está diseñado para moverse constantemente. Te dicen que duermas 8 horas pero después te bombardean con pantallas y cafeína hasta tarde. *CONTRADICTORIO*.
 
 *Mientras sigas las reglas del sistema, vas a obtener los resultados del sistema: cansancio, enfermedad y dependencia.*
 

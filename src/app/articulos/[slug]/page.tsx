@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
         <section className="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-full md:max-w-[800px]">
-          <article className="prose prose-sm md:prose lg:prose-xl max-w-none">
+          <article className="container mx-auto px-4 md:px-6 lg:px-8 max-w-4xl">
             {article.segments.map((segment, index) => (
               segment.type === 'text' ? (
                 <div 
@@ -88,17 +88,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   dangerouslySetInnerHTML={{
                     __html: segment.content.split('\n\n').map(p => {
                       if (p.startsWith('##')) {
-                        return p.replace(/^## \*(.+)\*$/, '<h2 class="font-libre text-2xl md:text-3xl lg:text-4xl font-bold mt-16 mb-8 leading-tight">$1</h2>')
-                               .replace(/^## (.+)$/, '<h2 class="font-libre text-2xl md:text-3xl lg:text-4xl font-bold mt-16 mb-8 leading-tight">$1</h2>');
+                        const hasEmphasis = p.match(/^## \*(.+)\*$/);
+                        const title = hasEmphasis ? hasEmphasis[1] : p.replace(/^## /, '');
+                        const className = `font-libre text-2xl md:text-3xl lg:text-4xl font-bold mt-16 mb-8 leading-tight text-center ${hasEmphasis ? 'text-primary/90 border-b border-primary/20 pb-2' : ''}`;
+                        return `<h2 class="${className}">${title}</h2>`;
                       } else if (p.startsWith('#')) {
-                        return p.replace(/^# \*(.+)\*$/, '<h1 class="font-libre text-3xl md:text-4xl lg:text-5xl font-bold mt-20 mb-10 leading-tight">$1</h1>')
-                               .replace(/^# (.+)$/, '<h1 class="font-libre text-3xl md:text-4xl lg:text-5xl font-bold mt-20 mb-10 leading-tight">$1</h1>');
+                        const hasEmphasis = p.match(/^# \*(.+)\*$/);
+                        const title = hasEmphasis ? hasEmphasis[1] : p.replace(/^# /, '');
+                        const className = `font-libre text-3xl md:text-4xl lg:text-5xl font-bold mt-20 mb-10 leading-tight text-center ${hasEmphasis ? 'text-primary/90 border-b border-primary/20 pb-3' : ''}`;
+                        return `<h1 class="${className}">${title}</h1>`;
                       } else {
-                        return `<p class="mb-6 font-libre text-lg leading-relaxed">${p.replace(/\*([^*]+)\*/g, '<strong class="text-primary/90 inline-block my-2">$1</strong>')}</p>`;
+                        return `<div class="max-w-[65ch] mx-auto"><p class="mb-6 font-libre text-lg leading-relaxed text-justify">${p.replace(/\*([^*]+)\*/g, '<strong class="text-primary/90 inline-block my-2">$1</strong>')}</p></div>`;
                       }
                     })
-                    .join('\n') +
-                    '</div>'
+                    .join('\n')
                   }} 
                 />
               ) : (
