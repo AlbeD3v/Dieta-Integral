@@ -7,46 +7,214 @@ interface Article {
 const articles: Record<string, Article> = {
   '1': {
     title: '¿Y si tu salud fuera el verdadero motor de tu vida?',
-    content: `Te lo pregunto en serio.
-No como lo haría un médico en bata, ni como lo haría un influencer con abdominales y frases vacías.
-Te lo pregunto cómo alguien que estuvo exactamente dónde estás tú ahora, y que quiere que despiertes.
-Porque lo que tú llamas "vida normal" —el estrés crónico, la falta de energía, el insomnio disfrazado de 'me acuesto tarde', la barriga que crece sin permiso y la ansiedad que se cuela en silencio— no es normal.
-Te acostumbraste a sobrevivir... cuando viniste a este mundo a vivir.
+    content: `## *Te voy a hacer una pregunta que te va a incomodar.*
 
-Tu cuerpo no es tu enemigo
-La salud no es un destino. Es el suelo donde todo lo demás se sostiene.
-Tu cuerpo no es una jaula. Es un vehículo de alto rendimiento.
-Pero lo tratas como si fuera desechable. Como si pudieras cambiarlo cuando se desgaste.
-Y no. No puedes.
-Yo también creí durante años que estar cansado era "normal". Que despertar sin energía era parte de ser adulto. Que las 4 de la tarde fueran sinónimo de crash inevitable.
-Hasta que entendí algo que cambió todo: *mi cuerpo no estaba roto, solo había perdido el manual de instrucciones. 
+Y no me vengas con que no tienes tiempo para leer esto, porque si no tienes tiempo para tu salud, tampoco vas a tener salud para tu tiempo.
+
+*¿Cuándo fue la última vez que te despertaste con energía real?*
+
+No esa sensación patética de "bueno, ya desperté" que tienes ahora. No ese estado zombie de arrastrarte hasta la cafetera. Energía de verdad. Ganas de comerte el mundo.
+Apuesto a que no te acuerdas. Porque llevas tanto tiempo viviendo en modo supervivencia que ya ni sabes lo que es estar realmente vivo.
+Y antes de que me salgas con tus excusas de siempre, déjame decirte algo:
+
+*Lo que tú llamas "vida normal" es una mentira que te vendieron.*
+
+## *La estafa más grande de tu vida*
 
 [Img:1]
 
-Imagina que te levantas con claridad mental, con hambre de retos.
-Que tu cuerpo responde. Tus músculos no duelen, tu digestión es ligera, tu humor estable.
-Imagínate libre de inflamación, de cansancio crónico, de hambre emocional.
+Te han hecho creer que estar cansado es normal.
+Que necesitar estimulantes para funcionar es de adulto responsable.
+Que colapsar cada tarde es parte de "trabajar duro".
+Que no dormir bien es inevitable con la edad.
 
-¿Te imaginas poder usar tu energía para crecer, no para aguantar?
-Transformación positiva y bienestar
+*MENTIRA. TODO MENTIRA.*
+
+¿Sabes cuál es la verdad? Que has normalizado la mediocridad. Te has conformado con sobrevivir cuando tu cuerpo está diseñado para prosperar.
+
+Cada mañana que te despiertas sin energía, no es mala suerte. Es el resultado directo de cómo has estado saboteando tu propio cuerpo durante años.
+
+Y lo peor de todo es que lo sabes. En el fondo, sabes que podrías estar mejor. Pero es más fácil quedarse quejándose que hacer algo al respecto.
+
+## *Tu cuerpo no está roto, tú lo rompiste*
+
+Déjame ser claro contigo: no tienes mal metabolismo. No tienes mala genética. No eres víctima de las circunstancias.
+
+*Eres víctima de tus propias decisiones.*
+
+Cada vez que priorizas ese snack procesado sobre comida real.
+Cada vez que eliges el sofá en lugar de moverte.
+Cada vez que te quedas despierto scrolleando en lugar de descansar.
+Cada vez que buscas una pastilla en lugar de solucionar el problema de raíz.
+
+Tu cuerpo no necesita más suplementos milagrosos. No necesita más productos "detox". No necesita más excusas.
+
+*Tu cuerpo necesita que dejes de joder con él.*
+
+## *La conspiración contra tu vitalidad*
+
+¿Te has dado cuenta de que toda la industria está diseñada para mantenerte enfermo y dependiente?
+
+Te venden comida basura que te enferma, después te venden medicinas para los síntomas. Te mantienen en un ciclo de dependencia donde nunca resuelves el problema real.
+
+Te dicen que comas cada dos horas para "acelerar tu metabolismo". MENTIRA. Tu sistema digestivo necesita descanso para repararse.
+
+Te dicen que hagas ejercicio una hora al gimnasio y después pases 8 horas sentado. ABSURDO. Tu cuerpo está diseñado para moverse constantemente.
+
+Te dicen que duermas 8 horas pero después te bombardean con pantallas y cafeína hasta tarde. CONTRADICTORIO.
+
+*Mientras sigas las reglas del sistema, vas a obtener los resultados del sistema: cansancio, enfermedad y dependencia.*
+
+## *La verdad que no quieren que sepas*
+
+Aquí viene lo que realmente no quieren que descubras:
+
+*Tu cuerpo es una máquina perfecta que sabe exactamente cómo curarse, energizarse y optimizarse.*
+
+Durante millones de años, tus antepasados vivieron con energía constante. Se despertaban renovados. Dormían profundo. Tenían fuerza física y mental claridad.
+
+Sin suplementos. Sin medicinas. Sin complicaciones.
+
+¿La diferencia? Ellos respetaban su diseño biológico. No lo saboteaban 24/7.
+
+Ayunaban naturalmente porque no tenían comida disponible cada segundo.
+Se movían constantemente porque la supervivencia lo requería.
+Dormían con el sol porque no tenían luz artificial.
+Comían alimentos reales porque no existían los procesados.
+
+*Tu ADN es exactamente el mismo que el de ellos.*
+
+La única diferencia es que tú has decidido vivir contra tu propia naturaleza.
+
+## *El precio real de tu negligencia*
 
 [Img:2]
 
-El acto revolucionario
-¿Y si cuidarte no fuera un castigo, sino un acto de rebeldía?
-Porque en un mundo que lucra con tu fatiga, tu sobrepeso y tu ansiedad…
-sentirte bien es un acto revolucionario.
+¿Crees que esto solo afecta cómo te sientes físicamente? Qué ingenuo.
+
+Tu falta de energía está arruinando cada área de tu vida:
+
+*En el trabajo:* No puedes rendir al máximo cuando tu cerebro funciona al 50%. Te conformas con la mediocridad porque no tienes la claridad mental para la excelencia.
+
+*En tus relaciones:* Llegas a casa agotado, irritable, sin energía para conectar realmente con las personas que amas. Tus seres queridos reciben las sobras de tu energía.
+
+*En tus objetivos:* Cada proyecto que postergaste, cada meta que abandonaste, cada sueño que dejaste morir... todo porque "no tenías energía" para perseguirlo.
+
+*En tu futuro:* Cada día que postergas cuidarte es un día que le restas a tu longevidad, a tu calidad de vida, a tu capacidad de disfrutar lo que construiste.
+
+*¿Ese es el precio que estás dispuesto a pagar por seguir siendo cómodo?*
+
+## *Las excusas que te mantienen mediocre*
+
+Déjame adivinar tus excusas:
+
+"Es que trabajo mucho." TODO EL MUNDO TRABAJA. La diferencia es que algunos priorizan lo que realmente importa.
+
+"Es que no tengo tiempo." Tienes tiempo para Netflix, para redes sociales, para quejarte. No tienes tiempo para lo que no es prioritario para ti.
+
+"Es que es muy caro comer bien." Es más caro estar enfermo. Es más caro vivir sin energía. Es más caro desperdiciar tu potencial.
+
+"Es que mi familia no me apoya." Tu salud es TU responsabilidad. Nadie más va a vivir las consecuencias de tus decisiones.
+
+"Es que ya probé de todo." No, probaste de todo menos lo que realmente funciona: consistencia, disciplina y dejar de buscar soluciones mágicas.
+
+*Cada excusa que pones es una declaración de que prefieres seguir siendo víctima que tomar control.*
+
+## *El momento de la verdad*
+
+Aquí está la realidad brutal que nadie te va a decir:
+
+*No vas a cambiar.*
+
+Estadísticamente, vas a seguir igual. Vas a leer esto, sentirte motivado por cinco minutos, tal vez compartas el artículo, y después vas a volver a tus mismos patrones destructivos.
+
+¿Por qué? Porque cambiar requiere incomodidad. Y tú has elegido la comodidad sobre la excelencia durante tanto tiempo que ya es tu identidad.
+
+Prefieres la familiaridad de sentirte mal que la incertidumbre de sentirte bien.
+
+Prefieres quejarte del problema que implementar la solución.
+
+Prefieres ser víctima que ser responsable.
+
+*Pero hay una pequeña posibilidad de que seas diferente.*
+
+## *Para los que están hartos de verdad*
+
+Si llegaste hasta aquí y algo dentro tuyo se está rebelando, si hay una parte de ti que se niega a aceptar la mediocridad como destino, entonces escúchame bien:
+
+*El cambio no es negociable si quieres resultados diferentes.*
+
+No puedes seguir haciendo lo mismo y esperar que algo cambie mágicamente.
+
+No puedes seguir priorizando la comodidad y esperar excelencia.
+
+No puedes seguir buscando atajos y esperar resultados duraderos.
+
+*Tienes que decidir qué es más importante: tu comodidad o tu futuro.*
+
+## *El camino existe, pero no es fácil*
+
+La buena noticia es que la solución existe. La mala noticia es que requiere que hagas cosas que no tienes ganas de hacer.
+
+Requiere que dejes de comer esa basura procesada que tanto te gusta.
+Requiere que te muevas aunque tengas pereza.
+Requiere que duermas temprano aunque tengas FOMO.
+Requiere que ayunes aunque tengas hambre emocional.
+Requiere que seas constante aunque no veas resultados inmediatos.
+
+*Requiere que crezcas como persona.*
+
+No existe una píldora mágica. No existe un hack milagroso. No existe una solución que no requiera esfuerzo de tu parte.
+
+Lo que sí existe es un sistema probado durante millones de años: vivir según tu diseño biológico.
+
+Alimentarte con comida real.
+Moverte como fue diseñado tu cuerpo.
+Descansar cuando necesitas descansar.
+Ayunar cuando necesitas reparación.
+Exponerte a la naturaleza que sanó a tus antepasados.
+
+## *La línea en la arena*
+
+Este es tu momento de decisión.
+
+Puedes cerrar este artículo y volver a tu vida cómoda y mediocre. Puedes seguir postergando. Puedes seguir esperando el momento perfecto que nunca va a llegar.
+
+O puedes trazar una línea en la arena y decidir que a partir de hoy, tu salud es innegociable.
+
+Que tu energía es tu mayor asset.
+Que tu vitalidad es tu mayor inversión.
+Que tu cuerpo es tu mayor responsabilidad.
+
+*La decisión es tuya. Pero las consecuencias también.*
+
+Si eliges seguir igual, en cinco años vas a estar igual o peor. Tu energía va a seguir disminuyendo. Tu salud va a seguir deteriorándose. Tu potencial va a seguir desperdiciándose.
+
+Si eliges cambiar de verdad, en cinco años vas a ser una persona completamente diferente. Con energía que ni recordabas que podías tener. Con claridad mental que transformará tu trabajo. Con vitalidad que rejuvenecerá tus relaciones.
 
 [Img:3]
 
-El cambio empieza con la consciencia.
-Y la consciencia empieza ahora.
-Porque vivir con vitalidad no es un lujo.
-Es tu derecho de nacimiento.`,
+## *Tu momento es ahora*
+
+No mañana, cuando tengas tiempo.
+No el lunes, cuando empiece la semana.
+No en enero, cuando empiecen los propósitos.
+
+*AHORA.*
+
+Porque cada día que postergas es un día menos de vivir con vitalidad. Un día menos de sentirte realmente vivo.
+
+Tu cuerpo está esperando que le des una oportunidad. Está esperando que dejes de sabotearlo y empieces a trabajar CON él, no contra él.
+
+*¿Vas a seguir sobreviviendo o vas a empezar a vivir?*
+
+La respuesta a esa pregunta va a definir el resto de tu existencia.
+
+Elige sabiamente.`,
     images: [
       '/articulos/articulo1/articulo1_1.png',
-      '/articulos/articulo1/articulo1_2.png',
-      '/articulos/articulo1/articulo1_3.png'
+      '/articulos/articulo1/articulo1_2.jpg',
+      '/articulos/articulo1/articulo1_3.jpg'
     ]
   },
   '2': {

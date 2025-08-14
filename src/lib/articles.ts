@@ -4,7 +4,7 @@ export const articles = [
     slug: "1",
     title: "¿Y si tu salud fuera el verdadero motor de tu vida?",
     summary: "Te lo pregunto en serio. No como lo haría un médico en bata, ni como lo haría un influencer con abdominales y frases vacías.",
-    images: ["/articulos/articulo1/articulo1_1.png"],
+    images: ["/articulos/articulo1/articulo1_1.png", "/articulos/articulo1/articulo1_2.jpg", "/articulos/articulo1/articulo1_3.jpg"],
     articleUrl: "/articulos/1",
     publicationDate: "25 de Julio, 2025"
   },
