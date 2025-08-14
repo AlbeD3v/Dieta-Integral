@@ -13,8 +13,8 @@ Y no me vengas con que no tienes tiempo para leer esto, porque si no tienes tiem
 
 *¿Cuándo fue la última vez que te despertaste con energía real?*
 
-No esa sensación patética de "bueno, ya desperté" que tienes ahora. No ese estado zombie de arrastrarte hasta la cafetera. Energía de verdad. Ganas de comerte el mundo.
-Apuesto a que no te acuerdas. Porque llevas tanto tiempo viviendo en modo supervivencia que ya ni sabes lo que es estar realmente vivo.
+No esa sensación patética de "bueno, ya desperté" que tienes ahora. No ese estado zombie de arrastrarte hasta la cafetera, sino energía de verdad, ganas de comerte el mundo.
+Apuesto a que no te acuerdas, porque llevas tanto tiempo viviendo en modo supervivencia que ya ni sabes lo que es estar realmente vivo.
 Y antes de que me salgas con tus excusas de siempre, déjame decirte algo:
 
 *Lo que tú llamas "vida normal" es una mentira que te vendieron.*
@@ -23,45 +23,24 @@ Y antes de que me salgas con tus excusas de siempre, déjame decirte algo:
 
 [Img:1]
 
-Te han hecho creer que estar cansado es normal.
-Que necesitar estimulantes para funcionar es de adulto responsable.
-Que colapsar cada tarde es parte de "trabajar duro".
-Que no dormir bien es inevitable con la edad.
+Te han hecho creer que estar cansado es normal. Que necesitar estimulantes para funcionar es de adulto responsable. Que colapsar cada tarde es parte de "trabajar duro". Que no dormir bien es inevitable con la edad.
 
 *MENTIRA. TODO MENTIRA.*
 
 ¿Sabes cuál es la verdad? Que has normalizado la mediocridad. Te has conformado con sobrevivir cuando tu cuerpo está diseñado para prosperar.
+Cada mañana que te despiertas sin energía, no es mala suerte. Es el resultado directo de cómo has estado saboteando tu propio cuerpo durante años. Y lo peor de todo es que lo sabes. En el fondo, sabes que podrías estar mejor. Pero es más fácil quedarse quejándose que hacer algo al respecto.
 
-Cada mañana que te despiertas sin energía, no es mala suerte. Es el resultado directo de cómo has estado saboteando tu propio cuerpo durante años.
-
-Y lo peor de todo es que lo sabes. En el fondo, sabes que podrías estar mejor. Pero es más fácil quedarse quejándose que hacer algo al respecto.
-
-## *Tu cuerpo no está roto, tú lo rompiste*
+## *Tu cuerpo te grita y lo ignoras*
 
 Déjame ser claro contigo: no tienes mal metabolismo. No tienes mala genética. No eres víctima de las circunstancias.
 
 *Eres víctima de tus propias decisiones.*
 
-Cada vez que priorizas ese snack procesado sobre comida real.
-Cada vez que eliges el sofá en lugar de moverte.
-Cada vez que te quedas despierto scrolleando en lugar de descansar.
-Cada vez que buscas una pastilla en lugar de solucionar el problema de raíz.
-
-Tu cuerpo no necesita más suplementos milagrosos. No necesita más productos "detox". No necesita más excusas.
-
-*Tu cuerpo necesita que dejes de joder con él.*
+Cada vez que priorizas ese snack procesado sobre comida real, eliges el sofá en lugar de moverte, te quedas despierto scrolleando en lugar de descansar, buscas una pastilla en lugar de solucionar el problema de raíz. Tu cuerpo no necesita más suplementos milagrosos, mucho menos productos "detox" y tampoco excusas. *Tu cuerpo necesita que dejes de joder con él.*
 
 ## *La conspiración contra tu vitalidad*
 
-¿Te has dado cuenta de que toda la industria está diseñada para mantenerte enfermo y dependiente?
-
-Te venden comida basura que te enferma, después te venden medicinas para los síntomas. Te mantienen en un ciclo de dependencia donde nunca resuelves el problema real.
-
-Te dicen que comas cada dos horas para "acelerar tu metabolismo". MENTIRA. Tu sistema digestivo necesita descanso para repararse.
-
-Te dicen que hagas ejercicio una hora al gimnasio y después pases 8 horas sentado. ABSURDO. Tu cuerpo está diseñado para moverse constantemente.
-
-Te dicen que duermas 8 horas pero después te bombardean con pantallas y cafeína hasta tarde. CONTRADICTORIO.
+¿Te has dado cuenta de que toda la industria está diseñada para mantenerte enfermo y dependiente? Te venden comida basura que te enferma, después te venden medicinas para los síntomas. Te mantienen en un ciclo de dependencia donde nunca resuelves el problema real. Te dicen que comas cada dos horas para "acelerar tu metabolismo". *MENTIRA*. Tu sistema digestivo necesita descanso para repararse. Te dicen que hagas ejercicio una hora al gimnasio y después pases 8 horas sentado. *ABSURDO*. Tu cuerpo está diseñado para moverse constantemente. Te dicen que duermas 8 horas pero después te bombardean con pantallas y cafeína hasta tarde. *CONTRADICTORIO*.
 
 *Mientras sigas las reglas del sistema, vas a obtener los resultados del sistema: cansancio, enfermedad y dependencia.*
 
@@ -69,22 +48,12 @@ Te dicen que duermas 8 horas pero después te bombardean con pantallas y cafeín
 
 Aquí viene lo que realmente no quieren que descubras:
 
-*Tu cuerpo es una máquina perfecta que sabe exactamente cómo curarse, energizarse y optimizarse.*
+*Tu cuerpo es una máquina perfecta que sabe exactamente cómo curarse, energizarse y optimizarse. *Durante millones de años, tus antepasados vivieron con energía constante. Se despertaban renovados. Dormían profundo. Tenían fuerza física y claridad mental. Sin suplementos. Sin medicinas. Sin complicaciones.
 
-Durante millones de años, tus antepasados vivieron con energía constante. Se despertaban renovados. Dormían profundo. Tenían fuerza física y mental claridad.
+¿La diferencia? Ellos respetaban su diseño biológico. No lo saboteaban 24/7. Ayunaban naturalmente porque no tenían comida disponible cada segundo. Se movían constantemente porque la supervivencia lo requería.
+Dormían con el sol porque no tenían luz artificial. Comían alimentos reales porque no existían los procesados.
 
-Sin suplementos. Sin medicinas. Sin complicaciones.
-
-¿La diferencia? Ellos respetaban su diseño biológico. No lo saboteaban 24/7.
-
-Ayunaban naturalmente porque no tenían comida disponible cada segundo.
-Se movían constantemente porque la supervivencia lo requería.
-Dormían con el sol porque no tenían luz artificial.
-Comían alimentos reales porque no existían los procesados.
-
-*Tu ADN es exactamente el mismo que el de ellos.*
-
-La única diferencia es que tú has decidido vivir contra tu propia naturaleza.
+*Tu ADN es exactamente el mismo que el de ellos.* La única diferencia es que tú has decidido vivir contra tu propia naturaleza.
 
 ## *El precio real de tu negligencia*
 
@@ -109,13 +78,9 @@ Tu falta de energía está arruinando cada área de tu vida:
 Déjame adivinar tus excusas:
 
 "Es que trabajo mucho." TODO EL MUNDO TRABAJA. La diferencia es que algunos priorizan lo que realmente importa.
-
 "Es que no tengo tiempo." Tienes tiempo para Netflix, para redes sociales, para quejarte. No tienes tiempo para lo que no es prioritario para ti.
-
 "Es que es muy caro comer bien." Es más caro estar enfermo. Es más caro vivir sin energía. Es más caro desperdiciar tu potencial.
-
 "Es que mi familia no me apoya." Tu salud es TU responsabilidad. Nadie más va a vivir las consecuencias de tus decisiones.
-
 "Es que ya probé de todo." No, probaste de todo menos lo que realmente funciona: consistencia, disciplina y dejar de buscar soluciones mágicas.
 
 *Cada excusa que pones es una declaración de que prefieres seguir siendo víctima que tomar control.*
@@ -126,15 +91,9 @@ Aquí está la realidad brutal que nadie te va a decir:
 
 *No vas a cambiar.*
 
-Estadísticamente, vas a seguir igual. Vas a leer esto, sentirte motivado por cinco minutos, tal vez compartas el artículo, y después vas a volver a tus mismos patrones destructivos.
+Estadísticamente, vas a seguir igual. Vas a leer esto, sentirte motivado por cinco minutos, tal vez compartas el artículo, y después vas a volver a tus mismos patrones destructivos. ¿Por qué? Porque cambiar requiere incomodidad. Y tú has elegido la comodidad sobre la excelencia durante tanto tiempo que ya es tu identidad. 
 
-¿Por qué? Porque cambiar requiere incomodidad. Y tú has elegido la comodidad sobre la excelencia durante tanto tiempo que ya es tu identidad.
-
-Prefieres la familiaridad de sentirte mal que la incertidumbre de sentirte bien.
-
-Prefieres quejarte del problema que implementar la solución.
-
-Prefieres ser víctima que ser responsable.
+Prefieres la familiaridad de sentirte mal que la incertidumbre de sentirte bien. Prefieres quejarte del problema que implementar la solución. Prefieres ser víctima que ser responsable.
 
 *Pero hay una pequeña posibilidad de que seas diferente.*
 
@@ -145,11 +104,8 @@ Si llegaste hasta aquí y algo dentro tuyo se está rebelando, si hay una parte 
 *El cambio no es negociable si quieres resultados diferentes.*
 
 No puedes seguir haciendo lo mismo y esperar que algo cambie mágicamente.
-
 No puedes seguir priorizando la comodidad y esperar excelencia.
-
 No puedes seguir buscando atajos y esperar resultados duraderos.
-
 *Tienes que decidir qué es más importante: tu comodidad o tu futuro.*
 
 ## *El camino existe, pero no es fácil*
@@ -178,9 +134,7 @@ Exponerte a la naturaleza que sanó a tus antepasados.
 
 Este es tu momento de decisión.
 
-Puedes cerrar este artículo y volver a tu vida cómoda y mediocre. Puedes seguir postergando. Puedes seguir esperando el momento perfecto que nunca va a llegar.
-
-O puedes trazar una línea en la arena y decidir que a partir de hoy, tu salud es innegociable.
+Puedes cerrar este artículo y volver a tu vida cómoda y mediocre. Puedes seguir postergando. Puedes seguir esperando el momento perfecto que nunca va a llegar. O puedes trazar una línea en la arena y decidir que a partir de hoy, tu salud es innegociable.
 
 Que tu energía es tu mayor asset.
 Que tu vitalidad es tu mayor inversión.
@@ -202,9 +156,7 @@ No en enero, cuando empiecen los propósitos.
 
 *AHORA.*
 
-Porque cada día que postergas es un día menos de vivir con vitalidad. Un día menos de sentirte realmente vivo.
-
-Tu cuerpo está esperando que le des una oportunidad. Está esperando que dejes de sabotearlo y empieces a trabajar CON él, no contra él.
+Porque cada día que postergas es un día menos de vivir con vitalidad. Un día menos de sentirte realmente vivo. Tu cuerpo está esperando que le des una oportunidad. Está esperando que dejes de sabotearlo y empieces a trabajar con él, no contra él.
 
 *¿Vas a seguir sobreviviendo o vas a empezar a vivir?*
 
