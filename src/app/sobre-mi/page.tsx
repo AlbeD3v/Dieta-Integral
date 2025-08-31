@@ -7,8 +7,8 @@ export default function SobreMiPage() {
     <div>
       <Header />
       <main className="container mx-auto px-6 py-16">
-        <div className="flex flex-row-reverse items-start gap-12">
-          <aside className="sticky top-24 flex-shrink-0">
+        <div className="flex flex-col md:flex-row-reverse items-center md:items-start gap-12">
+          <aside className="md:sticky md:top-24 flex-shrink-0">
             <div className="relative w-[250px] h-[250px]">
               <Image 
                 src="/Fotos_Patrones/autor_web.jpg"
@@ -25,8 +25,8 @@ export default function SobreMiPage() {
             </div>
           </aside>
 
-          <div className="flex-1 max-w-3xl">
-            <h1 className="text-5xl font-bold mb-12 text-center">Dieta Integral</h1>
+          <div className="flex-1 max-w-3xl mx-auto md:mx-0">
+            <h1 className="text-5xl font-bold mb-12 text-center md:text-center">Dieta Integral</h1>
 
             <div className="space-y-6 text-lg">
               <p className="text-xl">
