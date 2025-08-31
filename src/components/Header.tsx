@@ -18,7 +18,6 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -52,7 +51,6 @@ const Header = () => {
             </span>
           </Link>
           
-          {/* Hamburger Menu Button */}
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden text-secondary-foreground hover:text-primary"
@@ -61,7 +59,6 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation Menu */}
         <div 
           className={`fixed md:hidden top-0 right-0 w-full backdrop-blur-sm transform transition-all duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}
           style={{ 
@@ -76,11 +73,6 @@ const Header = () => {
           <div className="relative z-10 h-full overflow-y-auto scrollbar-hide">
             <nav className="flex flex-col items-center justify-between min-h-full py-8 px-6">
               <div className="flex flex-col items-center space-y-8">
-                <Link href="/" 
-                      className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
-                      onClick={() => setIsMenuOpen(false)}>
-                  Home
-                </Link>
                 <Link href="/articulos" 
                       className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
                       onClick={() => setIsMenuOpen(false)}>
@@ -98,7 +90,6 @@ const Header = () => {
                 </Link>
               </div>
               
-              {/* Social Icons in Mobile Menu */}
               <div className="flex items-center space-x-6 mt-auto pb-4">
                 <Link href="https://www.facebook.com/dieta.integral.CU" 
                       target="_blank" 
@@ -129,15 +120,12 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex flex-col md:flex-row items-center space-y-4 font-bold md:space-y-0 md:space-x-6 mt-4 md:mt-0">
-          <Link href="/" className="text-white hover:text-white/80 transition-all duration-300">Home</Link>
           <Link href="/articulos" className="text-white hover:text-white/80 transition-all duration-300">Artículos</Link>
           <Link href="/sobre-mi" className="text-white hover:text-white/80 transition-all duration-300">Sobre mí</Link>
           <Link href="/contacto" className="text-white hover:text-white/80 transition-all duration-300">Contacto</Link>
         </nav>
 
-        {/* Desktop Social Icons */}
         <div className="hidden md:flex items-center space-x-4 mt-4 md:mt-0">
           <Link href="https://www.facebook.com/dieta.integral.CU" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
             <Facebook size={isScrolled ? 20 : 24} className="transition-all duration-300" />
