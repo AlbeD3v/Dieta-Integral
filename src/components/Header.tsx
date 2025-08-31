@@ -90,7 +90,7 @@ const Header = () => {
                 </Link>
               </div>
               
-              <div className="flex items-center space-x-6 mt-auto pb-4">
+              <div className="flex items-center space-x-6 mb-8">
                 <Link href="https://www.facebook.com/dieta.integral.CU" 
                       target="_blank" 
                       rel="noopener noreferrer"
