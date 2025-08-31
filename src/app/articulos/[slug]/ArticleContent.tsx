@@ -61,7 +61,7 @@ export default function ArticleContent({ content, images }: Omit<ArticleContentP
         } else {
           return (
             <div key={pIndex} className="max-w-[65ch] mx-auto">
-              <p className="mb-6 font-libre text-lg leading-relaxed text-justify">
+              <p className="mb-6 font-libre text-lg leading-relaxed text-left">
                 {processContent(p)}
               </p>
             </div>

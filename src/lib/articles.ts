@@ -11,8 +11,8 @@ export const articles = [
   {
     id: 2,
     slug: "2",
-    title: "Nuestros Genes Siguen Esperando El Pasado",
-    summary: "La Desconexión Entre Biología Ancestral y Vida Moderna. ¿Alguna vez te has preguntado por qué, a pesar de tantos avances médicos, las enfermedades crónicas siguen aumentando?",
+    title: "Tus Genes Recuerdan Un Mundo Que Ya No Existe: Por Qué Tu Cuerpo Se Siente Perdido",
+    summary: "¿Sabes por qué te despiertas cansado aunque hayas dormido 8 horas? ¿Por qué sientes hambre cada dos horas? ¿Por qué no puedes perder esos kilos de más por más dietas que pruebes?",
     images: ["/articulos/articulo2/articulo2_1.png"],
     articleUrl: "/articulos/2",
     publicationDate: "24 de Julio, 2025"
