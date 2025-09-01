@@ -11,7 +11,7 @@ export default function SobreMiPage() {
           <aside className="md:sticky md:top-24 flex-shrink-0">
             <div className="relative w-[250px] h-[250px]">
               <Image 
-                src="/Fotos_Patrones/autor_web.jpg"
+                src="/Fotos_Patrones/autor_web.svg"
                 alt="Ale Serrano - Especialista en Dieta Integral"
                 fill
                 sizes="250px"

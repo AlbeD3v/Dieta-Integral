@@ -8,7 +8,7 @@ const AboutSection = () => {
         <div className="md:w-1/2">
           <div className="relative w-[400px] h-[400px]">
             <Image 
-              src="/Fotos_Patrones/autor_web.jpg" 
+              src="/Fotos_Patrones/autor_web.svg" 
               alt="Ale Serrano - Especialista en Dieta Integral" 
               fill
               sizes="400px"
@@ -21,15 +21,15 @@ const AboutSection = () => {
           </div>
         </div>
         <div className="md:w-1/2 md:pl-12 mt-8 md:mt-0">
-          <h2 className="text-4xl font-bold text-foreground leading-tight mb-4">Soy Ale Serrano, especialista en Dieta Integral y fundador de este proyecto.</h2>
+          <h2 className="text-4xl font-bold text-foreground leading-tight mb-4">Soy Ale Serrano, Especialista en Nutrición Moderna y fundador de este proyecto.</h2>
           <p className="text-xl text-foreground/80 leading-relaxed">
-            Si estas cansado del lastre de tu vida normal, estas en el lugar indicado para adentrarte en el <strong>Universo de la Dieta Integral</strong>.
+          En Dieta Integral enseño: <strong>no milagros imposibles, sino la máxima expresión de salud que tu biología individual permite.</strong>.
           </p>
           <Link 
             href="/sobre-mi" 
             className="mt-6 inline-flex px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-medium transition-colors text-lg"
           >
-            Dieta Integral
+            Más...
           </Link>
         </div>
       </div>

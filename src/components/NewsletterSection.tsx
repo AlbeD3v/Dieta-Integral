@@ -9,14 +9,14 @@ const NewsletterSection = () => {
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <span className="inline-block text-white/90 text-lg font-medium mb-4 tracking-wide">
-            Newsletter
+          <span className="inline-block text-white/90 text-xl font-medium mb-4 tracking-wide">
+          Para empezar a tomar el control, solo hace falta un movimiento:
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">
-            &ldquo;Pequeños cambios, grandes resultados&rdquo;
+            &ldquo;Dar El Primer Paso&rdquo;
           </h2>
           <p className="mt-4 text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-12">
-            Suscríbete a nuestro boletín para recibir los últimos artículos y consejos.
+            Suscríbete y estarás dando uno de los pasos mas importantes de la vida.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-0 max-w-xl mx-auto">
             <div className="relative w-full sm:w-[26rem] group">
@@ -37,7 +37,7 @@ const NewsletterSection = () => {
             </button>
           </div>
           <p className="mt-6 text-sm text-white/70 hover:text-white/90 transition-colors duration-300">
-            Te mantendremos informado sobre nutrición y salud. Sin spam.
+          "Dieta Integral es más que una ideología o filosofía; es un Estilo de Vida."
           </p>
         </div>
       </div>

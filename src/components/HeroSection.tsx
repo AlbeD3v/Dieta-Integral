@@ -39,19 +39,19 @@ const HeroSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] overflow-hidden">
+    <section className="relative min-h-screen h-full overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(130deg,#1B4332_0%,#2D6A4F_25%,#40916C_50%,#2D6A4F_75%,#1B4332_100%)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.12),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(255,255,255,0.08),transparent_50%)]" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 flex items-center justify-center min-h-screen -mt-25">
+      <div className="relative z-10 container mx-auto px-10 sm:px-6 flex items-center justify-center min-h-screen h-full py-12 sm:py-16 md:py-20 -mt-16">
         <div className={`w-full max-w-4xl mx-auto text-white`}>
-          <h1 className="text-1.5xl sm:text-2xl md:text-2.5xl lg:text-3xl xl:text-4xl font-bold text-center mb-4 sm:mb-6 md:mb-8">¿QUÉ ES DIETA INTEGRAL?</h1>
+          <h1 className="text-2xl sm:text-2.5xl md:text-3xl lg:text-4xl xl:text-4.5xl font-bold text-center mb-6 sm:mb-8 md:mb-10">¿QUÉ ES DIETA INTEGRAL?</h1>
           
           <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-3 sm:mb-4 md:mb-6 text-center">{slides[currentSlide].subtitle}</h2>
-            <div className="text-lg sm:text-xl md:text-1.7xl lg:text-2xl leading-relaxed text-center max-w-3xl mx-auto">
+            <h2 className="text-xl sm:text-2xl md:text-2.5xl lg:text-3xl xl:text-3.5xl font-semibold mb-4 sm:mb-6 md:mb-8 text-center">{slides[currentSlide].subtitle}</h2>
+            <div className="text-lg sm:text-xl md:text-2xl lg:text-2.2xl xl:text-2.5xl leading-relaxed text-center max-w-3xl mx-auto">
               {slides[currentSlide].content}
             </div>
           </div>

@@ -78,10 +78,10 @@ const Header = () => {
                       onClick={() => setIsMenuOpen(false)}>
                   Artículos
                 </Link>
-                <Link href="/sobre-mi" 
+                <Link href="/acerca-de" 
                       className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
                       onClick={() => setIsMenuOpen(false)}>
-                  Sobre mí
+                  Acerca de
                 </Link>
                 <Link href="/contacto" 
                       className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
@@ -122,7 +122,7 @@ const Header = () => {
 
         <nav className="hidden md:flex flex-col md:flex-row items-center space-y-4 font-bold md:space-y-0 md:space-x-6 mt-4 md:mt-0">
           <Link href="/articulos" className="text-white hover:text-white/80 transition-all duration-300">Artículos</Link>
-          <Link href="/sobre-mi" className="text-white hover:text-white/80 transition-all duration-300">Sobre mí</Link>
+          <Link href="/sobre-mi" className="text-white hover:text-white/80 transition-all duration-300">Acerca De</Link>
           <Link href="/contacto" className="text-white hover:text-white/80 transition-all duration-300">Contacto</Link>
         </nav>
 
