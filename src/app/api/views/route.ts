@@ -10,6 +10,7 @@ export async function GET() {
     const { count } = JSON.parse(data);
     return NextResponse.json({ count });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Could not read view count' }, { status: 500 });
   }
 }
@@ -22,6 +23,7 @@ export async function POST() {
     fs.writeFileSync(dataFilePath, JSON.stringify({ count }));
     return NextResponse.json({ count });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Could not update view count' }, { status: 500 });
   }
 }

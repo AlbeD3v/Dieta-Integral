@@ -45,7 +45,7 @@ const Header = () => {
             />
             <span className={`ml-3 font-black tracking-wide text-white hover:text-white/80 transition-all duration-300 uppercase ${isScrolled ? 'text-lg' : 'text-xl'}`}>
               Dieta
-              <span className="text-[#0F4229] ml-1">
+              <span className="text-white ml-1">
                 Integral
               </span>
             </span>
