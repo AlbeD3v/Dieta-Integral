@@ -37,7 +37,7 @@ const NewsletterSection = () => {
             </button>
           </div>
           <p className="mt-6 text-sm text-white/70 hover:text-white/90 transition-colors duration-300">
-          "Dieta Integral es más que una ideología o filosofía; es un Estilo de Vida."
+          &ldquo;Dieta Integral es más que una ideología o filosofía; es un Estilo de Vida.&rdquo;
           </p>
         </div>
       </div>
