@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
-import ViewCounter from './ViewCounter';
 
 const Footer = () => {
   return (
@@ -58,9 +57,9 @@ const Footer = () => {
               <br />
               Todos los derechos reservados.
             </p>
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <ViewCounter />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
