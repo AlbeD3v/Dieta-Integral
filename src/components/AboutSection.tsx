@@ -25,12 +25,14 @@ const AboutSection = () => {
           <p className="text-xl text-foreground/80 leading-relaxed">
           En Dieta Integral enseño: <strong>no milagros imposibles, sino la máxima expresión de salud que tu biología individual permite.</strong>.
           </p>
-          <Link 
-            href="/sobre-mi" 
-            className="mt-6 inline-flex px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-medium transition-colors text-lg"
-          >
-            Más...
-          </Link>
+          <div className="mt-6 flex justify-end">
+            <Link 
+              href="/sobre-mi" 
+              className="inline-flex px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-medium transition-colors text-lg"
+            >
+              Más...
+            </Link>
+          </div>
         </div>
       </div>
     </section>

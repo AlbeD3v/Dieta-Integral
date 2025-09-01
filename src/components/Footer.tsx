@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
+import ViewCounter from './ViewCounter';
 
 const Footer = () => {
   return (
@@ -13,9 +14,6 @@ const Footer = () => {
             </Link>
             <Link href="/acerca-de" className="block hover:text-white/80 transition-colors">
               Acerca de
-            </Link>
-            <Link href="/contacto" className="block hover:text-white/80 transition-colors">
-              Contacto
             </Link>
           </div>
 
@@ -60,6 +58,9 @@ const Footer = () => {
               <br />
               Todos los derechos reservados.
             </p>
+            <div className="mt-4">
+              <ViewCounter />
+            </div>
           </div>
         </div>
       </div>
