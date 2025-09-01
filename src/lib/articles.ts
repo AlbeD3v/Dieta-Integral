@@ -8,15 +8,15 @@ export const articles = [
     articleUrl: "/articulos/1",
     publicationDate: "25 de Julio, 2025"
   },
-  {
-    id: 2,
-    slug: "2",
-    title: "Tus Genes Recuerdan Un Mundo Que Ya No Existe: Por Qué Tu Cuerpo Se Siente Perdido",
-    summary: "¿Sabes por qué te despiertas cansado aunque hayas dormido 8 horas? ¿Por qué sientes hambre cada dos horas? ¿Por qué no puedes perder esos kilos de más por más dietas que pruebes?",
-    images: ["/articulos/articulo2/articulo2_1.png"],
-    articleUrl: "/articulos/2",
-    publicationDate: "24 de Julio, 2025"
-  },
+  // {
+  //   id: 2,
+  //   slug: "2",
+  //   title: "Tus Genes Recuerdan Un Mundo Que Ya No Existe: Por Qué Tu Cuerpo Se Siente Perdido",
+  //   summary: "¿Sabes por qué te despiertas cansado aunque hayas dormido 8 horas? ¿Por qué sientes hambre cada dos horas? ¿Por qué no puedes perder esos kilos de más por más dietas que pruebes?",
+  //   images: ["/articulos/articulo2/articulo2_1.png"],
+  //   articleUrl: "/articulos/2",
+  //   publicationDate: "24 de Julio, 2025"
+  // },
   // {
   //   id: 3,
   //   slug: "3",
