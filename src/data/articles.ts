@@ -178,7 +178,7 @@ Su cuerpo sabía alternar entre quemar glucosa y quemar grasa. Flexibilidad meta
 *TÚ:*
 Despiertas y lo primero que haces es "activar el metabolismo" con el desayuno. Snack de media mañana porque "tienes hambre". Almuerzo. Merienda. Cena. Y el snack nocturno viendo Netflix.
 
-*Comes cada 2-3 horas como un bebé lactante.* Tu insulina trabaja 24/7 sin descanso. Tu cuerpo ha olvidado cómo acceder a 40,000-80,000 calorías almacenadas en grasa.
+*Comes cada 2-3 horas como un bebé lactante.* Tu insulina trabaja 24/7 sin descanso. Tu cuerpo ha olvidado cómo acceder a 40,000+ calorías almacenadas en grasa.
 
 *¿El resultado?* Hambre constante, crashes energéticos, antojos que no puedes controlar. *Y tú echándole la culpa a tu "fuerza de voluntad".*
 
@@ -336,5 +336,16 @@ Tu cuerpo sabe exactamente qué hacer. Solo necesita que dejes de interferir.`,
 //     ]
 //   }
 };
+
+export interface ArticleWithSlug extends Article {
+  slug: string;
+}
+
+export function getAllArticles(): ArticleWithSlug[] {
+  return Object.entries(articles).map(([id, article]) => ({
+    ...article,
+    slug: id
+  }));
+}
 
 export default articles;

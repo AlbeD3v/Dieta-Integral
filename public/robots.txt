@@ -1,0 +1,9 @@
+# https://dietaintegral.com/robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dietaintegral.com/sitemap.xml
+
+# Optimizaciones para rastreo
+Crawl-delay: 1

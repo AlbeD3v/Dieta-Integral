@@ -47,11 +47,16 @@ const HeroSection: React.FC = () => {
 
       <div className="relative z-10 container mx-auto px-10 sm:px-6 flex items-center justify-center min-h-screen h-full py-12 sm:py-16 md:py-20 -mt-16">
         <div className={`w-full max-w-4xl mx-auto text-white`}>
-          <h1 className="text-2xl sm:text-2.5xl md:text-3xl lg:text-4xl xl:text-4.5xl font-bold text-center mb-6 sm:mb-8 md:mb-10">¿QUÉ ES DIETA INTEGRAL?</h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-center mb-6 sm:mb-8 md:mb-10" itemProp="headline">
+            Dieta Integral
+            <span className="block text-2xl sm:text-3xl md:text-4xl mt-4">Tu camino hacia una vida más saludable</span>
+          </h1>
           
-          <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-            <h2 className="text-xl sm:text-2xl md:text-2.5xl lg:text-3xl xl:text-3.5xl font-semibold mb-4 sm:mb-6 md:mb-8 text-center">{slides[currentSlide].subtitle}</h2>
-            <div className="text-lg sm:text-xl md:text-2xl lg:text-2.2xl xl:text-2.5xl leading-relaxed text-center max-w-3xl mx-auto">
+          <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`} itemScope itemType="https://schema.org/Article">
+            <h2 className="text-xl sm:text-2xl md:text-2.5xl lg:text-3xl xl:text-3.5xl font-semibold mb-4 sm:mb-6 md:mb-8 text-center" itemProp="alternativeHeadline">
+              {slides[currentSlide].subtitle}
+            </h2>
+            <div className="text-lg sm:text-xl md:text-2xl lg:text-2.2xl xl:text-2.5xl leading-relaxed text-center max-w-3xl mx-auto" itemProp="description">
               {slides[currentSlide].content}
             </div>
           </div>

@@ -27,7 +27,7 @@ const AboutSection = () => {
           </p>
           <div className="mt-6 flex justify-end">
             <Link 
-              href="/sobre-mi" 
+              href="/acerca-de" 
               className="inline-flex px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-medium transition-colors text-lg"
             >
               Más...
