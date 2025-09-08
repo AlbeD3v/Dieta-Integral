@@ -86,30 +86,30 @@ const Header = () => {
               </div>
               
               <div className="flex items-center space-x-6 mb-8">
-                <Link href="https://www.facebook.com/dieta.integral.CU" 
+                <Link href="https://www.facebook.com/profile.php?id=61580212888512" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-white/80 transition-all duration-300">
                   <Facebook size={28} />
                 </Link>
-                <Link href="https://www.instagram.com/dieta.integral" 
+                <Link href="https://www.instagram.com/aleserrano_dietaintegral/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-white/80 transition-all duration-300">
                   <Instagram size={28} />
                 </Link>
-                <Link href="https://www.youtube.com/@dietaintegral" 
+                {/* <Link href="https://www.youtube.com/@dietaintegral" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-white/80 transition-all duration-300">
                   <Youtube size={28} />
-                </Link>
-                <Link href="https://t.me/dietaintegral" 
+                </Link> */}
+                {/* <Link href="https://t.me/dietaintegral" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-white/80 transition-all duration-300">
                   <Send size={28} />
-                </Link>
+                </Link> */}
               </div>
             </nav>
           </div>
@@ -121,18 +121,18 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4 mt-4 md:mt-0">
-          <Link href="https://www.facebook.com/dieta.integral.CU" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
+          <Link href="https://www.facebook.com/profile.php?id=61580212888512" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
             <Facebook size={isScrolled ? 20 : 24} className="transition-all duration-300" />
           </Link>
-          <Link href="https://www.instagram.com/dieta.integral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
+          <Link href="https://www.instagram.com/aleserrano_dietaintegral/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
             <Instagram size={isScrolled ? 20 : 24} className="transition-all duration-300" />
           </Link>
-          <Link href="https://www.youtube.com/@dieta.integral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
+          {/* <Link href="https://www.youtube.com/@dietaintegral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
             <Youtube size={isScrolled ? 20 : 24} className="transition-all duration-300" />
-          </Link>
-          <Link href="https://t.me/dieta_integral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
+          </Link> */}
+          {/* <Link href="https://t.me/dietaintegral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
             <Send size={isScrolled ? 20 : 24} className="transition-all duration-300" />
-          </Link>
+          </Link> */}
         </div>
       </div>
     </header>

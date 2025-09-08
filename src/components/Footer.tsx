@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
+import { Instagram, Facebook, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -16,34 +16,23 @@ const Footer = () => {
             </Link>
           </div>
 
-          {/* <div className="space-y-4">
-            <Link href="/la-revolucion" className="block hover:text-white/80 transition-colors">
-              Experiencia 
-            </Link>
-            <Link href="/empieza-ahora" className="block hover:text-white/80 transition-colors">
-              Empieza Ahora
-            </Link>
-            <Link href="/sobre-el-autor" className="block hover:text-white/80 transition-colors">
-              Sobre el autor
-            </Link>
-          </div> */}
-
           {/* Social Media Links */}
           <div className="space-y-4 flex flex-col justify-center items-center">
             <h3 className="font-semibold text-lg mb-4">Síguenos</h3>
             <div className="flex space-x-4">
-              <a href="https://instagram.com" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/aleserrano_dietaintegral/" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="https://facebook.com" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/profile.php?id=61580212888512" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="https://twitter.com" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
-                <Twitter className="w-6 h-6" />
-              </a>
-              <a href="https://youtube.com" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
+              {/* Redes sociales pendientes */}
+              {/* <a href="https://t.me/dietaintegral" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
+                <Telegram className="w-6 h-6" />
+              </a> */}
+              {/* <a href="https://youtube.com/@dietaintegral" className="hover:text-white/80 transition-colors" target="_blank" rel="noopener noreferrer">
                 <Youtube className="w-6 h-6" />
-              </a>
+              </a> */}
             </div>
           </div>
 
@@ -57,9 +46,6 @@ const Footer = () => {
               <br />
               Todos los derechos reservados.
             </p>
-            {/* <div className="mt-4">
-              <ViewCounter />
-            </div> */}
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ export const articles = [
     summary: "Muchos creen que cuidar la salud es opcional. Que pueden postergarla indefinidamente. Que vivir a base de café, excusas y fuerza de voluntad es ser fuerte.",
     images: ["/articulos/articulo1/articulo1_1.webp"],
     articleUrl: "/articulos/1",
-    publicationDate: "25 de Julio, 2025"
+    publicationDate: "18 de agosto, 2025"
   },
   {
     id: 2,
@@ -15,17 +15,17 @@ export const articles = [
     summary: "¿Sabes por qué te despiertas cansado aunque hayas dormido 8 horas? ¿Por qué sientes hambre cada dos horas? ¿Por qué no puedes perder esos kilos de más por más dietas que pruebes?",
     images: ["/articulos/articulo2/articulo2_1.jpg"],
     articleUrl: "/articulos/2",
-    publicationDate: "24 de Julio, 2025"
+    publicationDate: "20 de agosto, 2025"
   },
-  // {
-  //   id: 3,
-  //   slug: "3",
-  //   title: "La Historia Que Cambió Tu Plato (Y Tu Salud)",
-  //   summary: "¿Y si te dijera que tu diabetes, tu obesidad y esa sensación constante de fatiga no son casualidades, sino el resultado perfecto de un plan que comenzó hace 60 años?",
-  //   images: ["/articulos/articulo3/articulo3_1.png"],
-  //   articleUrl: "/articulos/3",
-  //   publicationDate: "23 de Julio, 2025"
-  // },
+  {
+    id: 3,
+    slug: "3",
+    title: "La Historia Que Cambió Tu Plato (Y Tu Salud)",
+    summary: "¿Y si te dijera que tu diabetes, tu obesidad y esa sensación constante de fatiga no son casualidades, sino el resultado perfecto de un plan que comenzó hace 60 años?",
+    images: ["/articulos/articulo3/articulo3_1.jpg"],
+    articleUrl: "/articulos/3",
+    publicationDate: "9 de septiembre, 2025"
+  },
   // {
   //   id: 4,
   //   slug: "4",

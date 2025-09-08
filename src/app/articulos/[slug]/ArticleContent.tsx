@@ -7,9 +7,12 @@ interface ArticleContentProps {
 }
 
 const processContent = (content: string) => {
+  // Para todo el contenido procesamos los enlaces
   return content
-    .replace(/\*([^*]+)\*/g, '$1') // Elimina los asteriscos pero mantiene el contenido
-    .replace(/\[Img:\d+\]/g, '') // Elimina los marcadores de imagen
+    .replace(/^#+ /, '') // Eliminar los # del inicio
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 underline font-bold">$1</a>')
+    .replace(/\*([^*]+)\*/g, content.trim().startsWith('#') ? '$1' : '<em>$1</em>')
+    .replace(/\[Img:\d+\]/g, '')
     .trim();
 };
 
@@ -21,10 +24,8 @@ export default function ArticleContent({ content, images }: Omit<ArticleContentP
       {paragraphs.map((p, pIndex) => {
         if (p.startsWith('## ')) {
           const title = p.replace(/^## /, '').trim();
-          // Extraer el índice de imagen si existe
           const imageMatch = p.match(/\[Img:(\d+)\]/);
           const imageIndex = imageMatch ? parseInt(imageMatch[1]) - 1 : null;
-          const processedTitle = processContent(title);
           const imageUrl = imageIndex !== null ? images[imageIndex] : null;
 
           return (
@@ -35,7 +36,7 @@ export default function ArticleContent({ content, images }: Omit<ArticleContentP
                     <div className="aspect-video relative shadow-lg rounded-lg overflow-hidden bg-black/5">
                       <Image
                         src={imageUrl}
-                        alt={processedTitle}
+                        alt={title.replace(/\*([^*]+)\*/g, '$1')}
                         fill
                         sizes="(min-width: 1024px) 50vw, 100vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -45,8 +46,8 @@ export default function ArticleContent({ content, images }: Omit<ArticleContentP
                 </div>
               )}
               <div className={imageUrl ? 'w-full lg:w-1/2' : 'w-full'}>
-                <h2 className="font-libre text-2xl md:text-3xl lg:text-4xl font-bold mt-8 lg:mt-16 mb-8 leading-tight text-center text-primary/90 border-b border-primary/20 pb-2">
-                  {processedTitle}
+                <h2 className="font-libre text-2xl md:text-3xl lg:text-4xl font-bold mt-8 lg:mt-16 mb-8 leading-tight text-center text-primary/90 border-b border-primary/20 pb-2"
+                    dangerouslySetInnerHTML={{ __html: processContent(p) }}>
                 </h2>
               </div>
             </div>
@@ -54,15 +55,15 @@ export default function ArticleContent({ content, images }: Omit<ArticleContentP
         } else if (p.startsWith('#')) {
           const title = p.replace(/^# /, '').trim();
           return (
-            <h1 key={pIndex} className="font-libre text-3xl md:text-4xl lg:text-5xl font-bold mt-20 mb-10 leading-tight text-center">
-              {processContent(title)}
+            <h1 key={pIndex} className="font-libre text-3xl md:text-4xl lg:text-5xl font-bold mt-20 mb-10 leading-tight text-center"
+                dangerouslySetInnerHTML={{ __html: processContent(p) }}>
             </h1>
           );
         } else {
           return (
             <div key={pIndex} className="max-w-[65ch] mx-auto">
-              <p className="mb-6 font-libre text-lg leading-relaxed text-left">
-                {processContent(p)}
+              <p className="mb-6 font-libre text-lg leading-relaxed text-left"
+                 dangerouslySetInnerHTML={{ __html: processContent(p) }}>
               </p>
             </div>
           );

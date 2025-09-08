@@ -12,6 +12,13 @@ const libreBaskerville = Libre_Baskerville({
 export const metadata: Metadata = {
   title: "Dieta Integral",
   description: "Sitio web de Dieta Integral",
+  icons: [
+    {
+      rel: 'icon',
+      url: '/imagen_logo_svg.svg',
+      type: 'image/svg+xml'
+    }
+  ]
 };
 
 export default function RootLayout({
