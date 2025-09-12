@@ -27,10 +27,12 @@ const AboutSection = () => {
           </p>
           <div className="mt-6 flex justify-end">
             <Link 
-              href="/sobre-mi" 
-              className="inline-flex px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-medium transition-colors text-lg"
+              href="/acerca-de" 
+              className="inline-block"
             >
-              Más...
+              <button className="px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-medium transition-colors text-lg">
+                Más...
+              </button>
             </Link>
           </div>
         </div>

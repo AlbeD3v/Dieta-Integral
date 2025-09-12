@@ -1,7 +1,9 @@
 import ArticleCard from './ArticleCard';
-import { articles } from '@/lib/articles';
+import { getArticlesList } from '@/data/articles/index';
 
 const FeaturedArticles = () => {
+  const articles = getArticlesList();
+
   return (
     <div className="relative overflow-hidden">
       {/* Dark background div for depth */}

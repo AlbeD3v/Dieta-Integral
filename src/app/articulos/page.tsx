@@ -1,10 +1,11 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { articles } from '@/lib/articles';
+import { getArticlesList } from '@/data/articles/index';
 import ArticleCard from '@/components/ArticleCard';
 
 export default function ArticlesPage() {
+  const articles = getArticlesList();
   return (
     <div className="min-h-screen bg-[#F8F9FA]">
       <Header />

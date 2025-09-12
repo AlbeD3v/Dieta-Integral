@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Facebook, Instagram, Youtube, Send, Menu, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Menu } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,7 +55,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden text-secondary-foreground hover:text-primary"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <Menu size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
@@ -90,13 +90,13 @@ const Header = () => {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-white/80 transition-all duration-300">
-                  <Facebook size={28} />
+                  {/* <Facebook size={28} /> */}
                 </Link>
                 <Link href="https://www.instagram.com/aleserrano_dietaintegral/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-white/80 transition-all duration-300">
-                  <Instagram size={28} />
+                  {/* <Instagram size={28} /> */}
                 </Link>
                 {/* <Link href="https://www.youtube.com/@dietaintegral" 
                       target="_blank" 
@@ -122,10 +122,10 @@ const Header = () => {
 
         <div className="hidden md:flex items-center space-x-4 mt-4 md:mt-0">
           <Link href="https://www.facebook.com/profile.php?id=61580212888512" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
-            <Facebook size={isScrolled ? 20 : 24} className="transition-all duration-300" />
+            {/* <Facebook size={isScrolled ? 20 : 24} className="transition-all duration-300" /> */}
           </Link>
           <Link href="https://www.instagram.com/aleserrano_dietaintegral/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
-            <Instagram size={isScrolled ? 20 : 24} className="transition-all duration-300" />
+            {/* <Instagram size={isScrolled ? 20 : 24} className="transition-all duration-300" /> */}
           </Link>
           {/* <Link href="https://www.youtube.com/@dietaintegral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
             <Youtube size={isScrolled ? 20 : 24} className="transition-all duration-300" />

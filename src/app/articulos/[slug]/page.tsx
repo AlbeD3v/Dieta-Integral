@@ -5,7 +5,7 @@ import ArticleContent from './ArticleContent';
 
 async function getArticle(slug: string) {
   try {
-    const articles = (await import('../../../data/articles')).default;
+    const articles = (await import('../../../data/articles/index')).default;
     const article = articles[slug];
     
     if (!article) {
@@ -16,7 +16,7 @@ async function getArticle(slug: string) {
       title: article.title,
       content: article.content,
       images: article.images,
-      publicationDate: "14 de Agosto, 2025"
+      publicationDate: article.publicationDate
     };
   } catch (error) {
     console.error('Error al cargar el artículo:', error);

@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 interface ArticleContentProps {
-  title: string;
   content: string;
   images: string[];
 }
@@ -16,7 +15,7 @@ const processContent = (content: string) => {
     .trim();
 };
 
-export default function ArticleContent({ content, images }: Omit<ArticleContentProps, 'title'>) {
+export default function ArticleContent({ content, images }: ArticleContentProps) {
   const paragraphs = content.split('\n\n').filter(p => p.trim() !== '');
 
   return (
@@ -53,7 +52,6 @@ export default function ArticleContent({ content, images }: Omit<ArticleContentP
             </div>
           );
         } else if (p.startsWith('#')) {
-          const title = p.replace(/^# /, '').trim();
           return (
             <h1 key={pIndex} className="font-libre text-3xl md:text-4xl lg:text-5xl font-bold mt-20 mb-10 leading-tight text-center"
                 dangerouslySetInnerHTML={{ __html: processContent(p) }}>
