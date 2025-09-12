@@ -13,26 +13,32 @@ export const metadata: Metadata = {
   title: "Dieta Integral",
   description: "Descubre una nueva forma de entender la nutrición y la salud a través de la Dieta Integral. Aprende sobre alimentación consciente y bienestar holístico.",
   metadataBase: new URL('https://dietaintegral.fit'),
-  icons: [
-    {
-      rel: 'icon',
-      url: '/imagen_logo_svg.svg',
-      type: 'image/svg+xml'
+  icons: {
+    icon: '/imagen_logo_svg.svg',
+    shortcut: '/imagen_logo_svg.svg',
+    apple: '/imagen_logo_svg.svg',
+    other: {
+      rel: 'image_src',
+      url: '/imagen_logo_svg.svg'
     }
-  ],
+  },
   openGraph: {
     title: 'Dieta Integral',
     description: 'Descubre una nueva forma de entender la nutrición y la salud a través de la Dieta Integral',
     url: 'https://dietaintegral.fit',
     siteName: 'Dieta Integral',
-    images: [
-      {
-        url: '/imagen_logo_svg.svg',
-        alt: 'Dieta Integral - Nutrición y Salud Holística'
-      }
-    ],
+    images: [{
+      url: '/imagen_logo_svg.svg',
+      alt: 'Dieta Integral - Nutrición y Salud Holística'
+    }],
     locale: 'es_ES',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Dieta Integral',
+    description: 'Nutrición y Salud Holística',
+    images: ['/imagen_logo_svg.svg']
   },
   robots: {
     index: true,
