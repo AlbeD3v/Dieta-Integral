@@ -89,7 +89,7 @@ Este no es un sistema aleatorio. Es una danza perfecta de 24 horas que se repite
 
 Y aquí está el problema: probablemente estás haciendo exactamente todo lo contrario de lo que necesitas...
 
-##  Por Qué Te Sientes Siempre Cansado
+##  Por Qué Te Sientes Siempre Cansado [Img:5]
 
 Analiza tu día típico y dime si no te reconoces:
 
@@ -105,7 +105,7 @@ Cada uno de estos errores envía señales contradictorias a tu SCN. Es como tene
 
 Pero la buena noticia es que arreglar esto es más simple de lo que crees...
 
-##  El Protocolo Exacto (Sin Apps Ni Gadgets)
+##  El Protocolo Exacto (Sin Apps Ni Gadgets) [Img:6]
 
 No necesitas nada complicado. Solo necesitas trabajar CON tu biología, no contra ella:
 
@@ -130,7 +130,7 @@ No necesitas nada complicado. Solo necesitas trabajar CON tu biología, no contr
 
 Si implementas esto de forma consistente, tu cuerpo va a responder exactamente como esperas...
 
-##  Lo Que Vas A Notar
+##  Lo Que Vas A Notar [Img:7]
 
 *Semana 1:* Tu cuerpo protesta. Estás rompiendo años de desincronización. Es normal sentir un poco de resistencia inicial.
 
