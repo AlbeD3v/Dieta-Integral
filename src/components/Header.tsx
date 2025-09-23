@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Facebook, Instagram, Menu } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -31,9 +32,12 @@ const Header = () => {
         <div className={`container mx-auto px-6 flex flex-col md:flex-row justify-between items-center ${isScrolled ? 'h-14 md:h-14' : 'h-22 md:h-18'}`}>
           <div className="flex items-center justify-between w-full md:w-auto h-full">
             <Link href="/" className="flex items-center">
-              <img 
-                src="/imagen_logo_svg.svg" 
-                alt="Dieta Integral Logo" 
+              <Image
+                src="/imagen_logo_svg.svg"
+                alt="Dieta Integral Logo"
+                width={40}
+                height={40}
+                priority
                 className={`transition-all duration-300 ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'}`}
               />
               <span className={`ml-3 font-black tracking-wide text-white hover:text-white/80 transition-all duration-300 uppercase ${isScrolled ? 'text-lg' : 'text-xl'}`}>
