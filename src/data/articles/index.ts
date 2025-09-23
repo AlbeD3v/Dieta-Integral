@@ -5,6 +5,7 @@ import { article3 } from '@/data/articles/article3';
 import { article4 } from '@/data/articles/article4';
 import { article5 } from '@/data/articles/article5';
 import { article6 } from '@/data/articles/article6';
+import { article7 } from '@/data/articles/article7';
 
 const articlesData: Record<string, ArticleFull> = {
   [article1.slug]: article1,
@@ -13,6 +14,7 @@ const articlesData: Record<string, ArticleFull> = {
   [article4.slug]: article4,
   [article5.slug]: article5,
   [article6.slug]: article6,
+  [article7.slug]: article7,
 };
 
 export const getArticlesList = (): ArticleBase[] => {
