@@ -14,13 +14,14 @@ export const article3: ArticleFull = {
     '/articulos/articulo3/articulo3_6.jpg',
     '/articulos/articulo3/articulo3_7.jpg',
     '/articulos/articulo3/articulo3_8.jpg',
-    '/articulos/articulo3/articulo3_9.jpg'
+    '/articulos/articulo3/articulo3_9.jpg',
+    '/articulos/articulo3/articulo3_10.jpg',
   ],
   articleUrl: '/articulos/3',
   publicationDate: '9 de septiembre, 2025',
   content: `# El Crimen Perfecto: Cómo Te Enfermaron Para Venderte La Cura (Y Por Qué Nadie Habla De Esto)
 
-## *Te Robaron Tu Salud* [Img:1]
+## *Te Robaron Tu Salud* [Img:2]
 
 ¿Sabes qué es lo que más me jode? Que creas que es tu culpa.
 
@@ -34,7 +35,7 @@ Mientras tú te culpas por no tener "fuerza de voluntad", ellos cuentan los bill
 
 *Es hora de que sepas quién te jodió y cómo.*
 
-## *La Verdad Que Cambió Todo* [Img:2]
+## *La Verdad Que Cambió Todo* [Img:3]
 
 Imagine que te digo que existe un documento. Un documento de 1967 que prueba que compraron a los científicos más prestigiosos del mundo para mentirte sobre lo que te enferma.
 
@@ -48,7 +49,7 @@ El mismo manual que usó la industria tabacalera: comprar expertos, confundir co
 
 *Tu diabetes no empezó en tu cocina. Empezó en una oficina en 1967.*
 
-## *El Duelo Que Definió Tu Destino* [Img:3]
+## *El Duelo Que Definió Tu Destino* [Img:4]
 
 *1958.* Dos hombres. Una pregunta: ¿Qué nos está matando?
 
@@ -63,7 +64,7 @@ Yudkin escribió [*"Pure, White and Deadly"*](https://www.bmj.com/content/346/bm
 *¿Quién ganó?* El que tenía mejor marketing.
 *¿Quién tenía razón?* El que fue destruido profesionalmente.
 
-## *La Pirámide Que Te Enterró* [Img:4]
+## *La Pirámide Que Te Enterró* [Img:5]
 
 *1980.* El día que oficializaron tu enfermedad.
 
@@ -83,7 +84,7 @@ No, hermano. *Consecuencia.*
 
 Siguieron las guías al pie de la letra y se enfermaron exactamente como Yudkin predijo. Pero nadie habla de eso.
 
-## *El Negocio Más Rentable Del Mundo* [Img:5]
+## *El Negocio Más Rentable Del Mundo* [Img:6]
 
 ¿Quieres saber cuál es el negocio más rentable del mundo? No es el petróleo. No son las drogas.
 
@@ -97,7 +98,7 @@ Siguieron las guías al pie de la letra y se enfermaron exactamente como Yudkin 
 
 *Tu enfermedad es su modelo de negocio.*
 
-## *Por Qué Funciona Tan Bien* [Img:6] 
+## *Por Qué Funciona Tan Bien* [Img:7] 
 
 ¿Sabes por qué este sistema es tan perfecto?
 
@@ -113,7 +114,7 @@ Los franceses siguen comiendo queso, mantequilla, paté. *Su tasa de enfermedade
 
 *La salud no es complicada. La complicaron a propósito.*
 
-## *La Evidencia Está En Tu Cuerpo* [Img:7]
+## *La Evidencia Está En Tu Cuerpo* [Img:8]
 
 Mira a tu alrededor. ¿Ves lo que yo veo?
 
@@ -127,7 +128,7 @@ Los mismos expertos que fueron comprados por la industria azucarera.
 
 *Tu cuerpo te está gritando la verdad. El problema no eres tú.*
 
-## *Dieta Integral: Salir Del Sistema* [Img:8]
+## *Dieta Integral: Salir Del Sistema* [Img:9]
 
 *Ya basta.*
 
@@ -149,7 +150,7 @@ La Dieta Integral no es otra dieta más. Es tu salida del sistema que te diseñ�
 
 *Simple. Efectivo. Ancestral.*
 
-## *Tu Momento De Decidir* [Img:9]
+## *Tu Momento De Decidir* [Img:10]
 
 Estás en un momento crucial.
 

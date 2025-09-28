@@ -30,7 +30,7 @@ export default function AcercaDePage() {
 
             <div className="space-y-6 text-lg">
               <p className="text-xl">
-                Certificado en Nutrición Moderna con el Dr. Guillermo Rodríguez Navarrete (Florida Global University y Universidad Católica San Antonio de Murcia), y miembro del equipo élite de Nutriteam Coach con acceso a protocolos avanzados.
+                Certificado en Nutrición Moderna con el Dr. Guillermo Rodríguez Navarrete (Florida Global University y Universidad Católica San Antonio de Murcia).
               </p>
 
               <p>

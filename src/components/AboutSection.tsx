@@ -21,7 +21,7 @@ const AboutSection = () => {
           </div>
         </div>
         <div className="md:w-1/2 md:pl-12 mt-8 md:mt-0">
-          <h2 className="text-4xl font-bold text-foreground leading-tight mb-4">Soy Ale Serrano, Especialista en Nutrición Moderna y fundador de este proyecto.</h2>
+          <h2 className="text-4xl font-bold text-foreground leading-tight mb-4">Soy Ale Serrano, Health Coach y fundador de este proyecto.</h2>
           <p className="text-xl text-foreground/80 leading-relaxed">
           En Dieta Integral enseño: <strong>no milagros imposibles, sino la máxima expresión de salud que tu biología individual permite.</strong>.
           </p>
