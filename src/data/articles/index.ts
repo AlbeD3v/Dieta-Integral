@@ -7,7 +7,7 @@ import { article5 } from '@/data/articles/article5';
 import { article6 } from '@/data/articles/article6';
 import { article7 } from '@/data/articles/article7';
 import { article8 } from '@/data/articles/article8';
-// import { article9 } from '@/data/articles/article9';
+import { article9 } from '@/data/articles/article9';
 // import { article10 } from '@/data/articles/article10';
 
 const articlesData: Record<string, ArticleFull> = {
@@ -19,7 +19,7 @@ const articlesData: Record<string, ArticleFull> = {
   [article6.slug]: article6,
   [article7.slug]: article7,
   [article8.slug]: article8 ,
-  // [article9.slug]: article9 ,
+  [article9.slug]: article9 ,
   // [article10.slug]: article10 ,
 };
 
