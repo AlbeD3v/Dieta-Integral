@@ -8,7 +8,7 @@ import { article6 } from '@/data/articles/article6';
 import { article7 } from '@/data/articles/article7';
 import { article8 } from '@/data/articles/article8';
 import { article9 } from '@/data/articles/article9';
-// import { article10 } from '@/data/articles/article10';
+import { article10 } from '@/data/articles/article10';
 
 const articlesData: Record<string, ArticleFull> = {
   [article1.slug]: article1,
@@ -20,7 +20,7 @@ const articlesData: Record<string, ArticleFull> = {
   [article7.slug]: article7,
   [article8.slug]: article8 ,
   [article9.slug]: article9 ,
-  // [article10.slug]: article10 ,
+  [article10.slug]: article10 ,
 };
 
 export const getArticlesList = (): ArticleBase[] => {
