@@ -1,0 +1,10 @@
+packages:
+  - d_i_client
+  - d_i_admin
+
+ignoredBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - prisma
+  - sharp
+  - unrs-resolver
