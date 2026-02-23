@@ -22,10 +22,19 @@ export async function GET(req: NextRequest) {
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10) || 1);
     const pageSize = Math.min(100, Math.max(1, parseInt(searchParams.get('pageSize') || '10', 10) || 10));
     const skip = (page - 1) * pageSize;
+    const q = (searchParams.get('q') || '').trim().toLowerCase();
+    const verifiedParam = searchParams.get('verified');
+    const verified = verifiedParam === null ? undefined : (verifiedParam === 'true' ? true : verifiedParam === 'false' ? false : undefined);
+
+    const where = {
+      ...(q ? { email: { contains: q } } : {}),
+      ...(typeof verified === 'boolean' ? { verified } : {}),
+    } as const;
 
     const [total, items] = await Promise.all([
-      prisma.subscriber.count(),
+      prisma.subscriber.count({ where }),
       prisma.subscriber.findMany({
+        where,
         skip,
         take: pageSize,
         orderBy: { createdAt: 'desc' },

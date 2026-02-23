@@ -4,13 +4,58 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function SettingsPage() {
   const [saving, setSaving] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [updatingTheme, setUpdatingTheme] = useState(false)
   const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  // Sobre mí
+  const [aboutLoading, setAboutLoading] = useState(false)
+  const [aboutSaving, setAboutSaving] = useState(false)
+  const [aboutTitle, setAboutTitle] = useState('')
+  const [aboutMarkdown, setAboutMarkdown] = useState('')
+  const [aboutCTA, setAboutCTA] = useState('Hablemos')
+  const [aboutImageUrl, setAboutImageUrl] = useState('')
+  const aboutRef = useRef<HTMLTextAreaElement | null>(null)
+  const fileRef = useRef<HTMLInputElement | null>(null)
+
+  function insertAround(start: string, end: string = start) {
+    const el = aboutRef.current
+    if (!el) return
+    const { selectionStart, selectionEnd, value } = el
+    const before = value.slice(0, selectionStart)
+    const sel = value.slice(selectionStart, selectionEnd)
+    const after = value.slice(selectionEnd)
+    const next = `${before}${start}${sel || 'texto'}${end}${after}`
+    setAboutMarkdown(next)
+    // restore focus and selection around inserted text
+    requestAnimationFrame(() => {
+      el.focus()
+      const pos = selectionStart + start.length + (sel ? sel.length : 'texto'.length)
+      el.setSelectionRange(pos, pos)
+    })
+  }
+
+  function insertHeading(prefix: string) {
+    const el = aboutRef.current
+    if (!el) return
+    const { selectionStart, selectionEnd, value } = el
+    // get the start of current line
+    const lineStart = value.lastIndexOf('\n', selectionStart - 1) + 1
+    const before = value.slice(0, lineStart)
+    const line = value.slice(lineStart, selectionEnd)
+    const after = value.slice(selectionEnd)
+    const cleaned = line.replace(/^#{1,6}\s?/, '')
+    const next = `${before}${prefix} ${cleaned}${after}`
+    setAboutMarkdown(next)
+    requestAnimationFrame(() => {
+      el.focus()
+      const caret = before.length + prefix.length + 1 + cleaned.length
+      el.setSelectionRange(caret, caret)
+    })
+  }
 
   useEffect(() => {
     const load = async () => {
@@ -22,6 +67,23 @@ export default function SettingsPage() {
       } catch {}
     }
     load()
+  }, [])
+
+  useEffect(() => {
+    const loadAbout = async () => {
+      setAboutLoading(true)
+      try {
+        const r = await fetch(`${base}/api/about`, { cache: 'no-store' })
+        const d = await r.json()
+        setAboutTitle(d?.title ?? 'Sobre mí')
+        setAboutMarkdown(d?.markdown ?? '')
+        setAboutCTA(d?.ctaLabel ?? 'Hablemos')
+        setAboutImageUrl(d?.imageUrl ?? '')
+      } finally {
+        setAboutLoading(false)
+      }
+    }
+    loadAbout()
   }, [])
 
   function onSave(e: React.FormEvent) {
@@ -117,6 +179,117 @@ export default function SettingsPage() {
                 disabled={updatingTheme}
               >
                 {updatingTheme ? 'Updating…' : 'Apply to Client'}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle>Sobre mí (Client)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="aboutTitle">Título</Label>
+              <Input id="aboutTitle" value={aboutTitle} onChange={(e) => setAboutTitle(e.target.value)} />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="aboutMd">Contenido (Markdown)</Label>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={() => insertHeading('##')}>H2</Button>
+                <Button type="button" variant="outline" size="sm" onClick={() => insertHeading('###')}>H3</Button>
+                <Button type="button" variant="outline" size="sm" onClick={() => insertAround('**')}>Negrita</Button>
+                <Button type="button" variant="outline" size="sm" onClick={() => insertAround('*')}>Cursiva</Button>
+                {aboutImageUrl && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const el = aboutRef.current
+                      const md = `\n\n![Imagen](${aboutImageUrl})\n\n`
+                      if (!el) { setAboutMarkdown((v) => v + md); return }
+                      const { selectionStart, selectionEnd, value } = el
+                      const before = value.slice(0, selectionStart)
+                      const after = value.slice(selectionEnd)
+                      const next = `${before}${md}${after}`
+                      setAboutMarkdown(next)
+                      requestAnimationFrame(() => {
+                        el.focus()
+                        const caret = (before + md).length
+                        el.setSelectionRange(caret, caret)
+                      })
+                    }}
+                  >Insertar imagen</Button>
+                )}
+              </div>
+              <Textarea
+                id="aboutMd"
+                ref={aboutRef}
+                value={aboutMarkdown}
+                onChange={(e) => setAboutMarkdown(e.target.value)}
+                rows={14}
+                placeholder={"## Título\n\nPárrafo..."}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label>Imagen (aside)</Label>
+              {(() => {
+                const previewSrc = aboutImageUrl
+                  ? (aboutImageUrl.startsWith('http') ? aboutImageUrl : `${base}${aboutImageUrl}`)
+                  : ''
+                return aboutImageUrl ? (
+                  <div className="flex items-center gap-4">
+                    <img src={previewSrc} alt="Preview" className="h-20 w-20 object-cover rounded-md border" />
+                    <Input value={aboutImageUrl} onChange={(e) => setAboutImageUrl(e.target.value)} />
+                  </div>
+                ) : null
+              })()}
+              <div className="flex items-center gap-2">
+                <input ref={fileRef} type="file" accept="image/*" hidden onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+                  setAboutSaving(true)
+                  try {
+                    const fd = new FormData()
+                    fd.set('file', file)
+                    const r = await fetch(`${base}/api/upload`, { method: 'POST', body: fd })
+                    const j = await r.json()
+                    if (r.ok && j?.url) setAboutImageUrl(j.url)
+                  } finally {
+                    setAboutSaving(false)
+                    if (fileRef.current) fileRef.current.value = ''
+                  }
+                }} />
+                <Button type="button" variant="secondary" onClick={() => fileRef.current?.click()}>Subir imagen…</Button>
+                {aboutImageUrl && (
+                  <Button type="button" variant="outline" onClick={() => setAboutImageUrl('')}>Quitar</Button>
+                )}
+              </div>
+            </div>
+            <div className="grid gap-2 max-w-xs">
+              <Label htmlFor="aboutCTA">CTA Label</Label>
+              <Input id="aboutCTA" value={aboutCTA} onChange={(e) => setAboutCTA(e.target.value)} />
+            </div>
+            <div>
+              <Button
+                disabled={aboutSaving || aboutLoading}
+                onClick={async () => {
+                  setAboutSaving(true)
+                  try {
+                    await fetch(`${base}/api/about`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ title: aboutTitle, markdown: aboutMarkdown, imageUrl: aboutImageUrl, ctaLabel: aboutCTA })
+                    })
+                  } finally {
+                    setAboutSaving(false)
+                  }
+                }}
+              >
+                {aboutSaving ? 'Guardando…' : 'Guardar'}
               </Button>
             </div>
           </div>

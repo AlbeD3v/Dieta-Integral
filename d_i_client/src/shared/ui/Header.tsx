@@ -26,6 +26,14 @@ const Header = () => {
     }
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   return (
     <header className="fixed w-full top-0 z-50">
       <div className="w-full bg-[linear-gradient(130deg,#1B4332_0%,#2D6A4F_25%,#40916C_50%,#2D6A4F_75%,#1B4332_100%)]">
@@ -51,6 +59,9 @@ const Header = () => {
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden text-white hover:text-white/80"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
             >
               <Menu size={24} />
             </button>
@@ -79,60 +90,71 @@ const Header = () => {
       </div>
 
       {isMenuOpen && (
-        <div 
-          className={`fixed md:hidden w-full bg-[linear-gradient(130deg,#1B4332_0%,#2D6A4F_25%,#40916C_50%,#2D6A4F_75%,#1B4332_100%)] transition-transform duration-300 ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}
-          style={{
-            top: isScrolled ? '47px' : '63px',
-            height: `calc(100vh - ${isScrolled ? '47px' : '63px'})`,
-            boxShadow: '0 -1px 0 #1B4332'
-          }}>
-          <nav className="flex flex-col items-center justify-between min-h-full py-8 px-6">
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-[1px] md:hidden"
+            aria-hidden="true"
+            onClick={() => setIsMenuOpen(false)}
+          />
+          {/* Panel */}
+          <div 
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            className={`fixed md:hidden w-full bg-background border-t border-border transition-transform duration-200 ease-out ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}
+            style={{
+              top: isScrolled ? '47px' : '63px',
+              height: `calc(100vh - ${isScrolled ? '47px' : '63px'})`,
+            }}>
+            <nav className="flex flex-col items-center justify-between min-h-full py-8 px-6">
             <div className="flex flex-col items-center space-y-8">
               {/* Inicio oculto; demás rutas pendientes ocultas */}
               <Link href="/articulos" 
-                    className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
+                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
                     onClick={() => setIsMenuOpen(false)}>
                 Blog
               </Link>
               <Link href="/servicios" 
-                    className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
+                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
                     onClick={() => setIsMenuOpen(false)}>
                 Servicios
               </Link>
               <Link href="/sobre-mi" 
-                    className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
+                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
                     onClick={() => setIsMenuOpen(false)}>
                 Sobre mí
               </Link>
               <Link href="/contacto" 
-                    className="text-white hover:text-white/80 text-xl font-semibold transition-all duration-300"
+                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
                     onClick={() => setIsMenuOpen(false)}>
                 Contacto
               </Link>
             </div>
             
-            <div className="flex items-center space-x-6 mb-8">
+            <div className="flex items-center space-x-6 mb-8 text-muted-foreground">
               <Link href="https://www.facebook.com/profile.php?id=61580212888512" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-white hover:text-white/80 transition-all duration-300">
-                <Facebook size={28} />
+                    className="hover:text-primary transition-colors">
+                <Facebook size={24} />
               </Link>
               <Link href="https://www.instagram.com/aleserrano_dietaintegral/" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-white hover:text-white/80 transition-all duration-300">
-                <Instagram size={28} />
+                    className="hover:text-primary transition-colors">
+                <Instagram size={24} />
               </Link>
               <Link href="https://youtube.com/@aleserrano-dietaintegral?si=1wLnpBcGUE5TngmR" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-white hover:text-white/80 transition-all duration-300">
-                <Youtube size={28} />
+                    className="hover:text-primary transition-colors">
+                <Youtube size={24} />
               </Link>
             </div>
-          </nav>
-        </div>
+            </nav>
+          </div>
+        </>
       )}
     </header>
   );

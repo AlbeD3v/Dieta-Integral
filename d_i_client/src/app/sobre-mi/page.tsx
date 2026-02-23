@@ -8,11 +8,44 @@ export const metadata = {
     type: 'article'
   }
 };
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import { Breadcrumbs } from '@shared';
 import Image from 'next/image';
 import Container from '@/shared/ui/Container';
+import { Button } from '@/shared/ui/button';
+import ReactMarkdown from 'react-markdown';
+import prisma from '@/lib/prisma';
 
-export default function SobreMiPage() {
+async function getAbout() {
+  const defaults = {
+    title: 'Sobre mí',
+    markdown: 'Escribe tu historia en formato Markdown.\n\n## Por qué hago lo que hago\n\n...\n\n## Qué me diferencia\n\n...',
+    ctaLabel: 'Hablemos',
+  } as const;
+  try {
+    const row = await prisma.setting.findUnique({ where: { id: 'about' } });
+    let data: any = null;
+    if (row?.value) {
+      try { data = typeof row.value === 'string' ? JSON.parse(row.value as any) : (row.value as any); } catch {}
+    }
+    return { ...defaults, ...(data || {}) } as any;
+  } catch {
+    try {
+      const res = await fetch('/api/about', { cache: 'no-store', next: { revalidate: 0 } });
+      if (res.ok) return res.json();
+    } catch {}
+    return defaults as any;
+  }
+}
+
+export default async function SobreMiPage() {
+  const data = await getAbout();
+  const title = data?.title ?? 'Sobre mí';
+  const raw = (data?.markdown as string | undefined) || '';
+  const markdown = normalizeMarkdown(raw);
+  const imageUrl = (data?.imageUrl as string | undefined) || '/Fotos_Patrones/autor_web.svg';
+  const ctaLabel = data?.ctaLabel ?? 'Hablemos';
   return (
     <div className="min-h-screen bg-background">
       <main>
@@ -21,10 +54,10 @@ export default function SobreMiPage() {
           <div className="flex flex-col md:flex-row-reverse items-center md:items-start gap-12">
             {/* Aside con imagen */}
             <aside className="md:sticky md:top-24 flex-shrink-0">
-              <div className="relative w-[250px] h-[250px]">
+              <div className="relative w-[250px] h-[250px] rounded-full border border-primary/30 p-1">
                 <Image 
-                  src="/Fotos_Patrones/autor_web.svg"
-                  alt="Ale Serrano - Especialista en Dieta Integral"
+                  src={imageUrl}
+                  alt={`${title} - Especialista en Dieta Integral`}
                   fill
                   sizes="250px"
                   priority
@@ -36,39 +69,33 @@ export default function SobreMiPage() {
 
             {/* Contenido estructurado */}
             <div className="flex-1 max-w-3xl mx-auto md:mx-0">
-              <h1 className="text-4xl md:text-5xl font-bold mb-8 text-center">Sobre mí</h1>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-8 text-center">{title}</h1>
 
-              {/* Tu historia */}
-              <section className="space-y-4 text-lg mb-10">
-                <h2 className="text-2xl font-semibold">Tu historia</h2>
-                <p className="text-xl">Certificado en Nutrición Moderna con el Dr. Guillermo Rodríguez Navarrete (Florida Global University y Universidad Católica San Antonio de Murcia).</p>
-                <p>Pero mi verdadera especialización no viene solo de los libros.</p>
-                <p>
-                  Hace cinco años descubrí una verdad incómoda: el sistema médico tradicional no me iba a sanar, solo me iba a mantener &ldquo;estable&rdquo; a ratos. Conviviendo con una Anemia Diseritropoyética Congénita, y después de una Aplasia Medular en la adolescencia, sumado a varias crisis y más adelante en el 2020 tras seguir recomendaciones oficiales mantengo el bazo inflamado, limitando bastante mi actividad física y salud global, tuve dos opciones: resignarme o convertirme en mi propio laboratorio viviente.
-                </p>
-                <p className="text-xl font-semibold"><em>Elegí la segunda.</em></p>
-              </section>
-
-              {/* Por qué haces lo que haces */}
-              <section className="space-y-4 text-lg mb-10">
-                <h2 className="text-2xl font-semibold">Por qué hago lo que hago</h2>
-                <p>
-                  Durante 5 años me sumergí en encontrar solución a mis problemas, probando cada protocolo en mi propio cuerpo. <strong>Cada concepto que enseño ha pasado por el laboratorio de mi propia experiencia.</strong>
-                </p>
-                <p>
-                  Hoy, aunque mi condición congénita persiste, vivo con más energía y vitalidad que muchas personas &ldquo;sanas&rdquo;. Acompaño a otras personas a encontrar su mejor estado posible dentro de su biología real y contexto de vida.
-                </p>
-              </section>
-
-              {/* Qué te diferencia */}
-              <section className="space-y-4 text-lg">
-                <h2 className="text-2xl font-semibold">Qué me diferencia</h2>
-                <p>
-                  En <strong>Dieta Integral</strong> no prometo milagros imposibles. Mi enfoque integra conocimiento moderno con una visión práctica y ancestral: buscar la máxima expresión de salud que tu biología individual permite, sin dogmas ni extremos.
-                </p>
-                <p className="text-xl font-semibold italic">
-                  Si funcionó conmigo teniendo una condición médica crónica, imagínate lo que puede hacer por ti.
-                </p>
+              <section className="prose prose-neutral dark:prose-invert max-w-none">
+                {markdown ? (
+                  <ReactMarkdown
+                    components={{
+                      h2: ({ node, ...props }) => (
+                        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mt-8 mb-3" {...props} />
+                      ),
+                      h3: ({ node, ...props }) => (
+                        <h3 className="text-xl md:text-2xl font-semibold tracking-tight mt-6 mb-2" {...props} />
+                      ),
+                      p: ({ node, ...props }) => (
+                        <p className="leading-7 mt-4" {...props} />
+                      ),
+                    }}
+                  >
+                    {markdown}
+                  </ReactMarkdown>
+                ) : (
+                  <p className="text-muted-foreground">Contenido pendiente de cargar.</p>
+                )}
+                <div className="pt-8">
+                  <Button asChild className="bg-gradient-to-r from-[#1B4332] to-[#40916C] text-white">
+                    <a href="/contacto">{ctaLabel}</a>
+                  </Button>
+                </div>
               </section>
             </div>
           </div>
@@ -76,4 +103,15 @@ export default function SobreMiPage() {
       </main>
     </div>
   );
+}
+
+function normalizeMarkdown(input: string): string {
+  const lines = input.split(/\r?\n/);
+  const fixed = lines.map((line) => {
+    // Insert a space after leading #'s if missing, e.g., "##Titulo" -> "## Titulo"
+    const m = line.match(/^(#{1,6})([^#\s].*)$/);
+    if (m) return `${m[1]} ${m[2]}`;
+    return line;
+  });
+  return fixed.join('\n');
 }

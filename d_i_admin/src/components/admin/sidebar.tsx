@@ -8,6 +8,7 @@ const nav = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/calendar', label: 'Calendar', icon: CalendarDays },
   { href: '/content', label: 'Content', icon: FileText },
+  { href: '/suscriptores', label: 'Suscriptores', icon: Users2 },
   { href: '/users', label: 'Users', icon: Users2 },
   { href: '/settings', label: 'Settings', icon: Settings },
 ]
