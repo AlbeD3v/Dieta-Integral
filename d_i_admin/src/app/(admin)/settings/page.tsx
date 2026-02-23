@@ -248,9 +248,23 @@ export default function SettingsPage() {
                 ) : null
               })()}
               <div className="flex items-center gap-2">
-                <input ref={fileRef} type="file" accept="image/*" hidden onChange={async (e) => {
+                <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden onChange={async (e) => {
                   const file = e.target.files?.[0]
                   if (!file) return
+                  const allowed = [
+                    'image/png',
+                    'image/jpeg',
+                    'image/webp',
+                    'image/svg+xml',
+                  ]
+                  if (!allowed.includes(file.type)) {
+                    if (fileRef.current) fileRef.current.value = ''
+                    return
+                  }
+                  if (file.size > 4.5 * 1024 * 1024) {
+                    if (fileRef.current) fileRef.current.value = ''
+                    return
+                  }
                   setAboutSaving(true)
                   try {
                     const fd = new FormData()

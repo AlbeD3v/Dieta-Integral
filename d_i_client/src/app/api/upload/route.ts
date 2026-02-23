@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { put } from '@vercel/blob'
 
 export const runtime = 'nodejs'
 
@@ -30,10 +29,10 @@ export async function POST(req: NextRequest) {
       return withCORS(NextResponse.json({ error: 'file missing' }, { status: 400 }))
     }
 
-    // validate size (max 5MB)
+    // validate size (max ~4.5MB per Vercel server upload guidance)
     const bytes = await file.arrayBuffer()
     const size = bytes.byteLength
-    if (size > 5 * 1024 * 1024) {
+    if (size > 4.5 * 1024 * 1024) {
       return withCORS(NextResponse.json({ error: 'file too large' }, { status: 413 }))
     }
 
@@ -48,14 +47,14 @@ export async function POST(req: NextRequest) {
       : file.type === 'image/webp' ? '.webp'
       : '.svg'
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    await fs.mkdir(uploadsDir, { recursive: true })
-
     const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`
-    const dest = path.join(uploadsDir, name)
-    await fs.writeFile(dest, Buffer.from(bytes))
+    // Upload to Vercel Blob (public)
+    const blob = new Blob([bytes], { type: file.type })
+    const { url } = await put(`uploads/${name}`, blob, {
+      access: 'public',
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    })
 
-    const url = `/uploads/${name}`
     return withCORS(NextResponse.json({ url }))
   } catch (e) {
     return withCORS(NextResponse.json({ error: 'upload failed' }, { status: 500 }))
