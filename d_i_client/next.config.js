@@ -9,6 +9,10 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'localhost',
       },
+      {
+        protocol: 'https',
+        hostname: '**.vercel-storage.com',
+      },
     ],
   },
   turbopack: {}
