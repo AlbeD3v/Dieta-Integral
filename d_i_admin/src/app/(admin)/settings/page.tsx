@@ -10,11 +10,12 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [updatingTheme, setUpdatingTheme] = useState(false)
+  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
 
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/theme', { cache: 'no-store' })
+        const res = await fetch(`${base}/api/theme`, { cache: 'no-store' })
         if (!res.ok) return
         const data = await res.json()
         if (data?.theme === 'dark' || data?.theme === 'light') setTheme(data.theme)
@@ -104,7 +105,7 @@ export default function SettingsPage() {
                 onClick={async () => {
                   setUpdatingTheme(true)
                   try {
-                    await fetch('http://localhost:3000/api/theme', {
+                    await fetch(`${base}/api/theme`, {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ theme }),
