@@ -24,9 +24,8 @@ async function writeTheme(theme: string) {
 }
 
 function withCORS(resp: NextResponse, req: NextRequest) {
-  const origin = req.headers.get('origin') || '';
-  const allow = origin === ADMIN_ORIGIN ? origin : '*';
-  resp.headers.set('Access-Control-Allow-Origin', allow);
+  // Always echo the configured admin origin to avoid wildcard issues in browsers
+  resp.headers.set('Access-Control-Allow-Origin', ADMIN_ORIGIN);
   resp.headers.set('Vary', 'Origin');
   resp.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   resp.headers.set('Access-Control-Allow-Headers', 'Content-Type');
