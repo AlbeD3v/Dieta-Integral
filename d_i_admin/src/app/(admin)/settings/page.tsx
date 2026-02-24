@@ -18,6 +18,8 @@ export default function SettingsPage() {
   const [aboutMarkdown, setAboutMarkdown] = useState('')
   const [aboutCTA, setAboutCTA] = useState('Hablemos')
   const [aboutImageUrl, setAboutImageUrl] = useState('')
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploadOk, setUploadOk] = useState(false)
   const aboutRef = useRef<HTMLTextAreaElement | null>(null)
   const fileRef = useRef<HTMLInputElement | null>(null)
 
@@ -251,6 +253,8 @@ export default function SettingsPage() {
                 <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden onChange={async (e) => {
                   const file = e.target.files?.[0]
                   if (!file) return
+                  setUploadError(null)
+                  setUploadOk(false)
                   const allowed = [
                     'image/png',
                     'image/jpeg',
@@ -258,10 +262,12 @@ export default function SettingsPage() {
                     'image/svg+xml',
                   ]
                   if (!allowed.includes(file.type)) {
+                    setUploadError('Formato no soportado. Usa PNG, JPEG, WEBP o SVG.')
                     if (fileRef.current) fileRef.current.value = ''
                     return
                   }
                   if (file.size > 4.5 * 1024 * 1024) {
+                    setUploadError('El archivo supera 4.5MB. Reduce el tamaño e intenta de nuevo.')
                     if (fileRef.current) fileRef.current.value = ''
                     return
                   }
@@ -270,18 +276,30 @@ export default function SettingsPage() {
                     const fd = new FormData()
                     fd.set('file', file)
                     const r = await fetch(`${base}/api/upload`, { method: 'POST', body: fd })
-                    const j = await r.json()
-                    if (r.ok && j?.url) setAboutImageUrl(j.url)
+                    const j = await r.json().catch(() => ({}))
+                    if (!r.ok) {
+                      setUploadError(typeof j?.error === 'string' ? j.error : 'Error al subir. Intenta nuevamente.')
+                    } else if (j?.url) {
+                      setAboutImageUrl(j.url)
+                      setUploadOk(true)
+                    }
+                  } catch {
+                    setUploadError('Error de red al subir. Intenta nuevamente.')
                   } finally {
                     setAboutSaving(false)
                     if (fileRef.current) fileRef.current.value = ''
                   }
                 }} />
-                <Button type="button" variant="secondary" onClick={() => fileRef.current?.click()}>Subir imagen…</Button>
+                <Button type="button" variant="secondary" onClick={() => fileRef.current?.click()} disabled={aboutSaving}>Subir imagen…</Button>
                 {aboutImageUrl && (
-                  <Button type="button" variant="outline" onClick={() => setAboutImageUrl('')}>Quitar</Button>
+                  <Button type="button" variant="outline" onClick={() => { setAboutImageUrl(''); setUploadOk(false); }} disabled={aboutSaving}>Quitar</Button>
                 )}
               </div>
+              {uploadError ? (
+                <p className="text-sm text-destructive mt-2" aria-live="polite">{uploadError}</p>
+              ) : uploadOk ? (
+                <p className="text-sm text-muted-foreground mt-2" aria-live="polite">Imagen subida correctamente.</p>
+              ) : null}
             </div>
             <div className="grid gap-2 max-w-xs">
               <Label htmlFor="aboutCTA">CTA Label</Label>
