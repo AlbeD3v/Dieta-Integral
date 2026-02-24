@@ -1,3 +1,21 @@
+export const metadata = {
+  title: 'Artículos | Dieta Integral',
+  description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
+  alternates: { canonical: 'https://dietaintegral.fit/articulos' },
+  openGraph: {
+    title: 'Artículos | Dieta Integral',
+    description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
+    url: 'https://dietaintegral.fit/articulos',
+    type: 'website',
+    images: [{ url: '/imagen_logo_svg.svg', alt: 'Dieta Integral' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Artículos | Dieta Integral',
+    description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
+    images: ['/imagen_logo_svg.svg'],
+  },
+};
 import React from 'react';
 import { getArticlesList, ArticleCard } from '@domains/articles';
 import Container from '@/shared/ui/Container';

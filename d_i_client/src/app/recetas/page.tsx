@@ -6,6 +6,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/sha
 export const metadata = {
   title: "Recetas — Dieta Integral",
   description: "Recetas prácticas y minimalistas para tu día a día.",
+  alternates: { canonical: 'https://dietaintegral.fit/recetas' },
+  openGraph: {
+    title: 'Recetas — Dieta Integral',
+    description: 'Recetas prácticas y minimalistas para tu día a día.',
+    url: 'https://dietaintegral.fit/recetas',
+    type: 'website',
+    images: [{ url: '/imagen_logo_svg.svg', alt: 'Dieta Integral' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Recetas — Dieta Integral',
+    description: 'Recetas prácticas y minimalistas para tu día a día.',
+    images: ['/imagen_logo_svg.svg'],
+  },
 };
 
 const filters = ["Todas", "Desayuno", "Almuerzo", "Cena", "Snacks"] as const;

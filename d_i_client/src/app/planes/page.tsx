@@ -5,6 +5,20 @@ import { Button } from "@/shared/ui/button";
 export const metadata = {
   title: "Planes — Dieta Integral",
   description: "Planes claros y minimalistas para acompañarte en tu proceso.",
+  alternates: { canonical: 'https://dietaintegral.fit/planes' },
+  openGraph: {
+    title: 'Planes — Dieta Integral',
+    description: 'Planes claros y minimalistas para acompañarte en tu proceso.',
+    url: 'https://dietaintegral.fit/planes',
+    type: 'website',
+    images: [{ url: '/imagen_logo_svg.svg', alt: 'Dieta Integral' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Planes — Dieta Integral',
+    description: 'Planes claros y minimalistas para acompañarte en tu proceso.',
+    images: ['/imagen_logo_svg.svg'],
+  },
 };
 
 const plans = [

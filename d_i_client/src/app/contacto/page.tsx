@@ -1,11 +1,18 @@
 export const metadata = {
   title: 'Contacto | Dieta Integral',
   description: 'Ponte en contacto por email o WhatsApp Business para iniciar la conversación.',
+  alternates: { canonical: 'https://dietaintegral.fit/contacto' },
   openGraph: {
     title: 'Contacto | Dieta Integral',
     description: 'Escríbenos por email o WhatsApp Business.',
-    url: 'https://tusitio.com/contacto',
+    url: 'https://dietaintegral.fit/contacto',
     type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contacto | Dieta Integral',
+    description: 'Ponte en contacto por email o WhatsApp Business para iniciar la conversación.',
+    images: ['/imagen_logo_svg.svg']
   }
 };
 import { Header, Footer, Button, Breadcrumbs } from '@shared';

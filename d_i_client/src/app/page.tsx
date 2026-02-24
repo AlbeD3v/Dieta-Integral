@@ -1,11 +1,18 @@
 export const metadata = {
   title: 'Dieta Integral | Alimentación consciente y ancestral',
   description: 'Acompañamiento en hábitos y alimentación desde un enfoque ancestral y práctico. Artículos, reels y recursos para una vida más integral.',
+  alternates: { canonical: 'https://dietaintegral.fit/' },
   openGraph: {
     title: 'Dieta Integral',
     description: 'Acompañamiento en hábitos y alimentación desde un enfoque ancestral y práctico.',
-    url: 'https://tusitio.com/',
+    url: 'https://dietaintegral.fit/',
     type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dieta Integral',
+    description: 'Acompañamiento en hábitos y alimentación desde un enfoque ancestral y práctico.',
+    images: ['/imagen_logo_svg.svg']
   }
 };
 import { AboutSection, NewsletterSection, ReelsSection, TestimonialsSection, Footer } from '@shared';

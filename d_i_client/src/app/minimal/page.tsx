@@ -6,6 +6,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/sha
 export const metadata = {
   title: "Dieta Integral — Minimal",
   description: "Enfoque minimalista y profesional para la UI del cliente.",
+  alternates: { canonical: 'https://dietaintegral.fit/minimal' },
+  openGraph: {
+    title: 'Dieta Integral — Minimal',
+    description: 'Enfoque minimalista y profesional para la UI del cliente.',
+    url: 'https://dietaintegral.fit/minimal',
+    type: 'website',
+    images: [{ url: '/imagen_logo_svg.svg', alt: 'Dieta Integral' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dieta Integral — Minimal',
+    description: 'Enfoque minimalista y profesional para la UI del cliente.',
+    images: ['/imagen_logo_svg.svg'],
+  },
 };
 
 export default function MinimalHome() {

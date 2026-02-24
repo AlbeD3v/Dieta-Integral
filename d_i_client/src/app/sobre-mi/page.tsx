@@ -1,11 +1,18 @@
 export const metadata = {
   title: 'Sobre mí | Dieta Integral',
   description: 'Conoce mi historia, mi enfoque y por qué hago lo que hago desde una perspectiva ancestral y práctica.',
+  alternates: { canonical: 'https://dietaintegral.fit/sobre-mi' },
   openGraph: {
     title: 'Sobre mí | Dieta Integral',
     description: 'Historia y enfoque de acompañamiento en alimentación consciente.',
-    url: 'https://tusitio.com/sobre-mi',
+    url: 'https://dietaintegral.fit/sobre-mi',
     type: 'article'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sobre mí | Dieta Integral',
+    description: 'Historia y enfoque de acompañamiento en alimentación consciente.',
+    images: ['/imagen_logo_svg.svg']
   }
 };
 export const dynamic = 'force-dynamic';
@@ -15,6 +22,7 @@ import Image from 'next/image';
 import Container from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/button';
 import ReactMarkdown from 'react-markdown';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import prisma from '@/lib/prisma';
 
 async function getAbout() {
@@ -74,7 +82,32 @@ export default async function SobreMiPage() {
               <section className="prose prose-neutral dark:prose-invert max-w-none">
                 {markdown ? (
                   <ReactMarkdown
+                    rehypePlugins={[[
+                      rehypeSanitize,
+                      {
+                        ...defaultSchema,
+                        tagNames: [
+                          ...(defaultSchema.tagNames || []),
+                          'h2', 'h3'
+                        ],
+                        attributes: {
+                          ...(defaultSchema.attributes || {}),
+                          a: [
+                            ...(defaultSchema.attributes?.a || []),
+                            ['target', ['_blank']],
+                            ['rel', ['nofollow', 'noopener', 'noreferrer']]
+                          ],
+                          img: [
+                            ...(defaultSchema.attributes?.img || []),
+                            ['src'], ['alt'], ['width'], ['height']
+                          ]
+                        }
+                      }
+                    ]]}
                     components={{
+                      a: ({ node, ...props }) => (
+                        <a target="_blank" rel="nofollow noopener noreferrer" {...props} />
+                      ),
                       h2: ({ node, ...props }) => (
                         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mt-8 mb-3" {...props} />
                       ),
