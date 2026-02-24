@@ -33,7 +33,7 @@ const NewsletterSection = () => {
           setMessage("Ya estabas suscrito. ¡Gracias por seguir aquí!");
         } else {
           setStatus("success");
-          setMessage("Suscripción exitosa. Revisa tu bandeja.");
+          setMessage("Suscripción exitosa");
         }
         setEmail("");
       } else if (res.status === 422) {
