@@ -50,7 +50,14 @@ export async function GET(req: NextRequest) {
   try {
     await backfillFromSettingIfEmpty()
     const list = await prisma.category.findMany({ orderBy: [{ order: 'asc' }, { name: 'asc' }], select: { id: true, name: true, slug: true, color: true, order: true } })
-    const names = list.map((c: { name: string }) => c.name)
+    let names = list.map((c: { name: string }) => c.name)
+    // If table is empty but legacy Setting has data, surface it to keep Admin usable
+    if (list.length === 0) {
+      const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
+      const raw = setting?.value
+      const legacy = Array.isArray(raw) ? raw.map(String) : []
+      if (legacy.length) names = legacy
+    }
     return withCORS(req, NextResponse.json({ categories: names, items: list }))
   } catch {
     // Fallback if prisma/category table is not available in the deployed DB yet
@@ -72,22 +79,35 @@ export async function POST(req: NextRequest) {
   // Legacy mode: synchronize simple array of names
   if (Array.isArray(body?.categories)) {
     const names = Array.from(new Set(body.categories.map((s: any) => String(s).trim()).filter(Boolean)))
-    const existing = await prisma.category.findMany({ select: { id: true, name: true, slug: true } })
-    const existingByName = new Map(existing.map(c => [c.name.toLowerCase(), c]))
-    const created: any[] = []
-    for (const nRaw of names) {
-      const n: string = String(nRaw)
-      const key = n.toLowerCase()
-      if (!existingByName.has(key)) {
-        let slug = slugify(n)
-        let base = slug
-        let i = 1
-        while (await prisma.category.findUnique({ where: { slug } })) slug = `${base}-${i++}`
-        const c = await prisma.category.create({ data: { name: n, slug }, select: { id: true, name: true, slug: true, color: true, order: true } })
-        created.push(c)
+    try {
+      const existing = await prisma.category.findMany({ select: { id: true, name: true, slug: true } })
+      const existingByName = new Map(existing.map(c => [c.name.toLowerCase(), c]))
+      const created: any[] = []
+      for (const nRaw of names) {
+        const n: string = String(nRaw)
+        const key = n.toLowerCase()
+        if (!existingByName.has(key)) {
+          let slug = slugify(n)
+          let base = slug
+          let i = 1
+          while (await prisma.category.findUnique({ where: { slug } })) slug = `${base}-${i++}`
+          const c = await prisma.category.create({ data: { name: n, slug }, select: { id: true, name: true, slug: true, color: true, order: true } })
+          created.push(c)
+        }
+      }
+      return withCORS(req, NextResponse.json({ ok: true, createdCount: created.length }))
+    } catch {
+      // Fallback: persist legacy array into Setting('categories')
+      try {
+        const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
+        const prev: string[] = Array.isArray(setting?.value) ? setting!.value as any : []
+        const merged = Array.from(new Set([ ...prev.map(String), ...names ]))
+        await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as any }, create: { id: 'categories', value: merged as any } })
+        return withCORS(req, NextResponse.json({ ok: true, createdCount: names.length, storage: 'setting' }))
+      } catch {
+        return withCORS(req, NextResponse.json({ error: 'unable to persist categories' }, { status: 500 }))
       }
     }
-    return withCORS(req, NextResponse.json({ ok: true, createdCount: created.length }))
   }
 
   // New mode: create one object with fields
@@ -104,6 +124,15 @@ export async function POST(req: NextRequest) {
     const created = await prisma.category.create({ data: { name, slug, color: color || undefined, order }, select: { id: true, name: true, slug: true, color: true, order: true } })
     return withCORS(req, NextResponse.json(created, { status: 201 }))
   } catch (e: any) {
-    return withCORS(req, NextResponse.json({ error: 'unable to create' }, { status: 400 }))
+    // Fallback: append name to Setting('categories') if table write fails
+    try {
+      const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
+      const prev: string[] = Array.isArray(setting?.value) ? setting!.value as any : []
+      const merged = Array.from(new Set([ ...prev.map(String), name ]))
+      await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as any }, create: { id: 'categories', value: merged as any } })
+      return withCORS(req, NextResponse.json({ ok: true, id: null, name, slug, color, order, storage: 'setting' }, { status: 201 }))
+    } catch {
+      return withCORS(req, NextResponse.json({ error: 'unable to create' }, { status: 400 }))
+    }
   }
 }
