@@ -82,13 +82,26 @@ export async function POST(req: NextRequest) {
     .normalize('NFD').replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
   let slug = base || `articulo-${Date.now()}`
   let i = 1
-  while (await prisma.article.findUnique({ where: { slug } })) {
-    slug = `${base}-${i++}`
+  try {
+    while (await prisma.article.findUnique({ where: { slug } })) {
+      slug = `${base}-${i++}`
+    }
+    const publicationDate = body?.publicationDate ? new Date(String(body.publicationDate)) : null
+    const created = await prisma.article.create({
+      data: {
+        title,
+        summary,
+        content,
+        category,
+        status: status === 'published' ? 'published' : 'draft',
+        slug,
+        images,
+        publicationDate: publicationDate && !isNaN(publicationDate.getTime()) ? publicationDate : undefined,
+      },
+      select: { id: true, slug: true },
+    })
+    return withCORS(req, NextResponse.json(created, { status: 201 }))
+  } catch (e: any) {
+    return withCORS(req, NextResponse.json({ ok: false, error: 'unable to create article' }))
   }
-  const publicationDate = body?.publicationDate ? new Date(String(body.publicationDate)) : null
-  const created = await prisma.article.create({
-    data: { title, summary, content, category, status: status === 'published' ? 'published' : 'draft', slug, images, publicationDate: publicationDate ?? undefined },
-    select: { id: true, slug: true },
-  })
-  return withCORS(req, NextResponse.json(created, { status: 201 }))
 }
