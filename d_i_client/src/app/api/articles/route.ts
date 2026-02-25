@@ -102,6 +102,7 @@ export async function POST(req: NextRequest) {
     })
     return withCORS(req, NextResponse.json(created, { status: 201 }))
   } catch (e: any) {
-    return withCORS(req, NextResponse.json({ ok: false, error: 'unable to create article' }))
+    const message = typeof e?.message === 'string' ? e.message : 'unable to create article'
+    return withCORS(req, NextResponse.json({ ok: false, error: message }, { status: 500 }))
   }
 }
