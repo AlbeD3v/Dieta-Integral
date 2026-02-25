@@ -16,6 +16,7 @@
     "build": "pnpm -C d_i_client build",
     "build:client": "pnpm -C d_i_client build",
     "build:admin": "pnpm -C d_i_admin build",
+    "build:all": "concurrently -n client,admin -c cyan,magenta \"pnpm -C d_i_client build\" \"pnpm -C d_i_admin build\"",
     "start": "pnpm -C d_i_client start",
     "start:admin": "pnpm -C d_i_admin start",
     "start:all": "concurrently -n client,admin -c cyan,magenta \"node ./scripts/run-service.mjs --pkgDir d_i_client --port 3000 --script start\" \"node ./scripts/run-service.mjs --pkgDir d_i_admin --port 3001 --script start\"",
