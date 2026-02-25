@@ -2,55 +2,62 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { withCORS, preflight } from '@/lib/cors'
 
+export const runtime = 'nodejs'
+
 export async function OPTIONS(req: NextRequest) {
   return preflight(req, ['GET','POST','OPTIONS'])
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const q = (searchParams.get('q') || '').trim()
-  const status = (searchParams.get('status') || 'published').toLowerCase()
-  const category = (searchParams.get('category') || '').trim() || undefined
-  const categorySlug = (searchParams.get('categorySlug') || '').trim() || undefined
-  const page = Math.max(1, Number(searchParams.get('page') || 1))
-  const pageSize = Math.min(50, Math.max(1, Number(searchParams.get('pageSize') || 12)))
+  try {
+    const { searchParams } = new URL(req.url)
+    const q = (searchParams.get('q') || '').trim()
+    const status = (searchParams.get('status') || 'published').toLowerCase()
+    const category = (searchParams.get('category') || '').trim() || undefined
+    const categorySlug = (searchParams.get('categorySlug') || '').trim() || undefined
+    const page = Math.max(1, Number(searchParams.get('page') || 1))
+    const pageSize = Math.min(50, Math.max(1, Number(searchParams.get('pageSize') || 12)))
 
-  const where: any = {}
-  if (status !== 'all') where.status = status
-  // Backward compatibility: filter by legacy string category if provided
-  if (category) where.category = category
-  // New: filter by categorySlug by resolving to categoryId
-  if (categorySlug) {
-    const cat = await prisma.category.findUnique({ where: { slug: categorySlug } }).catch(() => null)
-    if (cat) {
-      where.categoryId = cat.id
-    } else {
-      // If slug not found, force empty result
-      where.categoryId = '__none__'
+    const where: any = {}
+    if (status !== 'all') where.status = status
+    // Backward compatibility: filter by legacy string category if provided
+    if (category) where.category = category
+    // New: filter by categorySlug by resolving to categoryId
+    if (categorySlug) {
+      const cat = await prisma.category.findUnique({ where: { slug: categorySlug } }).catch(() => null)
+      if (cat) {
+        where.categoryId = cat.id
+      } else {
+        // If slug not found, force empty result
+        where.categoryId = '__none__'
+      }
     }
+    if (q) where.OR = [
+      { title: { contains: q, mode: 'insensitive' } },
+      { summary: { contains: q, mode: 'insensitive' } },
+    ]
+
+    const [total, items] = await Promise.all([
+      prisma.article.count({ where }),
+      prisma.article.findMany({
+        where,
+        orderBy: { publicationDate: 'desc' },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        select: {
+          id: true, slug: true, title: true, summary: true, images: true,
+          publicationDate: true, category: true, status: true, categoryId: true,
+          categoryRef: { select: { name: true, slug: true, color: true } },
+        },
+      }),
+    ])
+
+    const resp = NextResponse.json({ items, page, pageSize, total })
+    return withCORS(req, resp)
+  } catch (e) {
+    // Final fallback to avoid CORS masking when DB fails
+    return withCORS(req, NextResponse.json({ ok: false, items: [], page: 1, pageSize: 12, total: 0 }))
   }
-  if (q) where.OR = [
-    { title: { contains: q, mode: 'insensitive' } },
-    { summary: { contains: q, mode: 'insensitive' } },
-  ]
-
-  const [total, items] = await Promise.all([
-    prisma.article.count({ where }),
-    prisma.article.findMany({
-      where,
-      orderBy: { publicationDate: 'desc' },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      select: {
-        id: true, slug: true, title: true, summary: true, images: true,
-        publicationDate: true, category: true, status: true, categoryId: true,
-        categoryRef: { select: { name: true, slug: true, color: true } },
-      },
-    }),
-  ])
-
-  const resp = NextResponse.json({ items, page, pageSize, total })
-  return withCORS(req, resp)
 }
 
 export async function POST(req: NextRequest) {
