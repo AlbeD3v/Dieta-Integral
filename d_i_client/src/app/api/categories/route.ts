@@ -47,12 +47,23 @@ export async function OPTIONS(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  await backfillFromSettingIfEmpty()
-  const list = await prisma.category.findMany({ orderBy: [{ order: 'asc' }, { name: 'asc' }], select: { id: true, name: true, slug: true, color: true, order: true } })
-  const names = list.map((c: { name: string }) => c.name)
-  // Backward compatible: 'categories' remains string[] for existing Admin UI
-  // New consumers should use 'items' for full objects
-  return withCORS(req, NextResponse.json({ categories: names, items: list }))
+  try {
+    await backfillFromSettingIfEmpty()
+    const list = await prisma.category.findMany({ orderBy: [{ order: 'asc' }, { name: 'asc' }], select: { id: true, name: true, slug: true, color: true, order: true } })
+    const names = list.map((c: { name: string }) => c.name)
+    return withCORS(req, NextResponse.json({ categories: names, items: list }))
+  } catch {
+    // Fallback if prisma/category table is not available in the deployed DB yet
+    try {
+      const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
+      const raw = setting?.value
+      const names = Array.isArray(raw) ? raw.map(String) : []
+      return withCORS(req, NextResponse.json({ categories: names, items: [] }))
+    } catch {
+      // Final fallback: return empty list with 200 so clients don't fail hard due to CORS masking errors
+      return withCORS(req, NextResponse.json({ ok: false, categories: [], items: [], reason: 'categories unavailable' }))
+    }
+  }
 }
 
 export async function POST(req: NextRequest) {
