@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { withCORS } from '@/lib/cors';
 export const runtime = 'nodejs';
-
-const ADMIN_ORIGIN = process.env.ADMIN_ORIGIN || 'http://localhost:3001';
 
 type AboutPayload = {
   title?: string;
@@ -15,14 +14,7 @@ type AboutPayload = {
   ctaLabel?: string;
 };
 
-function withCORS(resp: NextResponse) {
-  resp.headers.set('Access-Control-Allow-Origin', ADMIN_ORIGIN);
-  resp.headers.set('Vary', 'Origin');
-  resp.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  resp.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-  resp.headers.set('Access-Control-Max-Age', '600');
-  return resp;
-}
+function allow(req: NextRequest, resp: NextResponse) { return withCORS(req, resp, ['GET','POST','OPTIONS']) }
 
 const defaults: Required<Pick<AboutPayload, 'title' | 'markdown' | 'ctaLabel'>> & Partial<AboutPayload> = {
   title: 'Sobre mí',
@@ -34,7 +26,7 @@ const defaults: Required<Pick<AboutPayload, 'title' | 'markdown' | 'ctaLabel'>> 
   ctaLabel: 'Hablemos',
 };
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const row = await prisma.setting.findUnique({ where: { id: 'about' } });
     let data: AboutPayload | null = null;
@@ -42,9 +34,9 @@ export async function GET() {
       try { data = typeof row.value === 'string' ? JSON.parse(row.value as any) : (row.value as any); } catch {}
     }
     const payload = { ...defaults, ...(data || {}) } as AboutPayload;
-    return withCORS(NextResponse.json(payload));
+    return allow(req, NextResponse.json(payload));
   } catch (e) {
-    return withCORS(NextResponse.json(defaults));
+    return allow(req, NextResponse.json(defaults));
   }
 }
 
@@ -53,7 +45,7 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch {
-    return withCORS(NextResponse.json({ error: 'invalid json' }, { status: 400 }));
+    return allow(req, NextResponse.json({ error: 'invalid json' }, { status: 400 }));
   }
   try {
     const get = (v: any, len: number) => (v === undefined || v === null ? undefined : String(v).slice(0, len));
@@ -73,11 +65,11 @@ export async function POST(req: NextRequest) {
       update: { value: JSON.stringify(merged) as any },
       create: { id: 'about', value: JSON.stringify(merged) as any },
     });
-    return withCORS(NextResponse.json({ ok: true }));
+    return allow(req, NextResponse.json({ ok: true }));
   } catch (e: any) {
     console.error('[api/about] POST db error:', e);
     const msg = e?.message ? String(e.message).slice(0, 500) : 'db error';
-    return withCORS(NextResponse.json({ error: 'db error', message: msg }, { status: 500 }));
+    return allow(req, NextResponse.json({ error: 'db error', message: msg }, { status: 500 }));
   }
 }
 
@@ -85,5 +77,7 @@ export async function OPTIONS() {
   const resp = new NextResponse(null, { status: 204 });
   resp.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   resp.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-  return withCORS(resp);
+  // No request object here; create a synthetic request for origin resolution isn't necessary,
+  // we simply allow standard methods.
+  return new NextResponse(null, { status: 204 });
 }

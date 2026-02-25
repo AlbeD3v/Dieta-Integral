@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-const ADMIN_ORIGIN = process.env.ADMIN_ORIGIN || 'http://localhost:3001';
+import { withCORS, preflight } from '@/lib/cors';
 
 async function readTheme(): Promise<string> {
   try {
@@ -23,24 +23,14 @@ async function writeTheme(theme: string) {
   });
 }
 
-function withCORS(resp: NextResponse, req: NextRequest) {
-  // Always echo the configured admin origin to avoid wildcard issues in browsers
-  resp.headers.set('Access-Control-Allow-Origin', ADMIN_ORIGIN);
-  resp.headers.set('Vary', 'Origin');
-  resp.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  resp.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-  resp.headers.set('Access-Control-Max-Age', '600');
-  return resp;
-}
-
 export async function OPTIONS(req: NextRequest) {
-  return withCORS(new NextResponse(null, { status: 204 }), req);
+  return preflight(req, ['GET','POST','OPTIONS']);
 }
 
 export async function GET(req: NextRequest) {
   const theme = await readTheme();
   const resp = NextResponse.json({ theme });
-  return withCORS(resp, req);
+  return withCORS(req, resp);
 }
 
 export async function POST(req: NextRequest) {
@@ -49,13 +39,13 @@ export async function POST(req: NextRequest) {
     const theme = String(body?.theme || '').trim();
     if (!theme) {
       const bad = NextResponse.json({ error: 'theme is required' }, { status: 400 });
-      return withCORS(bad, req);
+      return withCORS(req, bad);
     }
     await writeTheme(theme);
     const ok = NextResponse.json({ ok: true, theme });
-    return withCORS(ok, req);
+    return withCORS(req, ok);
   } catch (e) {
     const err = NextResponse.json({ error: 'invalid request' }, { status: 400 });
-    return withCORS(err, req);
+    return withCORS(req, err);
   }
 }
