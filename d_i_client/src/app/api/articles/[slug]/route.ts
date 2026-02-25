@@ -8,9 +8,9 @@ export async function OPTIONS(req: NextRequest) {
   return preflight(req, ['GET','PUT','DELETE','OPTIONS'])
 }
 
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
-    const { slug } = params
+    const { slug } = await params
     const item = await prisma.article.findUnique({ where: { slug } })
     if (!item) return withCORS(req, NextResponse.json({ error: 'not found' }, { status: 404 }))
     return withCORS(req, NextResponse.json(item))
@@ -19,9 +19,9 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
-    const { slug: currentSlug } = params
+    const { slug: currentSlug } = await params
     let body: any
     try {
       body = await req.json()
@@ -57,9 +57,9 @@ export async function PUT(req: NextRequest, { params }: { params: { slug: string
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
-    const { slug } = params
+    const { slug } = await params
     await prisma.article.delete({ where: { slug } })
     return withCORS(req, new NextResponse(null, { status: 204 }))
   } catch {
