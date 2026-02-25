@@ -53,6 +53,12 @@ importers:
       react-hook-form:
         specifier: ^7.71.1
         version: 7.71.1(react@19.2.3)
+      react-markdown:
+        specifier: ^9.0.3
+        version: 9.1.0(@types/react@19.2.14)(react@19.2.3)
+      rehype-sanitize:
+        specifier: ^6.0.0
+        version: 6.0.0
       tailwind-merge:
         specifier: ^3.5.0
         version: 3.5.0
@@ -63,6 +69,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.2.0
         version: 4.2.0
+      '@tailwindcss/typography':
+        specifier: ^0.5.19
+        version: 0.5.19(tailwindcss@4.2.0)
       '@types/node':
         specifier: ^20.19.33
         version: 20.19.33
@@ -6789,6 +6798,24 @@ snapshots:
       react: 19.2.3
 
   react-is@16.13.1: {}
+
+  react-markdown@9.1.0(@types/react@19.2.14)(react@19.2.3):
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.4
+      '@types/react': 19.2.14
+      devlop: 1.1.0
+      hast-util-to-jsx-runtime: 2.3.6
+      html-url-attributes: 3.0.1
+      mdast-util-to-hast: 13.2.1
+      react: 19.2.3
+      remark-parse: 11.0.0
+      remark-rehype: 11.1.2
+      unified: 11.0.5
+      unist-util-visit: 5.1.0
+      vfile: 6.0.3
+    transitivePeerDependencies:
+      - supports-color
 
   react-markdown@9.1.0(@types/react@19.2.14)(react@19.2.4):
     dependencies:
