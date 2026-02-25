@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
+export const revalidate = 0
 export const metadata = {
   title: 'Artículos | Dieta Integral',
   description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
@@ -19,29 +20,35 @@ export const metadata = {
   },
 };
 import React from 'react';
+import { unstable_noStore as noStore } from 'next/cache'
+import prisma from '@/lib/prisma'
 import CategoryFilter from './CategoryFilter';
 import { ArticleCard } from '@domains/articles';
 import Container from '@/shared/ui/Container';
 import SectionHeader from '@/shared/ui/SectionHeader';
 
 async function fetchArticles() {
-  try {
-    const res = await fetch(`/api/articles?status=published&page=1&pageSize=12`, { cache: 'no-store' })
-    if (!res.ok) throw new Error('bad status')
-    const data = await res.json()
-    return Array.isArray(data?.items) ? data.items : []
-  } catch {
-    return []
-  }
+  noStore()
+  const items = await prisma.article.findMany({
+    where: { status: 'published' },
+    orderBy: { publicationDate: 'desc' },
+    take: 12,
+    select: {
+      id: true, slug: true, title: true, summary: true, images: true,
+      publicationDate: true, category: true,
+      categoryRef: { select: { name: true, slug: true, color: true } },
+    },
+  })
+  return items
 }
 
 async function fetchCategories() {
-  try {
-    const res = await fetch(`/api/categories`, { cache: 'no-store' })
-    if (!res.ok) return []
-    const data = await res.json()
-    return Array.isArray(data?.items) ? data.items : []
-  } catch { return [] }
+  noStore()
+  const cats = await prisma.category.findMany({
+    orderBy: [{ order: 'asc' }, { name: 'asc' }],
+    select: { id: true, name: true, slug: true, color: true, order: true },
+  })
+  return cats
 }
 
 export default async function ArticlesPage() {
