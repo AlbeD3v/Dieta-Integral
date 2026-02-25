@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 export const metadata = {
   title: 'Artículos | Dieta Integral',
   description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
@@ -22,18 +24,9 @@ import { ArticleCard } from '@domains/articles';
 import Container from '@/shared/ui/Container';
 import SectionHeader from '@/shared/ui/SectionHeader';
 
-function resolveBase() {
-  const envBase = process.env.NEXT_PUBLIC_CLIENT_URL
-  if (envBase && envBase.startsWith('http')) return envBase
-  const vercel = process.env.VERCEL_URL
-  if (vercel) return `https://${vercel}`
-  return 'http://localhost:3000'
-}
-
 async function fetchArticles() {
   try {
-    const base = resolveBase()
-    const res = await fetch(`${base}/api/articles?status=published&page=1&pageSize=12`, { cache: 'no-store' })
+    const res = await fetch(`/api/articles?status=published&page=1&pageSize=12`, { cache: 'no-store' })
     if (!res.ok) throw new Error('bad status')
     const data = await res.json()
     return Array.isArray(data?.items) ? data.items : []
@@ -44,8 +37,7 @@ async function fetchArticles() {
 
 async function fetchCategories() {
   try {
-    const base = resolveBase()
-    const res = await fetch(`${base}/api/categories`, { cache: 'no-store' })
+    const res = await fetch(`/api/categories`, { cache: 'no-store' })
     if (!res.ok) return []
     const data = await res.json()
     return Array.isArray(data?.items) ? data.items : []
