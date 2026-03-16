@@ -4,16 +4,16 @@ import Container from '@/shared/ui/Container';
 
 const Footer = () => {
   return (
-    <footer className="border-t bg-background text-foreground">
+    <footer className="border-t border-black/8 bg-background text-foreground">
       <Container className="py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Navegación */}
           <nav className="grid grid-cols-2 gap-2 justify-items-center text-sm md:flex md:flex-col md:items-start md:justify-start md:gap-2">
             {/* Orden requerido: Blog, Servicios, Sobre mí, Contacto. Inicio oculto y demás pendientes también ocultos. */}
-            <Link href="/articulos" className="hover:text-foreground transition-colors">Blog</Link>
-            <Link href="/servicios" className="hover:text-foreground transition-colors">Servicios</Link>
-            <Link href="/sobre-mi" className="hover:text-foreground transition-colors">Sobre mí</Link>
-            <Link href="/contacto" className="hover:text-foreground transition-colors">Contacto</Link>
+            <Link href="/articulos" className="text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
+            <Link href="/servicios" className="text-muted-foreground hover:text-foreground transition-colors">Servicios</Link>
+            <Link href="/sobre-mi" className="text-muted-foreground hover:text-foreground transition-colors">Sobre mí</Link>
+            <Link href="/contacto" className="text-muted-foreground hover:text-foreground transition-colors">Contacto</Link>
           </nav>
 
           {/* Sociales */}
@@ -34,7 +34,7 @@ const Footer = () => {
 
           {/* Marca */}
           <div className="flex flex-col items-center md:items-end">
-            <Link href="/" className="text-xl font-semibold tracking-tight hover:opacity-90 transition-opacity">
+            <Link href="/" className="text-xl font-semibold tracking-tight text-primary hover:opacity-80 transition-opacity">
               Dieta Integral
             </Link>
             <p className="mt-2 text-xs text-muted-foreground text-center md:text-right">

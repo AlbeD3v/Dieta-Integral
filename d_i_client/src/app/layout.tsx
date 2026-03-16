@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Libre_Baskerville } from 'next/font/google';
+import { Libre_Baskerville, Cormorant_Garamond } from 'next/font/google';
 import Script from 'next/script';
 import "./globals.css";
 import { Header } from "@shared";
@@ -9,6 +9,14 @@ const libreBaskerville = Libre_Baskerville({
   weight: ['400', '700'],
   subsets: ['latin'],
   display: 'swap',
+});
+
+const cormorant = Cormorant_Garamond({
+  weight: ['300', '400', '600', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-cormorant',
 });
 
 export const metadata: Metadata = {
@@ -65,7 +73,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${libreBaskerville.className} antialiased`}>
+      <body className={`${libreBaskerville.className} ${cormorant.variable} antialiased`}>
         <ThemeProvider />
         {/* JSON-LD Organization */}
         <Script id="ld-org" type="application/ld+json" strategy="afterInteractive">

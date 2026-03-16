@@ -19,8 +19,8 @@ export default function SectionHeader({ title, subtitle, eyebrow, align = "left"
       {...props}
     >
       {eyebrow && (
-        <p className={cn("text-xs font-semibold uppercase tracking-widest text-primary/70 flex items-center gap-2", align === "center" && "justify-center")}>
-          <span className="inline-block w-5 h-px bg-primary/40 rounded-full" />
+        <p className={cn("text-xs font-semibold uppercase tracking-[0.22em] text-[#B08D57] flex items-center gap-2", align === "center" && "justify-center")}>
+          <span className="inline-block w-5 h-px bg-[#B08D57]/40 rounded-full" />
           {eyebrow}
         </p>
       )}
