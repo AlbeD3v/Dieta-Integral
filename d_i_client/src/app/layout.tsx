@@ -96,7 +96,7 @@ export default function RootLayout({
           })}
         </Script>
         <Header />
-        <main className="pt-[88px] md:pt-[72px]">
+        <main>
           {children}
         </main>
       </body>
