@@ -2,21 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Menu, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Menu, X, Youtube } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -35,57 +25,51 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="fixed w-full top-0 z-50">
-      <div className="w-full bg-[linear-gradient(130deg,#1B4332_0%,#2D6A4F_25%,#40916C_50%,#2D6A4F_75%,#1B4332_100%)]">
-        <div className={`container mx-auto px-6 flex flex-col md:flex-row justify-between items-center ${isScrolled ? 'h-14 md:h-14' : 'h-22 md:h-18'}`}>
-          <div className="flex items-center justify-between w-full md:w-auto h-full">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/imagen_logo_svg.svg"
-                alt="Dieta Integral Logo"
-                width={40}
-                height={40}
-                priority
-                className={`transition-all duration-300 ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'}`}
-              />
-              <span className={`ml-3 font-black tracking-wide text-white hover:text-white/80 transition-all duration-300 uppercase ${isScrolled ? 'text-lg' : 'text-xl'}`}>
-                Dieta
-                <span className="text-white ml-1">
-                  Integral
-                </span>
-              </span>
-            </Link>
-            
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-white hover:text-white/80"
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-menu"
-              aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            >
-              <Menu size={24} />
-            </button>
-          </div>
+    <header className="w-full border-b bg-background">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/imagen_logo_svg.svg"
+              alt="Dieta Integral Logo"
+              width={40}
+              height={40}
+              priority
+              className="w-10 h-10"
+            />
+            <span className="ml-3 font-black tracking-wider text-primary group-hover:text-primary/80 transition-colors uppercase text-2xl">
+              Dieta <span className="ml-1">Integral</span>
+            </span>
+          </Link>
 
-          <nav className="hidden md:flex flex-col md:flex-row items-center space-y-4 font-bold md:space-y-0 md:space-x-6 mt-4 md:mt-0">
-            {/* Orden requerido: Blog, Servicios, Sobre mí, Contacto. Inicio oculto; demás ocultos por ahora. */}
-            <Link href="/articulos" className="text-white hover:text-white/80 transition-all duration-300">Blog</Link>
-            <Link href="/servicios" className="text-white hover:text-white/80 transition-all duration-300">Servicios</Link>
-            <Link href="/sobre-mi" className="text-white hover:text-white/80 transition-all duration-300">Sobre mí</Link>
-            <Link href="/contacto" className="text-white hover:text-white/80 transition-all duration-300">Contacto</Link>
+          <nav className="hidden md:flex items-center font-semibold space-x-8">
+            <Link href="/articulos" className="relative pb-1 text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-full">Blog</Link>
+            <Link href="/servicios" className="relative pb-1 text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-full">Servicios</Link>
+            <Link href="/sobre-mi" className="relative pb-1 text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-full">Sobre mí</Link>
+            <Link href="/contacto" className="relative pb-1 text-foreground hover:text-primary transition-colors after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-full">Contacto</Link>
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4 mt-4 md:mt-0">
-            <Link href="https://www.facebook.com/profile.php?id=61580212888512" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
-              <Facebook size={isScrolled ? 20 : 24} className="transition-all duration-300" />
+          <div className="hidden md:flex items-center space-x-4">
+            <Link href="https://www.facebook.com/profile.php?id=61580212888512" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Facebook size={20} />
             </Link>
-            <Link href="https://www.instagram.com/aleserrano_dietaintegral/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
-              <Instagram size={isScrolled ? 20 : 24} className="transition-all duration-300" />
+            <Link href="https://www.instagram.com/aleserrano_dietaintegral/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Instagram size={20} />
             </Link>
-            <Link href="https://youtube.com/@aleserrano-dietaintegral?si=1wLnpBcGUE5TngmR" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-all duration-300">
-              <Youtube size={isScrolled ? 20 : 24} className="transition-all duration-300" />
+            <Link href="https://youtube.com/@aleserrano-dietaintegral?si=1wLnpBcGUE5TngmR" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Youtube size={20} />
             </Link>
           </div>
+
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-foreground hover:text-primary p-2"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 
@@ -103,53 +87,60 @@ const Header = () => {
             role="dialog"
             aria-modal="true"
             className={`fixed md:hidden w-full bg-background border-t border-border transition-transform duration-200 ease-out ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}
-            style={{
-              top: isScrolled ? '47px' : '63px',
-              height: `calc(100vh - ${isScrolled ? '47px' : '63px'})`,
-            }}>
-            <nav className="flex flex-col items-center justify-between min-h-full py-8 px-6">
-            <div className="flex flex-col items-center space-y-8">
+            style={{ top: 0, height: '100vh' }}>
+            {/* Top bar inside panel */}
+            <div className="flex items-center justify-between px-6 h-16 border-b">
+              <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+                <Image src="/imagen_logo_svg.svg" alt="Logo" width={28} height={28} className="w-7 h-7" />
+                <span className="ml-2 font-extrabold tracking-wide text-primary uppercase">Dieta Integral</span>
+              </Link>
+              <button aria-label="Cerrar menú" className="p-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                <X size={22} />
+              </button>
+            </div>
+            <nav className="flex flex-col items-center justify-between min-h-[calc(100vh-4rem)] py-8 px-6">
+            <div className="flex flex-col items-center space-y-7">
               {/* Inicio oculto; demás rutas pendientes ocultas */}
               <Link href="/articulos" 
-                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
+                    className="relative text-foreground hover:text-primary text-2xl font-extrabold tracking-wide transition-colors pb-1 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-10"
                     onClick={() => setIsMenuOpen(false)}>
                 Blog
               </Link>
               <Link href="/servicios" 
-                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
+                    className="relative text-foreground hover:text-primary text-2xl font-extrabold tracking-wide transition-colors pb-1 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-10"
                     onClick={() => setIsMenuOpen(false)}>
                 Servicios
               </Link>
               <Link href="/sobre-mi" 
-                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
+                    className="relative text-foreground hover:text-primary text-2xl font-extrabold tracking-wide transition-colors pb-1 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-10"
                     onClick={() => setIsMenuOpen(false)}>
                 Sobre mí
               </Link>
               <Link href="/contacto" 
-                    className="text-foreground hover:text-primary text-xl font-semibold transition-colors"
+                    className="relative text-foreground hover:text-primary text-2xl font-extrabold tracking-wide transition-colors pb-1 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-10"
                     onClick={() => setIsMenuOpen(false)}>
                 Contacto
               </Link>
             </div>
             
-            <div className="flex items-center space-x-6 mb-8 text-muted-foreground">
+            <div className="flex items-center space-x-8 mb-8 text-muted-foreground">
               <Link href="https://www.facebook.com/profile.php?id=61580212888512" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-primary transition-colors">
-                <Facebook size={24} />
+                <Facebook size={26} />
               </Link>
               <Link href="https://www.instagram.com/aleserrano_dietaintegral/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-primary transition-colors">
-                <Instagram size={24} />
+                <Instagram size={26} />
               </Link>
               <Link href="https://youtube.com/@aleserrano-dietaintegral?si=1wLnpBcGUE5TngmR" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-primary transition-colors">
-                <Youtube size={24} />
+                <Youtube size={26} />
               </Link>
             </div>
             </nav>

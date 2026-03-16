@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import { Button } from "@shared" 
 import Link from 'next/link';
+import { normalizeImageUrl } from '@/utils/image'
+import { formatDateES } from '@/utils/date'
+import { CategoryBadge } from '@dieta/shared-ui'
 
 interface ArticleCardProps {
   title: string;
@@ -15,8 +18,8 @@ interface ArticleCardProps {
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, images = [], articleUrl, publicationDate, category, categoryColor, categorySlug }) => {
   const cover = Array.isArray(images) && images.length > 0 ? String(images[0]) : '/imagen_logo_svg.svg'
-  const src = cover.startsWith('http') || cover.startsWith('/') ? cover : `/${cover}`
-  const dateText = publicationDate ? new Date(publicationDate).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : ''
+  const src = normalizeImageUrl(cover)
+  const dateText = formatDateES(publicationDate || '')
   return (
     <div className="group relative rounded-xl border bg-card h-full flex flex-col overflow-hidden transition-colors transition-shadow shadow-sm hover:shadow-md hover:border-primary/40">
       <Link href={articleUrl} className="absolute inset-0 z-10" aria-label={`Leer artículo: ${title}`} />
@@ -28,22 +31,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, images = 
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
-        {categorySlug ? (
-          <Link href={`/articulos/categoria/${encodeURIComponent(categorySlug)}`}
-            className="absolute top-2 left-2 z-20 inline-flex items-center rounded-full border bg-background/80 backdrop-blur-sm px-2 py-0.5 text-[10px] font-medium hover:opacity-90"
-            style={categoryColor ? { backgroundColor: categoryColor, borderColor: categoryColor, color: '#0a0a0a' } : undefined}
-            onClick={(e)=> e.stopPropagation()}
-          >
-            {category ?? 'Artículo'}
-          </Link>
-        ) : (
-          <span
-            className="absolute top-2 left-2 z-10 inline-flex items-center rounded-full border bg-background/80 backdrop-blur-sm px-2 py-0.5 text-[10px] font-medium"
-            style={categoryColor ? { backgroundColor: categoryColor, borderColor: categoryColor, color: '#0a0a0a' } : undefined}
-          >
-            {category ?? 'Artículo'}
-          </span>
-        )}
+        <CategoryBadge name={category} color={categoryColor} slug={categorySlug} />
         {Array.isArray(images) && images.length > 1 && (
           <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
             +{images.length - 1} fotos

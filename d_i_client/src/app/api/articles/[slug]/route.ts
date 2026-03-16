@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { withCORS, preflight } from '@/lib/cors'
+import { ok, badRequest, notFound as notFoundResp, noContent, serverError } from '@/utils/api'
+ import { pickString, parseDate, ArticleUpdateSchema, formatZodError } from '@/utils/validate'
 
 export const runtime = 'nodejs'
 
@@ -12,10 +14,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
   try {
     const { slug } = await params
     const item = await prisma.article.findUnique({ where: { slug } })
-    if (!item) return withCORS(req, NextResponse.json({ error: 'not found' }, { status: 404 }))
-    return withCORS(req, NextResponse.json(item))
-  } catch {
-    return withCORS(req, NextResponse.json({ ok: false, error: 'unavailable' }))
+    if (!item) return notFoundResp(req)
+    return ok(req, item)
+  } catch (e) {
+    return serverError(req, e, 'unavailable')
   }
 }
 
@@ -26,20 +28,24 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ slug
     try {
       body = await req.json()
     } catch {
-      return withCORS(req, NextResponse.json({ error: 'invalid json' }, { status: 400 }))
+      return badRequest(req, 'invalid json')
     }
-    const pick = (v: any, len: number) => (v === undefined || v === null ? undefined : String(v).slice(0, len))
+    const parsed = ArticleUpdateSchema.safeParse(body)
+    if (!parsed.success) {
+      return badRequest(req, formatZodError(parsed.error))
+    }
     const data: any = {}
-    const title = pick(body?.title, 191); if (title !== undefined) data.title = title
-    const summary = pick(body?.summary, 500); if (summary !== undefined) data.summary = summary
-    const content = pick(body?.content, 50000); if (content !== undefined) data.content = content
-    const category = pick(body?.category, 100); if (category !== undefined) data.category = category
-    if (body?.status !== undefined) data.status = String(body.status).toLowerCase() === 'published' ? 'published' : 'draft'
-    if (Array.isArray(body?.images)) data.images = body.images.slice(0,10).map((s: any) => String(s).slice(0,500))
-    if (body?.publicationDate !== undefined) data.publicationDate = body.publicationDate ? new Date(String(body.publicationDate)) : null
+    const { title, summary, content, category, status, images, publicationDate: pubIn } = parsed.data
+    if (title !== undefined) data.title = title
+    if (summary !== undefined) data.summary = summary
+    if (content !== undefined) data.content = content
+    if (category !== undefined) data.category = category
+    if (status !== undefined) data.status = status
+    if (images !== undefined) data.images = images
+    if (pubIn !== undefined) data.publicationDate = parseDate(pubIn)
 
     // Optional: allow slug change with uniqueness check
-    const newSlugRaw = pick(body?.slug, 191)
+    const newSlugRaw = pickString(parsed.data?.slug, 191)
     if (newSlugRaw && newSlugRaw !== currentSlug) {
       const base = newSlugRaw.toLowerCase().trim().normalize('NFD').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'')
       let newSlug = base || currentSlug
@@ -51,9 +57,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ slug
     }
 
     const updated = await prisma.article.update({ where: { slug: currentSlug }, data })
-    return withCORS(req, NextResponse.json(updated))
-  } catch {
-    return withCORS(req, NextResponse.json({ ok: false, error: 'unable to update' }))
+    return ok(req, updated)
+  } catch (e) {
+    return serverError(req, e, 'unable to update')
   }
 }
 
@@ -61,8 +67,8 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ s
   try {
     const { slug } = await params
     await prisma.article.delete({ where: { slug } })
-    return withCORS(req, new NextResponse(null, { status: 204 }))
-  } catch {
-    return withCORS(req, NextResponse.json({ ok: false, error: 'unable to delete' }))
+    return noContent(req)
+  } catch (e) {
+    return serverError(req, e, 'unable to delete')
   }
 }

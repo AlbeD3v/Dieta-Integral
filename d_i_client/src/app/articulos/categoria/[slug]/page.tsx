@@ -5,24 +5,39 @@ import Container from '@/shared/ui/Container'
 import SectionHeader from '@/shared/ui/SectionHeader'
 import { ArticleCard } from '@domains/articles'
 import Link from 'next/link'
+import type { ArticleDTO, CategoryDTO } from '@dieta/shared-types'
+import prisma from '@/lib/prisma'
+import { buildCanonicalMeta } from '@/utils/seo'
 
-async function fetchArticlesBySlug(slug: string) {
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const slug = decodeURIComponent(params.slug)
+  try {
+    const cat = await prisma.category.findUnique({ where: { slug }, select: { name: true } })
+    const title = cat?.name ? `Artículos: ${cat.name} | Dieta Integral` : `Artículos por categoría | Dieta Integral`
+    const description = cat?.name ? `Explora artículos en ${cat.name}.` : 'Explora artículos por categoría.'
+    return buildCanonicalMeta({ title, description, path: `/articulos/categoria/${slug}` })
+  } catch {
+    return buildCanonicalMeta({ title: 'Artículos por categoría | Dieta Integral', description: 'Explora artículos por categoría.', path: `/articulos/categoria/${slug}` })
+  }
+}
+
+async function fetchArticlesBySlug(slug: string): Promise<ArticleDTO[]> {
   try {
     const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
     const res = await fetch(`${base}/api/articles?status=published&categorySlug=${encodeURIComponent(slug)}&page=1&pageSize=24`, { cache: 'no-store' })
     if (!res.ok) throw new Error('bad status')
     const data = await res.json()
-    return Array.isArray(data?.items) ? data.items : []
+    return Array.isArray(data?.items) ? (data.items as ArticleDTO[]) : []
   } catch { return [] }
 }
 
-async function fetchCategories() {
+async function fetchCategories(): Promise<CategoryDTO[]> {
   try {
     const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
     const res = await fetch(`${base}/api/categories`, { cache: 'no-store' })
     if (!res.ok) return []
     const data = await res.json()
-    return Array.isArray(data?.items) ? data.items : []
+    return Array.isArray(data?.items) ? (data.items as CategoryDTO[]) : []
   } catch { return [] }
 }
 
@@ -32,7 +47,7 @@ export default async function CategoryArticlesPage({ params }: { params: { slug:
     fetchArticlesBySlug(slug),
     fetchCategories(),
   ])
-  const current = categories.find((c: any) => c.slug === slug)
+  const current = categories.find((c) => c.slug === slug)
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,17 +69,17 @@ export default async function CategoryArticlesPage({ params }: { params: { slug:
             <p className="text-sm text-muted-foreground text-center">No hay artículos publicados en esta categoría.</p>
           ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {articles.map((article: any) => (
+            {articles.map((article: ArticleDTO) => (
               <ArticleCard
                 key={article.id || article.slug}
                 title={article.title}
                 description={article.summary}
                 images={article.images}
                 articleUrl={`/articulos/${article.slug}`}
-                publicationDate={article.publicationDate}
-                category={article.categoryRef?.name || article.category}
-                categoryColor={article.categoryRef?.color}
-                categorySlug={article.categoryRef?.slug}
+                publicationDate={article.publicationDate as any}
+                category={article.categoryRef?.name ?? (article.category ?? undefined)}
+                categoryColor={article.categoryRef?.color ?? undefined}
+                categorySlug={article.categoryRef?.slug ?? undefined}
               />
             ))}
           </div>

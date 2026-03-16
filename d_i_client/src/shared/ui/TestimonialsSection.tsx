@@ -16,7 +16,6 @@ const TestimonialsSection: React.FC = () => {
   return (
     <section className="py-16 bg-muted/40">
       <div className="container mx-auto px-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">Testimonios</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t) => (
             <Card key={t.name}>

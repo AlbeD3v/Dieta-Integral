@@ -1,37 +1,33 @@
 "use client"
 import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-
-function buildQuery(params: Record<string, string | number | undefined>) {
-  const usp = new URLSearchParams()
-  Object.entries(params).forEach(([k, v]) => {
-    if (v !== undefined && v !== '') usp.set(k, String(v))
-  })
-  return usp.toString()
-}
+import { buildQuery, withPagination } from '../../../utils/http'
+import { apiGet } from '../../../utils/fetcher'
+import type { ArticleDTO, CategoryDTO } from '@dieta/shared-types'
+import { CategorySelect } from '@dieta/shared-ui'
 
 export default function ArticlesListPage() {
   const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
-  const [items, setItems] = useState<any[]>([])
+  const [items, setItems] = useState<ArticleDTO[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(12)
   const [q, setQ] = useState('')
   const [status, setStatus] = useState<'all' | 'draft' | 'published'>('all')
   const [category, setCategory] = useState('')
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<CategoryDTO[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const query = useMemo(() => buildQuery({ q, status, category, page, pageSize }), [q, status, category, page, pageSize])
+  const qp = withPagination({ q, status, category, page, pageSize })
+  const query = useMemo(() => buildQuery(qp as any), [qp])
 
   useEffect(() => {
     let cancelled = false
     setBusy(true)
     setError(null)
-    fetch(`${base}/api/articles?${query}`, { cache: 'no-store' })
-      .then(r => r.json())
-      .then((data) => {
+    apiGet(`${'/api/articles'}?${query}`)
+      .then((data: { items: ArticleDTO[]; total: number; page: number; pageSize: number }) => {
         if (cancelled) return
         setItems(data.items || [])
         setTotal(data.total || 0)
@@ -46,11 +42,10 @@ export default function ArticlesListPage() {
   // Load categories for filter
   useEffect(() => {
     let cancelled = false
-    fetch(`${base}/api/categories`, { cache: 'no-store' })
-      .then(r => r.json())
+    apiGet(`/api/categories`)
       .then((d) => {
         if (cancelled) return
-        const arr = Array.isArray(d?.categories) ? d.categories.filter((s: any) => !!s).map((s: any) => String(s)) : []
+        const arr: CategoryDTO[] = Array.isArray(d?.items) ? d.items : []
         setCategories(arr)
       })
       .catch(() => { /* ignore */ })
@@ -66,6 +61,20 @@ export default function ArticlesListPage() {
       alert('No se pudo borrar')
       return
     }
+    // Revalidate client pages after deletion
+    try {
+      fetch(`${base}/api/revalidate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''}`,
+        },
+        body: JSON.stringify({ paths: [
+          '/articulos',
+          `/articulos/${encodeURIComponent(slug)}`,
+        ] }),
+      }).catch(() => {})
+    } catch {}
     // reload current page
     const usp = new URLSearchParams(query)
     fetch(`${base}/api/articles?${usp.toString()}`, { cache: 'no-store' })
@@ -90,15 +99,13 @@ export default function ArticlesListPage() {
           <option value="draft">Borradores</option>
           <option value="published">Publicados</option>
         </select>
-        <select className="border rounded p-2" value={category} onChange={(e) => { setPage(1); setCategory(e.target.value) }}>
-          <option value="">Todas las categorías</option>
-          {categories.map(c => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-          {categories.length === 0 && (
-            <option disabled value="">(Sin categorías)</option>
-          )}
-        </select>
+        <CategorySelect
+          items={categories}
+          value={category}
+          onChange={(v) => { setPage(1); setCategory(v) }}
+          allowEmpty
+          emptyLabel="Todas las categorías"
+        />
         <select className="border rounded p-2" value={pageSize} onChange={(e) => setPageSize(Number(e.target.value))}>
           {[6,12,24,48].map(n => <option key={n} value={n}>{n} por página</option>)}
         </select>

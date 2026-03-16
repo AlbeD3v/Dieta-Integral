@@ -1,0 +1,67 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: dieta_db
+      MYSQL_USER: dieta_user
+      MYSQL_PASSWORD: dieta_pass
+      MYSQL_ROOT_PASSWORD: rootpass
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    
+
+  client:
+    build:
+      context: ./d_i_client
+      dockerfile: Dockerfile
+    command: sh -c "npx prisma migrate deploy || true && npm run dev"
+    working_dir: /app
+    environment:
+      DATABASE_URL: mysql://dieta_user:dieta_pass@db:3306/dieta_db
+      YT_API_KEY: ${YT_API_KEY:-}
+      YT_CHANNEL_ID: ${YT_CHANNEL_ID:-}
+      NEXT_PUBLIC_REVALIDATE_TOKEN: ${NEXT_PUBLIC_REVALIDATE_TOKEN:-}
+      NEXT_REVALIDATE_TOKEN: ${NEXT_REVALIDATE_TOKEN:-}
+      NEXT_TELEMETRY_DISABLED: '1'
+    volumes:
+      - ./d_i_client:/app
+      - ./packages:/packages
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy 
+
+  admin:
+    build:
+      context: ./d_i_admin
+      dockerfile: Dockerfile
+    command: sh -c "npm run dev"
+    working_dir: /app
+    environment:
+      DATABASE_URL: mysql://dieta_user:dieta_pass@db:3306/dieta_db
+      NEXT_TELEMETRY_DISABLED: '1'
+    volumes:
+      - ./d_i_admin:/app
+      - ./packages:/packages
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3001:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
