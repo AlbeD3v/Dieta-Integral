@@ -4,10 +4,11 @@ import { cn } from "@/lib/utils";
 export interface SectionHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   subtitle?: string;
+  eyebrow?: string;
   align?: "left" | "center";
 }
 
-export default function SectionHeader({ title, subtitle, align = "left", className, ...props }: SectionHeaderProps) {
+export default function SectionHeader({ title, subtitle, eyebrow, align = "left", className, ...props }: SectionHeaderProps) {
   return (
     <div
       className={cn(
@@ -17,9 +18,15 @@ export default function SectionHeader({ title, subtitle, align = "left", classNa
       )}
       {...props}
     >
-      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h2>
+      {eyebrow && (
+        <p className={cn("text-xs font-semibold uppercase tracking-widest text-primary/70 flex items-center gap-2", align === "center" && "justify-center")}>
+          <span className="inline-block w-5 h-px bg-primary/40 rounded-full" />
+          {eyebrow}
+        </p>
+      )}
+      <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h2>
       {subtitle ? (
-        <p className="text-muted-foreground max-w-prose md:mx-auto">{subtitle}</p>
+        <p className={cn("text-muted-foreground max-w-prose", align === "center" && "mx-auto")}>{subtitle}</p>
       ) : null}
     </div>
   );

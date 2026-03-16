@@ -1,5 +1,6 @@
 "use client";
 import React from 'react'
+import { Youtube } from 'lucide-react'
 
 type Props = {
   videos?: string[] // IDs o URLs públicas de YouTube
@@ -43,41 +44,44 @@ export default function YouTubeSection({ videos = [] }: Props) {
   const hasVideos = Array.isArray(videos) && videos.length > 0
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hasVideos ? (
-            videos.map((v) => {
-              const id = extractYouTubeId(v)
-              if (!id) return (
-                <div key={v} className="aspect-video bg-muted rounded-xl border flex items-center justify-center text-muted-foreground">
-                  Video inválido
-                </div>
-              )
-              return (
-                <div key={v} className="w-full rounded-xl border overflow-hidden bg-background">
-                  <div className="relative w-full aspect-video">
-                    <iframe
-                      className="absolute inset-0 w-full h-full"
-                      src={`https://www.youtube-nocookie.com/embed/${id}`}
-                      title="YouTube video"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
-              )
-            })
-          ) : (
-            [1,2,3].map((i) => (
-              <div key={i} className="aspect-video bg-muted rounded-xl border flex items-center justify-center text-muted-foreground">
-                Video {i}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {hasVideos ? (
+        videos.map((v) => {
+          const id = extractYouTubeId(v)
+          if (!id) return (
+            <div key={v} className="aspect-video rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3">
+              <Youtube className="w-6 h-6 text-primary/30" />
+              <span className="text-xs text-muted-foreground/50">Video inválido</span>
+            </div>
+          )
+          return (
+            <div key={v} className="rounded-2xl overflow-hidden border border-border/50 shadow-sm bg-card hover:shadow-md transition-shadow duration-300">
+              <div className="relative w-full aspect-video">
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src={`https://www.youtube-nocookie.com/embed/${id}`}
+                  title="YouTube video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
               </div>
-            ))
-          )}
-        </div>
-      </div>
-    </section>
+            </div>
+          )
+        })
+      ) : (
+        [1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="aspect-video rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3"
+          >
+            <div className="w-12 h-12 rounded-full bg-[#1B4332]/10 flex items-center justify-center">
+              <Youtube className="w-5 h-5 text-primary/40" />
+            </div>
+            <p className="text-xs text-muted-foreground/50 font-medium">Próximamente</p>
+          </div>
+        ))
+      )}
+    </div>
   )
 }

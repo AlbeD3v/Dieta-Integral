@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { Button } from "@shared" 
 import Link from 'next/link';
+import { ArrowRight, CalendarDays } from 'lucide-react';
 import { normalizeImageUrl } from '@/utils/image'
 import { formatDateES } from '@/utils/date'
 import { CategoryBadge } from '@dieta/shared-ui'
@@ -21,31 +21,51 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ title, description, images = 
   const src = normalizeImageUrl(cover)
   const dateText = formatDateES(publicationDate || '')
   return (
-    <div className="group relative rounded-xl border bg-card h-full flex flex-col overflow-hidden transition-colors transition-shadow shadow-sm hover:shadow-md hover:border-primary/40">
+    <div className="group relative rounded-2xl bg-card h-full flex flex-col overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border/50 hover:border-primary/30 hover:-translate-y-0.5">
       <Link href={articleUrl} className="absolute inset-0 z-10" aria-label={`Leer artículo: ${title}`} />
-      <div className="relative w-full h-40 overflow-hidden">
+
+      {/* Image with gradient overlay */}
+      <div className="relative w-full h-52 overflow-hidden flex-shrink-0">
         <Image
           src={src}
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
         <CategoryBadge name={category} color={categoryColor} slug={categorySlug} />
         {Array.isArray(images) && images.length > 1 && (
-          <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
+          <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 rounded-full text-xs font-medium">
             +{images.length - 1} fotos
           </div>
         )}
       </div>
-      <div className="p-4 md:p-5 flex flex-col flex-grow">
-        <div className="flex-grow space-y-2">
-          <h3 className="text-base md:text-lg font-semibold tracking-tight text-foreground underline-offset-4 group-hover:underline">{title}</h3>
-          <p className="text-xs text-muted-foreground">{dateText}</p>
-          <p className="text-sm text-muted-foreground mt-1 line-clamp-4 leading-relaxed">{description}</p>
-        </div>
-        <div className="mt-4 flex justify-end">
-          <span className="inline-block text-primary px-0 pointer-events-none select-none">Saber más…</span>
+
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-grow gap-3">
+        {/* Date */}
+        {dateText && (
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <CalendarDays className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>{dateText}</span>
+          </div>
+        )}
+
+        {/* Title */}
+        <h3 className="text-base md:text-[1.05rem] font-bold leading-snug tracking-tight text-foreground group-hover:text-primary transition-colors duration-200 line-clamp-2">
+          {title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 flex-grow">
+          {description}
+        </p>
+
+        {/* CTA */}
+        <div className="flex items-center gap-1.5 text-sm font-semibold text-primary mt-1 pointer-events-none select-none">
+          Leer artículo
+          <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
         </div>
       </div>
     </div>
