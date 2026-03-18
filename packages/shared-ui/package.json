@@ -10,6 +10,9 @@
       "default": "./src/index.ts"
     }
   },
+  "devDependencies": {
+    "next": ">=13"
+  },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18",
