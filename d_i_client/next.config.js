@@ -2,7 +2,7 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const securityHeaders = [
-  { key: 'X-Frame-Options',          value: 'SAMEORIGIN' },
+  { key: 'Content-Security-Policy',   value: "frame-ancestors 'self' https://dieta-integral-admin.vercel.app" },
   { key: 'X-Content-Type-Options',   value: 'nosniff' },
   { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy',       value: 'camera=(), microphone=(), geolocation=()' },
