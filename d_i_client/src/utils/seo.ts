@@ -13,12 +13,15 @@ export function buildCanonicalMeta({ title, description, path }: CanonicalArgs) 
 
 type OGArgs = { title: string; description: string; url: string; image?: string }
 export function buildOpenGraph({ title, description, url, image }: OGArgs) {
+  const ogImage = image || 'https://dietaintegral.fit/og-image.png'
   return {
     title,
     description,
     url,
+    siteName: 'Dieta Integral',
+    locale: 'es_ES',
     type: 'website',
-    images: image ? [{ url: image }] : [{ url: '/imagen_logo_svg.svg', alt: 'Dieta Integral' }],
+    images: [{ url: ogImage, alt: title, width: 1200, height: 630 }],
   }
 }
 
@@ -28,6 +31,6 @@ export function buildTwitter({ title, description, image }: TwArgs) {
     card: 'summary_large_image' as const,
     title,
     description,
-    images: [image || '/imagen_logo_svg.svg'],
+    images: [image || 'https://dietaintegral.fit/og-image.png'],
   }
 }

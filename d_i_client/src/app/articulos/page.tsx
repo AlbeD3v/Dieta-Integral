@@ -2,8 +2,8 @@ export const revalidate = 60
 import { buildCanonicalMeta } from '@/utils/seo'
 export async function generateMetadata() {
   return buildCanonicalMeta({
-    title: 'Artículos | Dieta Integral',
-    description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
+    title: 'Artículos sobre alimentación consciente, nutrición ancestral y salud integral',
+    description: 'Artículos sobre alimentación consciente, nutrición ancestral, ritmos circadianos, ayuno intermitente y hábitos saludables. Lecturas prácticas para transformar tu salud de forma integral.',
     path: '/articulos',
   })
 }

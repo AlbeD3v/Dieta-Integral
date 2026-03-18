@@ -13,11 +13,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const slug = decodeURIComponent(params.slug)
   try {
     const cat = await prisma.category.findUnique({ where: { slug }, select: { name: true } })
-    const title = cat?.name ? `Artículos: ${cat.name} | Dieta Integral` : `Artículos por categoría | Dieta Integral`
-    const description = cat?.name ? `Explora artículos en ${cat.name}.` : 'Explora artículos por categoría.'
+    const title = cat?.name ? `${cat.name} — Artículos sobre ${cat.name.toLowerCase()} y salud integral` : `Artículos por categoría | Dieta Integral`
+    const description = cat?.name ? `Artículos sobre ${cat.name.toLowerCase()}: lecturas prácticas sobre alimentación consciente, nutrición ancestral y hábitos saludables para mejorar tu bienestar de forma integral.` : 'Explora artículos por categoría sobre alimentación consciente, nutrición ancestral y salud integral.'
     return buildCanonicalMeta({ title, description, path: `/articulos/categoria/${slug}` })
   } catch {
-    return buildCanonicalMeta({ title: 'Artículos por categoría | Dieta Integral', description: 'Explora artículos por categoría.', path: `/articulos/categoria/${slug}` })
+    return buildCanonicalMeta({ title: 'Artículos por categoría | Dieta Integral', description: 'Explora artículos por categoría sobre alimentación consciente, nutrición ancestral y salud integral.', path: `/articulos/categoria/${slug}` })
   }
 }
 

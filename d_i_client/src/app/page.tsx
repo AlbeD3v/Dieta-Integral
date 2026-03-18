@@ -1,18 +1,19 @@
 export const metadata = {
-  title: 'Dieta Integral | Alimentación consciente',
-  description: 'Acompañamiento en hábitos y alimentación con enfoque ancestral y práctico. Artículos, reels y recursos para una vida más integral.',
+  title: 'Dieta Integral — Nutrición ancestral, ritmos circadianos y salud holística',
+  description: 'Transforma tu salud con un sistema integral: alimentación consciente, nutrición ancestral, ritmos circadianos, sueño reparador y hábitos saludables. Acompañamiento personalizado por Ale Serrano para optimizar tu energía, bienestar y claridad mental.',
   alternates: { canonical: 'https://dietaintegral.fit/' },
   openGraph: {
-    title: 'Dieta Integral',
-    description: 'Acompañamiento en hábitos y alimentación con enfoque ancestral y práctico.',
+    title: 'Dieta Integral — Alimentación consciente y salud holística',
+    description: 'Sistema integral de salud: nutrición ancestral, ritmos circadianos, sueño y hábitos. Acompañamiento personalizado para una vida con más energía y bienestar.',
     url: 'https://dietaintegral.fit/',
-    type: 'website'
+    type: 'website',
+    images: [{ url: 'https://dietaintegral.fit/og-image.png', width: 1200, height: 630, alt: 'Dieta Integral — Alimentación consciente y salud holística' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dieta Integral',
-    description: 'Acompañamiento en hábitos y alimentación con enfoque ancestral y práctico.',
-    images: ['/imagen_logo_svg.svg']
+    title: 'Dieta Integral — Alimentación consciente y salud holística',
+    description: 'Sistema integral: nutrición ancestral, ritmos circadianos, sueño y hábitos para optimizar tu salud.',
+    images: ['https://dietaintegral.fit/og-image.png'],
   }
 };
 import { AboutSection, NewsletterSection, ReelsSection, TestimonialsSection, Footer, YouTubeSection } from '@shared';

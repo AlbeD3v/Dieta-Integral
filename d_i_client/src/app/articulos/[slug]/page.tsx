@@ -13,12 +13,17 @@ import Script from 'next/script'
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   try {
-    const a = await prisma.article.findUnique({ where: { slug }, select: { title: true } })
-    const title = a?.title ? `${a.title} | Dieta Integral` : 'Artículo | Dieta Integral'
-    const description = 'Lectura clara y práctica para mejorar tu bienestar.'
-    return buildCanonicalMeta({ title, description, path: `/articulos/${slug}` })
+    const a = await prisma.article.findUnique({ where: { slug }, select: { title: true, summary: true, images: true } })
+    const title = a?.title ? `${a.title}` : 'Artículo | Dieta Integral'
+    const description = a?.summary || 'Lectura clara y práctica sobre alimentación consciente, nutrición ancestral y hábitos saludables para mejorar tu bienestar.'
+    const img = a?.images && Array.isArray(a.images) && a.images[0] ? String(a.images[0]) : undefined
+    const image = img?.startsWith('http') ? img : img ? `https://dietaintegral.fit${img}` : undefined
+    return {
+      ...buildCanonicalMeta({ title, description, path: `/articulos/${slug}` }),
+      ...(image ? { openGraph: { images: [{ url: image, alt: title }] } } : {}),
+    }
   } catch {
-    return buildCanonicalMeta({ title: 'Artículo | Dieta Integral', description: 'Lectura clara y práctica para mejorar tu bienestar.', path: `/articulos/${slug}` })
+    return buildCanonicalMeta({ title: 'Artículo | Dieta Integral', description: 'Lectura clara y práctica sobre alimentación consciente y nutrición ancestral para mejorar tu bienestar.', path: `/articulos/${slug}` })
   }
 }
 
@@ -28,17 +33,18 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     where: { slug },
     select: {
       title: true,
+      summary: true,
       content: true,
       images: true,
       publicationDate: true,
       status: true,
+      categoryRef: { select: { name: true } },
     },
   })
   if (!data || !data.content) return notFound()
 
   return (
     <div>
-      <Header />
       <main>
         <section className="relative h-96 mx-auto">
           <Image
@@ -64,26 +70,49 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           const url = `${base}/articulos/${slug}`
           const published = data.publicationDate ? new Date(String(data.publicationDate)).toISOString() : undefined
           const modified = new Date().toISOString()
+          const wordCount = data.content ? String(data.content).split(/\s+/).length : undefined
           const ld = {
             '@context': 'https://schema.org',
             '@type': 'Article',
             headline: data.title,
+            description: data.summary || undefined,
             datePublished: published,
             dateModified: modified,
             image: [imageUrl],
-            author: { '@type': 'Organization', name: 'Dieta Integral' },
+            wordCount,
+            inLanguage: 'es',
+            articleSection: data.categoryRef?.name || 'Salud integral',
+            author: {
+              '@type': 'Person',
+              name: 'Ale Serrano',
+              url: `${base}/sobre-mi`,
+            },
             publisher: {
               '@type': 'Organization',
               name: 'Dieta Integral',
-              logo: { '@type': 'ImageObject', url: `${base}/imagen_logo_svg.svg` }
+              logo: { '@type': 'ImageObject', url: `${base}/imagen_logo_svg.svg`, width: 512, height: 512 }
             },
             mainEntityOfPage: { '@type': 'WebPage', '@id': url },
             url,
           }
+          const breadcrumb = {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Inicio', item: base },
+              { '@type': 'ListItem', position: 2, name: 'Artículos', item: `${base}/articulos` },
+              { '@type': 'ListItem', position: 3, name: data.title, item: url },
+            ],
+          }
           return (
-            <Script id="ld-article" type="application/ld+json" strategy="afterInteractive">
-              {JSON.stringify(ld)}
-            </Script>
+            <>
+              <Script id="ld-article" type="application/ld+json" strategy="afterInteractive">
+                {JSON.stringify(ld)}
+              </Script>
+              <Script id="ld-breadcrumb" type="application/ld+json" strategy="afterInteractive">
+                {JSON.stringify(breadcrumb)}
+              </Script>
+            </>
           )
         })()}
         <section className="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-full md:max-w-[800px]">
