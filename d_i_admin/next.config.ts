@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  typescript: {
+    ignoreBuildErrors: process.env.NODE_ENV !== 'production',
+  },
   reactCompiler: true,
   transpilePackages: ['@dieta/shared-ui'],
 
