@@ -14,9 +14,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: process.env.NODE_ENV !== 'production',
   },
-  eslint: {
-    ignoreDuringBuilds: process.env.NODE_ENV !== 'production',
-  },
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }];
   },
