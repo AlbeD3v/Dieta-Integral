@@ -9,3 +9,7 @@ export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, C
 export { default as ReelsSection } from './ui/ReelsSection';
 export { default as TestimonialsSection } from './ui/TestimonialsSection';
 export { default as Breadcrumbs } from './ui/Breadcrumbs';
+export { CategoryBadge, CategorySelect } from '@dieta/shared-ui';
+export { default as SanitizedMarkdown } from './ui/SanitizedMarkdown';
+export { default as FacebookSection } from './ui/FacebookSection';
+export { default as YouTubeSection } from './ui/YouTubeSection';

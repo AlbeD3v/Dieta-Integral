@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Libre_Baskerville } from 'next/font/google';
+import Script from 'next/script';
 import "./globals.css";
 import { Header } from "@shared";
 import ThemeProvider from "./theme-provider";
 
-const libreBaskerville = Libre_Baskerville({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
   title: "Dieta Integral",
-  description: "Descubre una nueva forma de entender la nutrición y la salud a través de la Dieta Integral. Aprende sobre alimentación consciente y bienestar holístico.",
+  description: "Alimentación consciente y hábitos con enfoque ancestral y práctico. Recursos y acompañamiento para una vida más integral.",
   metadataBase: new URL('https://dietaintegral.fit'),
   icons: {
     icon: '/imagen_logo_svg.svg',
@@ -25,12 +19,15 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Dieta Integral',
-    description: 'Descubre una nueva forma de entender la nutrición y la salud a través de la Dieta Integral',
+    description: 'Alimentación consciente y hábitos con enfoque ancestral y práctico',
     url: 'https://dietaintegral.fit',
     siteName: 'Dieta Integral',
     images: [{
-      url: '/imagen_logo_svg.svg',
-      alt: 'Dieta Integral - Nutrición y Salud Holística'
+      url: 'https://dietaintegral.fit/imagen_logo_svg.svg',
+      alt: 'Dieta Integral — Alimentación consciente y hábitos',
+      width: 1200,
+      height: 630,
+      type: 'image/svg+xml',
     }],
     locale: 'es_ES',
     type: 'website',
@@ -38,8 +35,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary',
     title: 'Dieta Integral',
-    description: 'Nutrición y Salud Holística',
-    images: ['/imagen_logo_svg.svg']
+    description: 'Alimentación consciente y hábitos con enfoque ancestral y práctico',
+    images: ['https://dietaintegral.fit/imagen_logo_svg.svg']
   },
   robots: {
     index: true,
@@ -61,10 +58,38 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${libreBaskerville.className} antialiased`}>
+      <body className="antialiased">
         <ThemeProvider />
+        {/* JSON-LD Organization */}
+        <Script id="ld-org" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Dieta Integral",
+            "url": "https://dietaintegral.fit/",
+            "logo": "https://dietaintegral.fit/imagen_logo_svg.svg",
+            "sameAs": [
+              "https://www.instagram.com/aleserrano_dietaintegral/",
+              "https://youtube.com/@aleserrano-dietaintegral"
+            ]
+          })}
+        </Script>
+        {/* JSON-LD WebSite */}
+        <Script id="ld-website" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Dieta Integral",
+            "url": "https://dietaintegral.fit/",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://dietaintegral.fit/articulos?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })}
+        </Script>
         <Header />
-        <main className="pt-[88px] md:pt-[72px]">
+        <main>
           {children}
         </main>
       </body>

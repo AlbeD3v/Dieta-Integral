@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "workspaces": [
     "d_i_client",
-    "d_i_admin"
+    "d_i_admin",
+    "packages/*"
   ],
   "scripts": {
     "dev": "pnpm -C d_i_client dev",

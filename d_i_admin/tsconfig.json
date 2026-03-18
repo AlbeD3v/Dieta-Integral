@@ -19,7 +19,13 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@dieta/shared-types": [
+        "../packages/shared-types/src/index.ts"
+      ],
+      "@dieta/shared-ui": [
+        "../packages/shared-ui/src/index.ts"
+      ]
     }
   },
   "include": [

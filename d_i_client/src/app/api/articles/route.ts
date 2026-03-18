@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { withCORS, preflight } from '@/lib/cors'
+import { ok, created, badRequest, serverError } from '@/utils/api'
+import { ArticleCreateSchema, formatZodError, parseDate } from '@/utils/validate'
+import { rateLimit, ipKey } from '@/utils/rateLimit'
 
 export const runtime = 'nodejs'
 
@@ -10,6 +13,10 @@ export async function OPTIONS(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || undefined
+    if (!rateLimit(ipKey(ip, 'articles:get'), 120, 60_000)) {
+      return NextResponse.json({ error: 'rate limit' }, { status: 429 })
+    }
     const { searchParams } = new URL(req.url)
     const q = (searchParams.get('q') || '').trim()
     const status = (searchParams.get('status') || 'published').toLowerCase()
@@ -52,11 +59,10 @@ export async function GET(req: NextRequest) {
       }),
     ])
 
-    const resp = NextResponse.json({ items, page, pageSize, total })
-    return withCORS(req, resp)
+    return ok(req, { items, page, pageSize, total })
   } catch (e) {
     // Final fallback to avoid CORS masking when DB fails
-    return withCORS(req, NextResponse.json({ ok: false, items: [], page: 1, pageSize: 12, total: 0 }))
+    return serverError(req, e, 'unavailable')
   }
 }
 
@@ -65,19 +71,14 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json()
   } catch {
-    return withCORS(req, NextResponse.json({ error: 'invalid json' }, { status: 400 }))
+    return badRequest(req, 'invalid json')
   }
-  const pick = (v: any, len: number) => (v === undefined || v === null ? undefined : String(v).slice(0, len))
-  const title = pick(body?.title, 191)
-  const summary = pick(body?.summary, 500)
-  const content = pick(body?.content, 50000)
-  const category = pick(body?.category, 100)
-  const status = (pick(body?.status, 20) || 'draft').toLowerCase()
-  const images = Array.isArray(body?.images) ? body.images.slice(0, 10).map((s: any) => String(s).slice(0, 500)) : []
-  const slugBase = (pick(body?.slug, 191) || title || '').toLowerCase().trim()
-  if (!title || !summary || !content) {
-    return withCORS(req, NextResponse.json({ error: 'missing fields' }, { status: 400 }))
+  const parsed = ArticleCreateSchema.safeParse(body)
+  if (!parsed.success) {
+    return badRequest(req, formatZodError(parsed.error))
   }
+  const { title, summary, content, category, status, images, slug: providedSlug, publicationDate: pubIn } = parsed.data
+  const slugBase = (providedSlug || title).toLowerCase().trim()
   const base = slugBase
     .normalize('NFD').replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
   let slug = base || `articulo-${Date.now()}`
@@ -86,23 +87,22 @@ export async function POST(req: NextRequest) {
     while (await prisma.article.findUnique({ where: { slug } })) {
       slug = `${base}-${i++}`
     }
-    const publicationDate = body?.publicationDate ? new Date(String(body.publicationDate)) : null
-    const created = await prisma.article.create({
+    const publicationDate = parseDate(pubIn)
+    const item = await prisma.article.create({
       data: {
         title,
         summary,
         content,
         category,
-        status: status === 'published' ? 'published' : 'draft',
+        status,
         slug,
         images,
-        publicationDate: publicationDate && !isNaN(publicationDate.getTime()) ? publicationDate : undefined,
+        publicationDate: publicationDate === undefined ? undefined : publicationDate,
       },
       select: { id: true, slug: true },
     })
-    return withCORS(req, NextResponse.json(created, { status: 201 }))
+    return created(req, item)
   } catch (e: any) {
-    const message = typeof e?.message === 'string' ? e.message : 'unable to create article'
-    return withCORS(req, NextResponse.json({ ok: false, error: message }, { status: 500 }))
+    return serverError(req, e, 'unable to create article')
   }
 }

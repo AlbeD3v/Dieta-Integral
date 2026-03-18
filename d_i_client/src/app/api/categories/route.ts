@@ -1,21 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
+import { slugify } from '@/utils/slug'
 import { withCORS, preflight } from '@/lib/cors'
+import { ok, badRequest, created as createdResp, serverError } from '@/utils/api'
+import { CategoryCreateSchema, LegacyCategoriesSchema, formatZodError } from '@/utils/validate'
 
 export const runtime = 'nodejs'
-
-function slugify(input: string) {
-  const base = String(input || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$|_/g, '')
-  return base || `cat-${Date.now()}`
-}
 
 async function backfillFromSettingIfEmpty() {
   const count = await prisma.category.count()
@@ -58,27 +48,29 @@ export async function GET(req: NextRequest) {
       const legacy = Array.isArray(raw) ? raw.map(String) : []
       if (legacy.length) names = legacy
     }
-    return withCORS(req, NextResponse.json({ categories: names, items: list }))
+    return ok(req, { categories: names, items: list })
   } catch {
     // Fallback if prisma/category table is not available in the deployed DB yet
     try {
       const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
       const raw = setting?.value
       const names = Array.isArray(raw) ? raw.map(String) : []
-      return withCORS(req, NextResponse.json({ categories: names, items: [] }))
+      return ok(req, { categories: names, items: [] })
     } catch {
       // Final fallback: return empty list with 200 so clients don't fail hard due to CORS masking errors
-      return withCORS(req, NextResponse.json({ ok: false, categories: [], items: [], reason: 'categories unavailable' }))
+      return serverError(req, undefined, 'categories unavailable')
     }
   }
 }
 
 export async function POST(req: NextRequest) {
   let body: any
-  try { body = await req.json() } catch { return withCORS(req, NextResponse.json({ error: 'invalid json' }, { status: 400 })) }
+  try { body = await req.json() } catch { return badRequest(req, 'invalid json') }
   // Legacy mode: synchronize simple array of names
   if (Array.isArray(body?.categories)) {
-    const names = Array.from(new Set(body.categories.map((s: any) => String(s).trim()).filter(Boolean)))
+    const parsed = LegacyCategoriesSchema.safeParse(body)
+    if (!parsed.success) return badRequest(req, formatZodError(parsed.error))
+    const names = Array.from(new Set(parsed.data.categories.map((s: any) => String(s).trim()).filter(Boolean)))
     try {
       const existing = await prisma.category.findMany({ select: { id: true, name: true, slug: true } })
       const existingByName = new Map(existing.map(c => [c.name.toLowerCase(), c]))
@@ -95,7 +87,7 @@ export async function POST(req: NextRequest) {
           created.push(c)
         }
       }
-      return withCORS(req, NextResponse.json({ ok: true, createdCount: created.length }))
+      return ok(req, { ok: true, createdCount: created.length })
     } catch {
       // Fallback: persist legacy array into Setting('categories')
       try {
@@ -103,26 +95,26 @@ export async function POST(req: NextRequest) {
         const prev: string[] = Array.isArray(setting?.value) ? setting!.value as any : []
         const merged = Array.from(new Set([ ...prev.map(String), ...names ]))
         await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as any }, create: { id: 'categories', value: merged as any } })
-        return withCORS(req, NextResponse.json({ ok: true, createdCount: names.length, storage: 'setting' }))
+        return ok(req, { ok: true, createdCount: names.length, storage: 'setting' })
       } catch {
-        return withCORS(req, NextResponse.json({ error: 'unable to persist categories' }, { status: 500 }))
+        return serverError(req, undefined, 'unable to persist categories')
       }
     }
   }
 
   // New mode: create one object with fields
-  const name = String(body?.name || '').trim().slice(0,191)
-  let slug = String(body?.slug || '').trim().toLowerCase().slice(0,191)
-  const color = body?.color ? String(body.color).slice(0,32) : null
-  const order = Number.isFinite(Number(body?.order)) ? Number(body.order) : 0
-  if (!name) return withCORS(req, NextResponse.json({ error: 'name required' }, { status: 400 }))
+  const parsed = CategoryCreateSchema.safeParse(body)
+  if (!parsed.success) return badRequest(req, formatZodError(parsed.error))
+  const { name, color: colorIn, order } = parsed.data
+  let slug = (parsed.data.slug || '').trim().toLowerCase()
+  const color = colorIn ?? null
   if (!slug) slug = slugify(name)
   let base = slug
   let i = 1
   while (await prisma.category.findUnique({ where: { slug } })) slug = `${base}-${i++}`
   try {
     const created = await prisma.category.create({ data: { name, slug, color: color || undefined, order }, select: { id: true, name: true, slug: true, color: true, order: true } })
-    return withCORS(req, NextResponse.json(created, { status: 201 }))
+    return createdResp(req, created)
   } catch (e: any) {
     // Fallback: append name to Setting('categories') if table write fails
     try {
@@ -130,9 +122,9 @@ export async function POST(req: NextRequest) {
       const prev: string[] = Array.isArray(setting?.value) ? setting!.value as any : []
       const merged = Array.from(new Set([ ...prev.map(String), name ]))
       await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as any }, create: { id: 'categories', value: merged as any } })
-      return withCORS(req, NextResponse.json({ ok: true, id: null, name, slug, color, order, storage: 'setting' }, { status: 201 }))
+      return createdResp(req, { ok: true, id: null, name, slug, color, order, storage: 'setting' })
     } catch {
-      return withCORS(req, NextResponse.json({ error: 'unable to create' }, { status: 400 }))
+      return badRequest(req, 'unable to create')
     }
   }
 }

@@ -1,33 +1,23 @@
-export const dynamic = 'force-dynamic'
-export const fetchCache = 'force-no-store'
-export const revalidate = 0
-export const metadata = {
-  title: 'Artículos | Dieta Integral',
-  description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
-  alternates: { canonical: 'https://dietaintegral.fit/articulos' },
-  openGraph: {
+export const revalidate = 60
+import { buildCanonicalMeta } from '@/utils/seo'
+export async function generateMetadata() {
+  return buildCanonicalMeta({
     title: 'Artículos | Dieta Integral',
     description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
-    url: 'https://dietaintegral.fit/articulos',
-    type: 'website',
-    images: [{ url: '/imagen_logo_svg.svg', alt: 'Dieta Integral' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Artículos | Dieta Integral',
-    description: 'Lecturas claras y prácticas para mejorar tu bienestar.',
-    images: ['/imagen_logo_svg.svg'],
-  },
-};
+    path: '/articulos',
+  })
+}
 import React from 'react';
+import type { ArticleDTO, CategoryDTO } from '@dieta/shared-types'
 import { unstable_noStore as noStore } from 'next/cache'
 import prisma from '@/lib/prisma'
 import CategoryFilter from './CategoryFilter';
 import { ArticleCard } from '@domains/articles';
+import { FadeUp, StaggerGrid, StaggerItem } from '@/shared/ui/Motion';
 import Container from '@/shared/ui/Container';
 import SectionHeader from '@/shared/ui/SectionHeader';
 
-async function fetchArticles() {
+async function fetchArticles(): Promise<ArticleDTO[]> {
   noStore()
   const items = await prisma.article.findMany({
     where: { status: 'published' },
@@ -39,16 +29,16 @@ async function fetchArticles() {
       categoryRef: { select: { name: true, slug: true, color: true } },
     },
   })
-  return items
+  return items as unknown as ArticleDTO[]
 }
 
-async function fetchCategories() {
+async function fetchCategories(): Promise<CategoryDTO[]> {
   noStore()
   const cats = await prisma.category.findMany({
     orderBy: [{ order: 'asc' }, { name: 'asc' }],
     select: { id: true, name: true, slug: true, color: true, order: true },
   })
-  return cats
+  return cats as unknown as CategoryDTO[]
 }
 
 export default async function ArticlesPage() {
@@ -67,28 +57,29 @@ export default async function ArticlesPage() {
             align="center"
           />
 
-          <div className="max-w-5xl mx-auto mb-6">
+          <FadeUp className="max-w-5xl mx-auto mb-6">
             <CategoryFilter categories={categories} currentSlug={undefined} />
-          </div>
+          </FadeUp>
 
           {!articles.length ? (
             <p className="text-sm text-muted-foreground text-center">Aún no hay artículos publicados.</p>
           ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {articles.map((article: any) => (
-              <ArticleCard
-                key={article.id || article.slug}
-                title={article.title}
-                description={article.summary}
-                images={article.images}
-                articleUrl={`/articulos/${article.slug}`}
-                publicationDate={article.publicationDate}
-                category={article.categoryRef?.name || article.category}
-                categoryColor={article.categoryRef?.color}
-                categorySlug={article.categoryRef?.slug}
-              />
+          <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {articles.map((article: ArticleDTO) => (
+              <StaggerItem key={article.id || article.slug}>
+                <ArticleCard
+                  title={article.title}
+                  description={article.summary}
+                  images={article.images}
+                  articleUrl={`/articulos/${article.slug}`}
+                  publicationDate={article.publicationDate as any}
+                  category={article.categoryRef?.name ?? (article.category ?? undefined)}
+                  categoryColor={article.categoryRef?.color !== null && article.categoryRef?.color !== undefined ? article.categoryRef.color : undefined}
+                  categorySlug={article.categoryRef?.slug || undefined}
+                />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
           )}
         </Container>
       </main>

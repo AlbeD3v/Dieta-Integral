@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { withCORS, preflight } from '@/lib/cors';
+import { rateLimit, ipKey } from '@/utils/rateLimit';
 
 function isValidEmail(email: string): boolean {
   // Simple but practical validation
@@ -11,6 +12,13 @@ function isValidEmail(email: string): boolean {
 
 export async function GET(req: NextRequest) {
   try {
+    // Rate limit GET requests
+    const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || req.headers.get('x-real-ip') || undefined
+    const key = ipKey(ip as string);
+    const ok = await rateLimit(key, 60, 60_000); // 60 req/min per IP
+    if (!ok) {
+      return withCORS(req, NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 }));
+    }
     const { searchParams } = new URL(req.url);
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10) || 1);
     const pageSize = Math.min(100, Math.max(1, parseInt(searchParams.get('pageSize') || '10', 10) || 10));
@@ -44,6 +52,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit POST requests (tighter)
+    const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || req.headers.get('x-real-ip') || undefined
+    const key = ipKey(ip as string) + ':post';
+    const ok = await rateLimit(key, 10, 60_000); // 10 req/min per IP
+    if (!ok) {
+      return withCORS(req, NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 }));
+    }
     const body = await req.json().catch(() => ({}));
     const rawEmail = String(body?.email || '').trim().toLowerCase();
 

@@ -1,3 +1,20 @@
+export const metadata = {
+  title: 'Acerca de | Dieta Integral',
+  description: 'Conoce la historia y el enfoque detrás de Dieta Integral: alimentación consciente y hábitos con sentido práctico.',
+  alternates: { canonical: 'https://dietaintegral.fit/acerca-de' },
+  openGraph: {
+    title: 'Acerca de | Dieta Integral',
+    description: 'Historia y enfoque de Dieta Integral.',
+    url: 'https://dietaintegral.fit/acerca-de',
+    type: 'profile',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Acerca de | Dieta Integral',
+    description: 'Historia y enfoque de Dieta Integral.',
+    images: ['/imagen_logo_svg.svg'],
+  },
+} as const;
 import { Header, Footer } from '@shared';
 import Image from 'next/image';
 

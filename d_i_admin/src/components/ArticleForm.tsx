@@ -5,6 +5,9 @@ import MarkdownEditor from './MarkdownEditor'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
 import ImageUploader from './ImageUploader'
+import { slugify } from '../utils/slug'
+import type { CategoryDTO } from '@dieta/shared-types'
+import { CategorySelect } from '@dieta/shared-ui'
 
 type Article = {
   id?: string
@@ -23,16 +26,7 @@ type Props = {
   mode: 'create' | 'edit'
 }
 
-function slugify(s: string) {
-  return s
-    .toLowerCase()
-    .trim()
-    .normalize('NFD')
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-}
+// slugify moved to utils/slug
 
 export default function ArticleForm({ initial, mode }: Props) {
   const router = useRouter()
@@ -44,7 +38,7 @@ export default function ArticleForm({ initial, mode }: Props) {
   const [content, setContent] = useState(initial?.content || '')
   const [images, setImages] = useState<string[]>(initial?.images || [])
   const [category, setCategory] = useState(initial?.category || '')
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<CategoryDTO[]>([])
   const [catSelect, setCatSelect] = useState<string>('')
   const [status, setStatus] = useState<Article['status']>((initial?.status as any) || 'draft')
   const [publicationDate, setPublicationDate] = useState<string | ''>(initial?.publicationDate ? String(initial.publicationDate).slice(0,10) : '')
@@ -66,10 +60,11 @@ export default function ArticleForm({ initial, mode }: Props) {
       .then(r => r.json())
       .then((d) => {
         if (cancelled) return
-        const arr = Array.isArray(d?.categories) ? d.categories.filter((s: any) => !!s).map((s: any) => String(s)) : []
+        const arr: CategoryDTO[] = Array.isArray(d?.items) ? d.items : []
         setCategories(arr)
         const normalized = String(initial?.category || '').trim()
-        setCatSelect(arr.includes(normalized) || normalized === '' ? normalized : 'custom')
+        const exists = arr.some(c => c.name === normalized)
+        setCatSelect(exists ? normalized : (normalized ? 'custom' : ''))
       })
       .catch(() => {
         const normalized = String(initial?.category || '').trim()
@@ -102,6 +97,20 @@ export default function ArticleForm({ initial, mode }: Props) {
       if (!resp.ok) throw new Error(data?.error || `Error ${resp.status}`)
       setOk('Guardado')
       const targetSlug = String(data?.slug || payload.slug)
+      // Fire and forget revalidation on client app
+      try {
+        fetch(`${base}/api/revalidate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''}`,
+          },
+          body: JSON.stringify({ paths: [
+            '/articulos',
+            `/articulos/${encodeURIComponent(targetSlug)}`,
+          ] }),
+        }).catch(() => {})
+      } catch {}
       router.push(`/articles/${encodeURIComponent(targetSlug)}`)
       router.refresh()
     } catch (e: any) {
@@ -132,32 +141,28 @@ export default function ArticleForm({ initial, mode }: Props) {
         <div>
           <label className="block text-sm font-medium mb-1">Categoría</label>
           <div className="flex flex-col gap-2">
-            <select
-              className="w-full border rounded p-2"
-              value={catSelect}
-              onChange={(e) => {
-                const v = e.target.value
-                setCatSelect(v)
-                if (v === '' || v === 'custom') {
-                  if (v === '') setCategory('')
-                } else {
-                  setCategory(v)
-                }
-              }}
-            >
-              <option value="">Sin categoría</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-              <option value="custom">Otra…</option>
-            </select>
-            {catSelect === 'custom' && (
-              <input
-                className="w-full border rounded p-2"
-                value={category || ''}
-                onChange={(e)=>setCategory(e.target.value)}
-                placeholder="Escribe una categoría"
-              />
+            {catSelect !== 'custom' ? (
+              <div className="flex items-center gap-2">
+                <CategorySelect
+                  items={categories}
+                  value={catSelect}
+                  onChange={(v) => { setCatSelect(v); setCategory(v) }}
+                  allowEmpty
+                  emptyLabel="Sin categoría"
+                  className="w-full border rounded p-2"
+                />
+                <button type="button" className="text-xs underline" onClick={()=> { setCatSelect('custom'); setCategory('') }}>Otra…</button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 w-full">
+                <input
+                  className="w-full border rounded p-2"
+                  value={category || ''}
+                  onChange={(e)=>setCategory(e.target.value)}
+                  placeholder="Escribe una categoría"
+                />
+                <button type="button" className="text-xs underline" onClick={()=> { setCatSelect(''); setCategory('') }}>Usar lista</button>
+              </div>
             )}
           </div>
         </div>

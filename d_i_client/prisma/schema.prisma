@@ -38,6 +38,9 @@ model Article {
   publicationDate DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  @@index([status, publicationDate])
+  @@index([categoryId])
 }
 
 model Category {
