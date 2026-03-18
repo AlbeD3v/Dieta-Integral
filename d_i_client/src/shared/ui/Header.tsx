@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Menu, X, Youtube, Leaf } from 'lucide-react';
-import { useState, useEffect, Fragment } from 'react';
+import { Fragment } from 'react';
+import { useScrolled } from '@/shared/hooks/useScrolled';
+import { useMenuOpen } from '@/shared/hooks/useMenuOpen';
 
 const navLinks = [
   { href: '/articulos', label: 'Blog' },
@@ -13,24 +15,8 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsMenuOpen(false); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  const scrolled = useScrolled(20);
+  const { isOpen: isMenuOpen, close: closeMenu, toggle: toggleMenu } = useMenuOpen();
 
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-200 ${scrolled ? 'bg-background/95 backdrop-blur-md shadow-sm' : 'bg-background'} border-b border-border/60`}>
@@ -108,7 +94,7 @@ const Header = () => {
 
           {/* ── Mobile hamburger ─────────────────────────── */}
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={toggleMenu}
             className="md:hidden text-foreground hover:text-primary p-2 -mr-1"
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
@@ -126,7 +112,7 @@ const Header = () => {
           <div
             className="fixed inset-0 bg-black/40 backdrop-blur-[1px] md:hidden"
             aria-hidden="true"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={closeMenu}
           />
           <div
             id="mobile-menu"
@@ -139,14 +125,15 @@ const Header = () => {
 
             {/* Panel top bar */}
             <div className="flex items-center justify-between px-6 h-16 border-b border-border/40">
-              <Link href="/" className="flex items-center gap-2.5" onClick={() => setIsMenuOpen(false)} aria-label="Inicio">
+              <Link href="/" className="flex items-center gap-2.5" onClick={closeMenu}
+                aria-label="Inicio">
                 <Image src="/imagen_logo_svg.svg" alt="Logo" width={28} height={28} className="w-7 h-7" />
                 <div className="flex items-baseline gap-1.5 leading-none">
                   <span className="font-brand text-[0.95rem] font-light italic tracking-[0.28em] uppercase text-[#B08D57]">Dieta</span>
                   <span className="font-brand text-[1.2rem] font-bold tracking-[0.05em] uppercase text-[#1B4332]">Integral</span>
                 </div>
               </Link>
-              <button aria-label="Cerrar menú" className="p-2 text-foreground hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+              <button aria-label="Cerrar menú" className="p-2 text-foreground hover:text-primary" onClick={closeMenu}>
                 <X size={22} />
               </button>
             </div>
@@ -158,7 +145,7 @@ const Header = () => {
                     key={href}
                     href={href}
                     className="text-[0.85rem] font-bold uppercase tracking-[0.32em] text-foreground/65 hover:text-primary transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={closeMenu}
                   >
                     {label}
                   </Link>
@@ -166,7 +153,7 @@ const Header = () => {
                 <Link
                   href="/planes"
                   className="mt-2 inline-flex items-center gap-2 rounded-xl bg-[#1B4332] px-8 py-3.5 text-[0.72rem] font-bold uppercase tracking-[0.18em] text-white hover:bg-[#2D6A4F] transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={closeMenu}
                 >
                   <Leaf className="w-4 h-4" />
                   Comenzar

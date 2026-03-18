@@ -13,6 +13,7 @@ import { unstable_noStore as noStore } from 'next/cache'
 import prisma from '@/lib/prisma'
 import CategoryFilter from './CategoryFilter';
 import { ArticleCard } from '@domains/articles';
+import { FadeUp, StaggerGrid, StaggerItem } from '@/shared/ui/Motion';
 import Container from '@/shared/ui/Container';
 import SectionHeader from '@/shared/ui/SectionHeader';
 
@@ -56,28 +57,29 @@ export default async function ArticlesPage() {
             align="center"
           />
 
-          <div className="max-w-5xl mx-auto mb-6">
+          <FadeUp className="max-w-5xl mx-auto mb-6">
             <CategoryFilter categories={categories} currentSlug={undefined} />
-          </div>
+          </FadeUp>
 
           {!articles.length ? (
             <p className="text-sm text-muted-foreground text-center">Aún no hay artículos publicados.</p>
           ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {articles.map((article: ArticleDTO) => (
-              <ArticleCard
-                key={article.id || article.slug}
-                title={article.title}
-                description={article.summary}
-                images={article.images}
-                articleUrl={`/articulos/${article.slug}`}
-                publicationDate={article.publicationDate as any}
-                category={article.categoryRef?.name ?? (article.category ?? undefined)}
-                categoryColor={article.categoryRef?.color !== null && article.categoryRef?.color !== undefined ? article.categoryRef.color : undefined}
-                categorySlug={article.categoryRef?.slug || undefined}
-              />
+              <StaggerItem key={article.id || article.slug}>
+                <ArticleCard
+                  title={article.title}
+                  description={article.summary}
+                  images={article.images}
+                  articleUrl={`/articulos/${article.slug}`}
+                  publicationDate={article.publicationDate as any}
+                  category={article.categoryRef?.name ?? (article.category ?? undefined)}
+                  categoryColor={article.categoryRef?.color !== null && article.categoryRef?.color !== undefined ? article.categoryRef.color : undefined}
+                  categorySlug={article.categoryRef?.slug || undefined}
+                />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
           )}
         </Container>
       </main>

@@ -8,10 +8,16 @@ const nextConfig: NextConfig = {
   experimental: {
     externalDir: true,
   },
+  turbopack: {
+    resolveAlias: {
+      '@dieta/shared-ui': '../packages/shared-ui/src',
+    },
+  },
   webpack: (config) => {
-    config.resolve = config.resolve || {} as any;
-    (config.resolve as any).alias = (config.resolve as any).alias || {};
-    (config.resolve as any).alias['@dieta/shared-ui'] = (config.resolve as any).alias['@dieta/shared-ui'] || '/packages/shared-ui/src';
+    if (!config.resolve) config.resolve = {};
+    if (!config.resolve.alias) config.resolve.alias = {};
+    const alias = config.resolve.alias as Record<string, string>;
+    alias['@dieta/shared-ui'] = alias['@dieta/shared-ui'] ?? '../packages/shared-ui/src';
     return config;
   },
 };

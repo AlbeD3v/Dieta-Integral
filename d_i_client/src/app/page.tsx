@@ -16,6 +16,7 @@ export const metadata = {
   }
 };
 import { AboutSection, NewsletterSection, ReelsSection, TestimonialsSection, Footer, YouTubeSection } from '@shared';
+import { FadeUp, ScaleIn, HeroStagger, HeroItem, StaggerGrid, StaggerItem } from '@/shared/ui/Motion';
 import Container from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/button';
 import SectionHeader from '@/shared/ui/SectionHeader';
@@ -42,11 +43,15 @@ const symptoms = [
   'Irritabilidad sin causa aparente',
 ];
 
+function toStringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((s): s is string => typeof s === 'string') : [];
+}
+
 export default async function Home() {
   const reelsSetting = await prisma.setting.findUnique({ where: { id: 'instagram.reels' } })
   const ytSetting    = await prisma.setting.findUnique({ where: { id: 'youtube.videos'  } })
-  const reels = Array.isArray((reelsSetting as any)?.value) ? ((reelsSetting as any).value as any[]).filter((s) => typeof s === 'string') as string[] : []
-  let videos  = Array.isArray((ytSetting    as any)?.value) ? ((ytSetting    as any).value as any[]).filter((s) => typeof s === 'string') as string[] : []
+  const reels = toStringArray(reelsSetting?.value)
+  let videos  = toStringArray(ytSetting?.value)
   if (!videos.length && process.env.YT_API_KEY && process.env.YT_CHANNEL_ID) {
     try {
       const latest = await fetchLatestYouTubeVideos({ apiKey: process.env.YT_API_KEY, channelId: process.env.YT_CHANNEL_ID, maxResults: 6 })
@@ -67,39 +72,44 @@ export default async function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-10 items-center">
 
               {/* Left: texto */}
-              <div className="space-y-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B08D57]">
-                  Dieta Integral · Sistema de Salud
-                </p>
-                <h1 className="text-5xl md:text-[3.75rem] font-bold leading-[1.06] tracking-tight text-[#0F172A]">
-                  Volver a vivir<br />
-                  como tu cuerpo<br />
-                  <span className="text-[#1B4332]">espera.</span>
-                </h1>
-                <p className="text-lg text-[#475569] leading-relaxed max-w-[46ch]">
-                  Un sistema que integra biología ancestral y vida moderna para optimizar tu energía, claridad y salud desde la raíz.
-                </p>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  <Link href="/servicios" className="inline-flex items-center gap-2 rounded-lg bg-[#1B4332] px-6 py-3 text-sm font-semibold text-white hover:bg-[#2D6A4F] transition-colors shadow-sm">
-                    Descubre el enfoque <ArrowRight className="w-4 h-4" />
-                  </Link>
-                  <Link href="/articulos" className="inline-flex items-center gap-2 rounded-lg border border-[#1B4332]/25 px-6 py-3 text-sm font-semibold text-[#1B4332] hover:bg-[#1B4332]/5 transition-colors">
-                    Empieza por aquí
-                  </Link>
-                </div>
-                {/* Trust bar */}
-                <div className="flex items-center gap-3 pt-1">
-                  <span className="h-px w-8 bg-[#B08D57]/40" />
-                  <span className="text-xs text-[#475569]">Sistema integral</span>
-                  <span className="text-[#B08D57]/40">·</span>
-                  <span className="text-xs text-[#475569]">Biología ancestral</span>
-                  <span className="text-[#B08D57]/40">·</span>
-                  <span className="text-xs text-[#475569]">Vida moderna</span>
-                </div>
-              </div>
+              <HeroStagger className="space-y-7">
+                <HeroItem><p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B08D57]">Dieta Integral · Sistema de Salud</p></HeroItem>
+                <HeroItem>
+                  <h1 className="text-5xl md:text-[3.75rem] font-bold leading-[1.06] tracking-tight text-[#0F172A]">
+                    Volver a vivir<br />
+                    como tu cuerpo<br />
+                    <span className="text-[#1B4332]">espera.</span>
+                  </h1>
+                </HeroItem>
+                <HeroItem>
+                  <p className="text-lg text-[#475569] leading-relaxed max-w-[46ch]">
+                    Un sistema que integra biología ancestral y vida moderna para optimizar tu energía, claridad y salud desde la raíz.
+                  </p>
+                </HeroItem>
+                <HeroItem>
+                  <div className="flex flex-wrap gap-3 pt-1">
+                    <Link href="/servicios" className="inline-flex items-center gap-2 rounded-lg bg-[#1B4332] px-6 py-3 text-sm font-semibold text-white hover:bg-[#2D6A4F] transition-colors shadow-sm">
+                      Descubre el enfoque <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link href="/articulos" className="inline-flex items-center gap-2 rounded-lg border border-[#1B4332]/25 px-6 py-3 text-sm font-semibold text-[#1B4332] hover:bg-[#1B4332]/5 transition-colors">
+                      Empieza por aquí
+                    </Link>
+                  </div>
+                </HeroItem>
+                <HeroItem>
+                  <div className="flex items-center gap-3 pt-1">
+                    <span className="h-px w-8 bg-[#B08D57]/40" />
+                    <span className="text-xs text-[#475569]">Sistema integral</span>
+                    <span className="text-[#B08D57]/40">·</span>
+                    <span className="text-xs text-[#475569]">Biología ancestral</span>
+                    <span className="text-[#B08D57]/40">·</span>
+                    <span className="text-xs text-[#475569]">Vida moderna</span>
+                  </div>
+                </HeroItem>
+              </HeroStagger>
 
               {/* Right: visual decorativo */}
-              <div className="hidden md:flex items-center justify-center">
+              <ScaleIn delay={0.35} className="hidden md:flex items-center justify-center">
                 <div className="relative w-full max-w-[360px] aspect-square">
                   <div className="absolute inset-0 rounded-full bg-[#1B4332]/10 blur-3xl scale-110" />
                   <div className="relative w-full h-full rounded-full border border-[#1B4332]/10 bg-gradient-to-br from-[#1B4332]/6 to-[#40916C]/10 flex items-center justify-center">
@@ -113,7 +123,7 @@ export default async function Home() {
                     <div className="absolute bottom-[8%]  right-[10%] bg-white rounded-full px-3 py-1.5 shadow-sm border border-black/6 text-xs font-medium text-[#0F172A]">💤 Sueño</div>
                   </div>
                 </div>
-              </div>
+              </ScaleIn>
 
             </div>
           </Container>
@@ -122,7 +132,7 @@ export default async function Home() {
         {/* ── 2. QUÉ ES DIETA INTEGRAL ─────────────────────────────────── */}
         <section className="py-16 md:py-24 bg-white border-t border-black/5">
           <Container>
-            <div className="max-w-3xl mx-auto space-y-10">
+            <FadeUp className="max-w-3xl mx-auto space-y-10">
               <div className="text-center space-y-3">
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B08D57]">El manifiesto</p>
                 <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] leading-tight">¿Qué es Dieta Integral?</h2>
@@ -147,7 +157,7 @@ export default async function Home() {
                   </p>
                 </div>
               </div>
-            </div>
+            </FadeUp>
           </Container>
         </section>
 
@@ -155,7 +165,7 @@ export default async function Home() {
         <section className="relative overflow-hidden bg-[#0D1F14] py-16 md:py-24">
           <div className="pointer-events-none absolute top-0 right-0 w-96 h-96 bg-[#1B4332]/25 blur-3xl" />
           <Container className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+            <FadeUp className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
 
               {/* Visual — fragmentación */}
               <div className="flex justify-center">
@@ -194,14 +204,14 @@ export default async function Home() {
                 </div>
               </div>
 
-            </div>
+            </FadeUp>
           </Container>
         </section>
 
         {/* ── 4. EL ENFOQUE ────────────────────────────────────────────── */}
         <section className="py-16 md:py-24 bg-[#F7F6F2]">
           <Container>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-20 items-start">
+            <FadeUp className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-20 items-start">
 
               {/* Left */}
               <div className="space-y-5 md:pt-2">
@@ -236,7 +246,7 @@ export default async function Home() {
                 ))}
               </div>
 
-            </div>
+            </FadeUp>
           </Container>
         </section>
 
@@ -250,23 +260,23 @@ export default async function Home() {
                   Si te identificas con esto,<br />estás en el lugar correcto.
                 </h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+              <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
                 {symptoms.map((s) => (
-                  <div key={s} className="flex items-start gap-3 rounded-xl border border-black/7 bg-[#F7F6F2] px-4 py-3">
+                  <StaggerItem key={s} className="flex items-start gap-3 rounded-xl border border-black/7 bg-[#F7F6F2] px-4 py-3">
                     <div className="w-4 h-4 rounded-full bg-[#1B4332]/12 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#1B4332]/50" />
                     </div>
                     <p className="text-sm text-[#475569]">{s}</p>
-                  </div>
+                  </StaggerItem>
                 ))}
-              </div>
-              <div className="rounded-2xl border border-[#1B4332]/12 bg-[#1B4332]/5 px-6 py-5 text-center space-y-1.5">
+              </StaggerGrid>
+              <FadeUp className="rounded-2xl border border-[#1B4332]/12 bg-[#1B4332]/5 px-6 py-5 text-center space-y-1.5">
                 <p className="font-semibold text-[#0F172A]">No estás fallando.</p>
                 <p className="text-[#475569] text-sm">Tu sistema está desalineado. Y eso se puede corregir.</p>
                 <Link href="/servicios" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1B4332] hover:underline mt-1.5">
                   Ver cómo <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
-              </div>
+              </FadeUp>
             </div>
           </Container>
         </section>
@@ -343,15 +353,15 @@ export default async function Home() {
         {/* ── 11. SERVICIOS ────────────────────────────────────────────── */}
         <section className="py-16 md:py-24 bg-[#F7F6F2]">
           <Container>
-            <div className="text-center mb-12 space-y-2">
+            <FadeUp className="text-center mb-12 space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B08D57]">Trabaja con el sistema</p>
               <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A]">No contra tu cuerpo.</h2>
               <p className="text-[#475569] max-w-md mx-auto text-sm">Dos caminos para empezar. El mismo destino: coherencia biológica.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            </FadeUp>
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
 
               {/* Card 1 — destacada */}
-              <div className="relative rounded-2xl border-2 border-[#1B4332] bg-white p-8 flex flex-col shadow-sm">
+              <StaggerItem className="relative rounded-2xl border-2 border-[#1B4332] bg-white p-8 flex flex-col shadow-sm">
                 <span className="absolute -top-3.5 left-6 bg-[#1B4332] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                   Recomendado
                 </span>
@@ -374,10 +384,10 @@ export default async function Home() {
                     Ver detalles
                   </Link>
                 </div>
-              </div>
+              </StaggerItem>
 
               {/* Card 2 */}
-              <div className="rounded-2xl border border-black/10 bg-white p-8 flex flex-col">
+              <StaggerItem className="rounded-2xl border border-black/10 bg-white p-8 flex flex-col">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#475569] mb-3">Programa Base</p>
                 <h3 className="text-xl font-bold text-[#0F172A] mb-2 leading-snug">Empieza por tu cuenta con una estructura clara.</h3>
                 <p className="text-sm text-[#475569] mb-6 leading-relaxed">Para quienes quieren los fundamentos sin acompañamiento continuo.</p>
@@ -392,9 +402,9 @@ export default async function Home() {
                 <Link href="/servicios" className="block w-full rounded-lg border border-black/10 bg-[#F7F6F2] px-5 py-3 text-center text-sm font-semibold text-[#0F172A] hover:bg-[#1B4332]/5 hover:border-[#1B4332]/20 transition-colors">
                   Ver programa
                 </Link>
-              </div>
+              </StaggerItem>
 
-            </div>
+            </StaggerGrid>
           </Container>
         </section>
 
@@ -404,7 +414,7 @@ export default async function Home() {
             <div className="w-[500px] h-[280px] bg-[#1B4332]/35 blur-3xl rounded-full" />
           </div>
           <Container className="relative z-10">
-            <div className="max-w-xl mx-auto text-center space-y-6">
+            <FadeUp className="max-w-xl mx-auto text-center space-y-6">
               <div className="h-px w-12 bg-[#B08D57]/50 mx-auto" />
               <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
                 Tu cuerpo no necesita<br />más parches.
@@ -418,7 +428,7 @@ export default async function Home() {
               </Link>
               <p className="text-white/30 text-xs">Empieza por el enfoque. Luego ajustamos el resto.</p>
               <div className="h-px w-12 bg-[#B08D57]/30 mx-auto" />
-            </div>
+            </FadeUp>
           </Container>
         </section>
 
