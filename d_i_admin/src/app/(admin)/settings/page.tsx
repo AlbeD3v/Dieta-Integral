@@ -24,6 +24,20 @@ export default function SettingsPage() {
   const aboutRef = useRef<HTMLTextAreaElement | null>(null)
   const fileRef = useRef<HTMLInputElement | null>(null)
 
+  // Instagram Reels
+  const [reelsLoading, setReelsLoading] = useState(false)
+  const [reelsSaving, setReelsSaving] = useState(false)
+  const [reelsText, setReelsText] = useState('')
+  const [reelsError, setReelsError] = useState<string | null>(null)
+  const [reelsOk, setReelsOk] = useState(false)
+
+  // YouTube Videos
+  const [ytLoading, setYtLoading] = useState(false)
+  const [ytSaving, setYtSaving] = useState(false)
+  const [ytText, setYtText] = useState('')
+  const [ytError, setYtError] = useState<string | null>(null)
+  const [ytOk, setYtOk] = useState(false)
+
   function insertAround(start: string, end: string = start) {
     const el = aboutRef.current
     if (!el) return
@@ -87,6 +101,38 @@ export default function SettingsPage() {
       }
     }
     loadAbout()
+  }, [])
+
+  useEffect(() => {
+    const loadReels = async () => {
+      setReelsLoading(true)
+      try {
+        const r = await fetch(`${base}/api/settings/instagram.reels`, { cache: 'no-store' })
+        if (r.ok) {
+          const d = await r.json()
+          const arr = Array.isArray(d?.value) ? d.value : []
+          setReelsText(arr.join('\n'))
+        }
+      } catch {}
+      finally { setReelsLoading(false) }
+    }
+    loadReels()
+  }, [])
+
+  useEffect(() => {
+    const loadYT = async () => {
+      setYtLoading(true)
+      try {
+        const r = await fetch(`${base}/api/settings/youtube.videos`, { cache: 'no-store' })
+        if (r.ok) {
+          const d = await r.json()
+          const arr = Array.isArray(d?.value) ? d.value : []
+          setYtText(arr.join('\n'))
+        }
+      } catch {}
+      finally { setYtLoading(false) }
+    }
+    loadYT()
   }, [])
 
   function onSave(e: React.FormEvent) {
@@ -323,6 +369,106 @@ export default function SettingsPage() {
                 }}
               >
                 {aboutSaving ? 'Guardando…' : 'Guardar'}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle>Instagram Reels (Client)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="reelsText">URLs de Reels (una por línea)</Label>
+              <Textarea
+                id="reelsText"
+                value={reelsText}
+                onChange={(e) => setReelsText(e.target.value)}
+                rows={6}
+                placeholder="https://www.instagram.com/reel/ABC123/\nhttps://www.instagram.com/reel/DEF456/"
+                disabled={reelsLoading}
+              />
+              <p className="text-xs text-muted-foreground">Pega las URLs completas de los reels de Instagram, una por línea.</p>
+            </div>
+            {reelsError && <p className="text-sm text-destructive">{reelsError}</p>}
+            {reelsOk && <p className="text-sm text-green-600">Reels guardados correctamente</p>}
+            <div>
+              <Button
+                disabled={reelsSaving || reelsLoading}
+                onClick={async () => {
+                  setReelsSaving(true)
+                  setReelsError(null)
+                  setReelsOk(false)
+                  try {
+                    const lines = reelsText.split('\n').map(s => s.trim()).filter(Boolean)
+                    const r = await fetch(`${base}/api/settings/instagram.reels`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ value: lines })
+                    })
+                    if (!r.ok) throw new Error('Error al guardar')
+                    setReelsOk(true)
+                  } catch (e: any) {
+                    setReelsError(e?.message || 'Error al guardar')
+                  } finally {
+                    setReelsSaving(false)
+                  }
+                }}
+              >
+                {reelsSaving ? 'Guardando…' : 'Guardar Reels'}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="lg:col-span-2">
+        <CardHeader>
+          <CardTitle>YouTube Videos (Client)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="ytText">IDs o URLs de Videos (una por línea)</Label>
+              <Textarea
+                id="ytText"
+                value={ytText}
+                onChange={(e) => setYtText(e.target.value)}
+                rows={6}
+                placeholder="dQw4w9WgXcQ\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ\nhttps://youtu.be/dQw4w9WgXcQ"
+                disabled={ytLoading}
+              />
+              <p className="text-xs text-muted-foreground">Pega los IDs de video o URLs completas de YouTube, una por línea.</p>
+            </div>
+            {ytError && <p className="text-sm text-destructive">{ytError}</p>}
+            {ytOk && <p className="text-sm text-green-600">Videos guardados correctamente</p>}
+            <div>
+              <Button
+                disabled={ytSaving || ytLoading}
+                onClick={async () => {
+                  setYtSaving(true)
+                  setYtError(null)
+                  setYtOk(false)
+                  try {
+                    const lines = ytText.split('\n').map(s => s.trim()).filter(Boolean)
+                    const r = await fetch(`${base}/api/settings/youtube.videos`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ value: lines })
+                    })
+                    if (!r.ok) throw new Error('Error al guardar')
+                    setYtOk(true)
+                  } catch (e: any) {
+                    setYtError(e?.message || 'Error al guardar')
+                  } finally {
+                    setYtSaving(false)
+                  }
+                }}
+              >
+                {ytSaving ? 'Guardando…' : 'Guardar Videos'}
               </Button>
             </div>
           </div>
