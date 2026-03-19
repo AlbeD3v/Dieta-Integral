@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { withCORS } from '@/lib/cors';
+import { withCORS, preflight } from '@/lib/cors';
 export const runtime = 'nodejs';
 
 type AboutPayload = {
@@ -73,11 +73,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function OPTIONS() {
-  const resp = new NextResponse(null, { status: 204 });
-  resp.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-  resp.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-  // No request object here; create a synthetic request for origin resolution isn't necessary,
-  // we simply allow standard methods.
-  return new NextResponse(null, { status: 204 });
+export async function OPTIONS(req: NextRequest) {
+  return preflight(req, ['GET','POST','OPTIONS']);
 }
