@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import ArticleForm from '@/components/ArticleForm'
 import { useParams } from 'next/navigation'
+import { getClientBaseUrl } from '../../../../utils/env'
 
 export default function EditArticlePage() {
   const params = useParams() as { slug?: string }
   const slug = decodeURIComponent(String(params?.slug || ''))
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  const base = getClientBaseUrl()
   const [initial, setInitial] = useState<any | null>(null)
   const [error, setError] = useState<string | null>(null)
 

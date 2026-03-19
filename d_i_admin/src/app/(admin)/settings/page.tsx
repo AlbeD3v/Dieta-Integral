@@ -5,12 +5,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useRef, useState } from 'react'
+import { getClientBaseUrl } from '../../../utils/env'
 
 export default function SettingsPage() {
   const [saving, setSaving] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [updatingTheme, setUpdatingTheme] = useState(false)
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  const base = getClientBaseUrl()
   // Sobre mí
   const [aboutLoading, setAboutLoading] = useState(false)
   const [aboutSaving, setAboutSaving] = useState(false)

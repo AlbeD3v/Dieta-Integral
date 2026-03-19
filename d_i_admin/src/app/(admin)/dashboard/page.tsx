@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { getClientBaseUrl } from '../../../utils/env'
 
 export default function DashboardPage() {
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  const base = getClientBaseUrl()
   return (
     <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       {["Visitors","Signups","Articles","Revenue"].map((k) => (

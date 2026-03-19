@@ -1,9 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import type { CategoryDTO } from '@dieta/shared-types'
+import { getClientBaseUrl } from '../../../utils/env'
 
 export default function CategoriesPage() {
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  const base = getClientBaseUrl()
   const [items, setItems] = useState<CategoryDTO[]>([])
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)

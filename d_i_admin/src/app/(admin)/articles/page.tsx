@@ -5,9 +5,10 @@ import { buildQuery, withPagination } from '../../../utils/http'
 import { apiGet } from '../../../utils/fetcher'
 import type { ArticleDTO, CategoryDTO } from '@dieta/shared-types'
 import { CategorySelect } from '@dieta/shared-ui'
+import { getClientBaseUrl } from '../../../utils/env'
 
 export default function ArticlesListPage() {
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  const base = getClientBaseUrl()
   const [items, setItems] = useState<ArticleDTO[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)

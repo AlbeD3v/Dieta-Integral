@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
 import ImageUploader from './ImageUploader'
 import { slugify } from '../utils/slug'
+import { getClientBaseUrl } from '../utils/env'
 import type { CategoryDTO } from '@dieta/shared-types'
 import { CategorySelect } from '@dieta/shared-ui'
 
@@ -30,7 +31,7 @@ type Props = {
 
 export default function ArticleForm({ initial, mode }: Props) {
   const router = useRouter()
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+  const base = getClientBaseUrl()
 
   const [title, setTitle] = useState(initial?.title || '')
   const [slug, setSlug] = useState(initial?.slug || '')

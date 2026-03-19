@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getClientBaseUrl } from '../../utils/env';
 
 const routes = [
   { label: 'Home', path: '/' },
@@ -15,7 +16,7 @@ export const metadata = {
 };
 
 export default async function AdminPreviewPage({ searchParams }: { searchParams?: { path?: string; w?: string } }) {
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000';
+  const base = getClientBaseUrl();
   const currentPath = (searchParams?.path && searchParams.path.startsWith('/')) ? searchParams.path : '/';
   const src = `${base}${currentPath}`;
 

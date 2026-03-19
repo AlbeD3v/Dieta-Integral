@@ -6,11 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getClientBaseUrl } from '../../../utils/env';
 
 type Subscriber = { id: string; email: string; createdAt: string; verified: boolean };
 
 function SuscriptoresContent() {
-  const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000';
+  const base = getClientBaseUrl();
   const search = useSearchParams();
   const router = useRouter();
 

@@ -1,5 +1,6 @@
 "use client"
 import React, { useRef, useState } from 'react'
+import { getClientBaseUrl } from '../utils/env'
 
 type Props = {
   label?: string
@@ -33,7 +34,7 @@ export default function ImageUploader({ label = 'Subir imagen', onUploaded, acce
     try {
       setBusy(true)
       setError(null)
-      const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
+      const base = getClientBaseUrl()
       const fd = new FormData()
       fd.append('file', file)
       const resp = await fetch(`${base}/api/upload`, { method: 'POST', body: fd })
