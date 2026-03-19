@@ -36,8 +36,8 @@ export function withCORS(req: NextRequest, resp: NextResponse, methods: string[]
   if (allowed.has(origin) || isAllowedPreviewOrigin(origin)) resp.headers.set('Access-Control-Allow-Origin', origin)
   resp.headers.set('Vary', 'Origin')
   resp.headers.set('Access-Control-Allow-Methods', methods.join(','))
-  resp.headers.set('Access-Control-Allow-Headers', 'Content-Type')
-  resp.headers.set('Access-Control-Max-Age', '600')
+  resp.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  resp.headers.set('Access-Control-Max-Age', '86400')
   return resp
 }
 
