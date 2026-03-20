@@ -123,7 +123,10 @@ export default function ArticleForm({ initial, mode }: Props) {
 
   const addImage = (url: string) => setImages((arr) => Array.from(new Set([...(arr||[]), url])).slice(0,10))
   const removeImage = (url: string) => setImages((arr) => (arr||[]).filter(u => u !== url))
-  const insertMarker = (n: number) => setContent((prev) => `${prev}${prev && !prev.endsWith('\n') ? '\n' : ''}[Img:${n}]`)
+  const insertMarker = (n: number, position?: string) => {
+    const tag = position ? `[Img:${n}:${position}]` : `[Img:${n}]`
+    setContent((prev) => `${prev}${prev && !prev.endsWith('\n') ? '\n\n' : ''}${tag}\n`)
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -185,6 +188,63 @@ export default function ArticleForm({ initial, mode }: Props) {
         <textarea className="w-full border rounded p-2 min-h-[100px]" value={summary} onChange={(e)=>setSummary(e.target.value)} placeholder="Resumen breve" />
       </div>
 
+      <details className="border rounded-lg bg-slate-50 p-3">
+        <summary className="text-sm font-semibold cursor-pointer select-none text-slate-700">
+          Guia de escritura Markdown (click para expandir)
+        </summary>
+        <div className="mt-3 text-xs text-slate-600 space-y-3">
+          <div>
+            <p className="font-semibold text-slate-800 mb-1">Estructura del articulo</p>
+            <table className="w-full text-left border-collapse">
+              <thead><tr className="border-b"><th className="py-1 pr-3">Escribes</th><th className="py-1">Resultado</th></tr></thead>
+              <tbody className="font-mono">
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3"># Titulo principal</td><td className="py-1 font-sans">Titulo grande (H1)</td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">## Subtitulo</td><td className="py-1 font-sans">Subtitulo de seccion (H2)</td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">Texto normal</td><td className="py-1 font-sans">Parrafo</td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">**texto**</td><td className="py-1 font-sans"><strong>Negrita</strong></td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">*texto*</td><td className="py-1 font-sans"><em>Cursiva</em></td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">________</td><td className="py-1 font-sans">Linea separadora horizontal</td></tr>
+                <tr><td className="py-1 pr-3">[texto](url)</td><td className="py-1 font-sans">Enlace</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <p className="font-semibold text-slate-800 mb-1">Insertar imagenes</p>
+            <p className="mb-1">Sube las imagenes abajo y usa los botones para insertarlas. Tambien puedes escribir manualmente:</p>
+            <table className="w-full text-left border-collapse">
+              <thead><tr className="border-b"><th className="py-1 pr-3">Escribes</th><th className="py-1">Resultado</th></tr></thead>
+              <tbody className="font-mono">
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">[Img:1]</td><td className="py-1 font-sans">Imagen 1 centrada (ancho completo)</td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">[Img:1:center]</td><td className="py-1 font-sans">Imagen 1 centrada (igual que arriba)</td></tr>
+                <tr className="border-b border-slate-200"><td className="py-1 pr-3">[Img:2:left]</td><td className="py-1 font-sans">Imagen 2 a la izquierda, texto fluye a su derecha</td></tr>
+                <tr><td className="py-1 pr-3">[Img:3:right]</td><td className="py-1 font-sans">Imagen 3 a la derecha, texto fluye a su izquierda</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="bg-white border border-slate-200 rounded p-2">
+            <p className="font-semibold text-slate-800 mb-1">Ejemplo de articulo</p>
+            <pre className="text-[11px] leading-relaxed whitespace-pre-wrap text-slate-600">{`# Mi titulo principal
+
+[Img:1]
+
+## Primera seccion
+Aqui escribes el texto de la primera seccion.
+Usa **negrita** para resaltar y *cursiva* para enfasis.
+
+________
+
+## Segunda seccion con imagen al lado [Img:2:left]
+Este texto fluye al lado derecho de la imagen.
+Puedes seguir escribiendo parrafos y el texto
+rodeara la imagen automaticamente.
+
+## Conclusion
+Parrafo final del articulo.`}</pre>
+          </div>
+          <p className="text-[10px] text-slate-400">Importante: Deja siempre una linea en blanco entre cada bloque (titulo, parrafo, imagen, separador).</p>
+        </div>
+      </details>
+
       <div>
         <label className="block text-sm font-medium mb-2">Contenido (Markdown)</label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -204,15 +264,22 @@ export default function ArticleForm({ initial, mode }: Props) {
         <ImageUploader label="Subir imagen" onUploaded={addImage} />
         {images?.length ? (
           <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
-            {images.map((url) => (
-              <div key={url} className="border rounded p-1 flex flex-col items-center">
+            {images.map((url, idx) => (
+              <div key={url} className="border rounded p-2 flex flex-col items-center gap-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={url} alt="img" className="w-full h-24 object-cover rounded" />
-                <div className="mt-1 flex items-center gap-2">
-                  <button type="button" className="text-xs text-blue-600 underline" onClick={()=>insertMarker((images.indexOf(url))+1)}>
-                    Insertar [Img:{(images.indexOf(url))+1}]
+                <span className="text-[10px] font-mono text-gray-500">Img:{idx+1}</span>
+                <div className="flex flex-wrap items-center justify-center gap-1">
+                  <button type="button" className="text-[10px] px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded border border-blue-200 hover:bg-blue-100" onClick={()=>insertMarker(idx+1)} title="Imagen centrada (ancho completo)">
+                    Centrada
                   </button>
-                  <button type="button" className="text-xs text-red-600" onClick={()=>removeImage(url)}>Quitar</button>
+                  <button type="button" className="text-[10px] px-1.5 py-0.5 bg-green-50 text-green-700 rounded border border-green-200 hover:bg-green-100" onClick={()=>insertMarker(idx+1,'left')} title="Imagen flotante a la izquierda">
+                    Izq
+                  </button>
+                  <button type="button" className="text-[10px] px-1.5 py-0.5 bg-purple-50 text-purple-700 rounded border border-purple-200 hover:bg-purple-100" onClick={()=>insertMarker(idx+1,'right')} title="Imagen flotante a la derecha">
+                    Der
+                  </button>
+                  <button type="button" className="text-[10px] px-1.5 py-0.5 text-red-600 hover:bg-red-50 rounded" onClick={()=>removeImage(url)}>✕</button>
                 </div>
               </div>
             ))}

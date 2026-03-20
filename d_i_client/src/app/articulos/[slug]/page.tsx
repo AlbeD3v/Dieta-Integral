@@ -46,7 +46,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   return (
     <div>
       <main>
-        <section className="relative h-96 mx-auto">
+        {/* <section className="relative h-96 mx-auto">
           <Image
             src={normalizeImageUrl(Array.isArray(data.images) && data.images[0] ? String(data.images[0]) : undefined)}
             alt={data.title}
@@ -61,7 +61,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <h1 className="text-4xl font-bold">{data.title}</h1>
             <p className="mt-4 text-lg">{formatDateES(String(data.publicationDate || ''))}</p>
           </div>
-        </section>
+        </section> */}
         {/* JSON-LD Article */}
         {(() => {
           const base = 'https://dietaintegral.fit'
@@ -115,7 +115,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </>
           )
         })()}
-        <section className="container mx-auto px-4 md:px-6 py-8 md:py-12 max-w-full md:max-w-[800px]">
+        <section className="mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-16 max-w-3xl">
           <ArticleContent 
             content={String(data.content)}
             images={Array.isArray(data.images) ? (data.images as any[]) : []}
