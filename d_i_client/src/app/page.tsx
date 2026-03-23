@@ -21,6 +21,7 @@ import { FadeUp, ScaleIn, HeroStagger, HeroItem, StaggerGrid, StaggerItem } from
 import Container from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/button';
 import SectionHeader from '@/shared/ui/SectionHeader';
+import PillarGraphic from '@/shared/ui/PillarGraphic';
 import { FeaturedArticles } from '@domains/articles';
 import prisma from '@/lib/prisma';
 import { fetchLatestYouTubeVideos } from '@/lib/youtube';
@@ -109,21 +110,9 @@ export default async function Home() {
                 </HeroItem>
               </HeroStagger>
 
-              {/* Right: visual decorativo */}
+              {/* Right: visual decorativo interactivo */}
               <ScaleIn delay={0.35} className="hidden md:flex items-center justify-center">
-                <div className="relative w-full max-w-[360px] aspect-square">
-                  <div className="absolute inset-0 rounded-full bg-[#1B4332]/10 blur-3xl scale-110" />
-                  <div className="relative w-full h-full rounded-full border border-[#1B4332]/10 bg-gradient-to-br from-[#1B4332]/6 to-[#40916C]/10 flex items-center justify-center">
-                    <div className="w-[68%] h-[68%] rounded-full border border-[#1B4332]/8 bg-gradient-to-br from-[#1B4332]/5 to-transparent flex items-center justify-center">
-                      <div className="w-[58%] h-[58%] rounded-full bg-[#1B4332]/8 flex items-center justify-center">
-                        <Leaf className="w-10 h-10 text-[#1B4332]/40" />
-                      </div>
-                    </div>
-                    <div className="absolute top-[14%] right-[8%] bg-white rounded-full px-3 py-1.5 shadow-sm border border-black/6 text-xs font-medium text-[#0F172A]">☀ Ritmos</div>
-                    <div className="absolute bottom-[20%] left-[4%]  bg-white rounded-full px-3 py-1.5 shadow-sm border border-black/6 text-xs font-medium text-[#0F172A]">🥩 Nutrición</div>
-                    <div className="absolute bottom-[8%]  right-[10%] bg-white rounded-full px-3 py-1.5 shadow-sm border border-black/6 text-xs font-medium text-[#0F172A]">💤 Sueño</div>
-                  </div>
-                </div>
+                <PillarGraphic />
               </ScaleIn>
 
             </div>
