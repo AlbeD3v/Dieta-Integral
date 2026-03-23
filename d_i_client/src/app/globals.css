@@ -174,3 +174,12 @@
     font-family: 'Libre Baskerville', Georgia, serif;
   }
 }
+
+/* Hide scrollbar for horizontal swipe sections */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

@@ -11,22 +11,23 @@ const ReelsSection: React.FC<Props> = ({ reels = [] }) => {
   const hasReels = Array.isArray(reels) && reels.length > 0
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:overflow-visible sm:snap-none sm:pb-0">
         {hasReels ? (
           reels.map((url) => (
-            <blockquote
-              key={url}
-              className="instagram-media rounded-2xl w-full overflow-hidden"
-              data-instgrm-permalink={url}
-              data-instgrm-version="14"
-              style={{ background: 'transparent', width: '100%' }}
-            />
+            <div key={url} className="flex-shrink-0 w-[75vw] sm:w-auto snap-center">
+              <blockquote
+                className="instagram-media rounded-2xl w-full overflow-hidden"
+                data-instgrm-permalink={url}
+                data-instgrm-version="14"
+                style={{ background: 'transparent', width: '100%' }}
+              />
+            </div>
           ))
         ) : (
           [1, 2, 3].map((i) => (
             <div
               key={i}
-              className="aspect-[9/16] rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3"
+              className="flex-shrink-0 w-[75vw] sm:w-auto snap-center aspect-[9/16] rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3"
             >
               <div className="w-12 h-12 rounded-full bg-[#1B4332]/10 flex items-center justify-center">
                 <Instagram className="w-5 h-5 text-primary/40" />

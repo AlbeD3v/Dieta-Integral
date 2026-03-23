@@ -22,6 +22,7 @@ import Container from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/button';
 import SectionHeader from '@/shared/ui/SectionHeader';
 import PillarGraphic from '@/shared/ui/PillarGraphic';
+import MobilePillarToggle from '@/shared/ui/MobilePillarToggle';
 import { FeaturedArticles } from '@domains/articles';
 import prisma from '@/lib/prisma';
 import { fetchLatestYouTubeVideos } from '@/lib/youtube';
@@ -71,7 +72,10 @@ export default async function Home() {
         {/* ── 1. HERO ──────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-[#F7F6F2]">
           <Container className="py-20 md:py-28">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-10 items-center">
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-14 md:gap-10 items-center">
+
+              {/* Mobile: circular button to reveal orbital graphic */}
+              <MobilePillarToggle />
 
               {/* Left: texto */}
               <HeroStagger className="space-y-7">

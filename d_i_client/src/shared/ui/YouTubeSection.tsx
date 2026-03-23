@@ -44,18 +44,18 @@ export default function YouTubeSection({ videos = [] }: Props) {
   const hasVideos = Array.isArray(videos) && videos.length > 0
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:overflow-visible sm:snap-none sm:pb-0">
       {hasVideos ? (
         videos.map((v) => {
           const id = extractYouTubeId(v)
           if (!id) return (
-            <div key={v} className="aspect-video rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3">
+            <div key={v} className="flex-shrink-0 w-[80vw] sm:w-auto snap-center aspect-video rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3">
               <Youtube className="w-6 h-6 text-primary/30" />
               <span className="text-xs text-muted-foreground/50">Video inválido</span>
             </div>
           )
           return (
-            <div key={v} className="rounded-2xl overflow-hidden border border-border/50 shadow-sm bg-card hover:shadow-md transition-shadow duration-300">
+            <div key={v} className="flex-shrink-0 w-[80vw] sm:w-auto snap-center rounded-2xl overflow-hidden border border-border/50 shadow-sm bg-card hover:shadow-md transition-shadow duration-300">
               <div className="relative w-full aspect-video">
                 <iframe
                   className="absolute inset-0 w-full h-full"
@@ -73,7 +73,7 @@ export default function YouTubeSection({ videos = [] }: Props) {
         [1, 2, 3].map((i) => (
           <div
             key={i}
-            className="aspect-video rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3"
+            className="flex-shrink-0 w-[80vw] sm:w-auto snap-center aspect-video rounded-2xl bg-gradient-to-b from-[#1B4332]/[0.07] to-[#40916C]/[0.04] border border-[#1B4332]/10 flex flex-col items-center justify-center gap-3"
           >
             <div className="w-12 h-12 rounded-full bg-[#1B4332]/10 flex items-center justify-center">
               <Youtube className="w-5 h-5 text-primary/40" />
