@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Leaf, Moon, TreePine, Zap, ArrowRight, X } from 'lucide-react';
+import { Sun, Leaf, Moon, TreePine, Zap, Timer, ArrowRight, X } from 'lucide-react';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 
@@ -31,7 +31,7 @@ const pillars: Pillar[] = [
     shortLabel: 'Ritmos',
     description: 'Tu cuerpo tiene un reloj interno. Sincronizarlo con la luz y la oscuridad cambia tu energía, sueño y metabolismo.',
     image: '/images/pilares/ritmos.webp',
-    top: '8%', right: '2%', left: 'auto',
+    top: '4%', right: '12%', left: 'auto',
   },
   {
     id: 'nutricion',
@@ -41,7 +41,7 @@ const pillars: Pillar[] = [
     shortLabel: 'Nutrición',
     description: 'Alimentos densos que tu biología reconoce y aprovecha. Sin ultraprocesados, sin dogmas, solo ciencia y ancestralidad.',
     image: '/images/pilares/nutricion.webp',
-    top: 'auto', bottom: '26%', left: '-2%',
+    top: '4%', left: '10%',
   },
   {
     id: 'sueno',
@@ -51,7 +51,7 @@ const pillars: Pillar[] = [
     shortLabel: 'Sueño',
     description: 'La base de toda recuperación y equilibrio hormonal. Sin sueño profundo, nada más funciona.',
     image: '/images/pilares/sueno.webp',
-    top: 'auto', bottom: '4%', right: '4%', left: 'auto',
+    top: 'auto', bottom: '4%', left: '50%',
   },
   {
     id: 'entorno',
@@ -61,7 +61,7 @@ const pillars: Pillar[] = [
     shortLabel: 'Entorno',
     description: 'Las señales ambientales que regulan tu sistema. Luz solar, temperatura, naturaleza: el contexto que tu cuerpo necesita.',
     image: '/images/pilares/entorno.webp',
-    top: '42%', left: '-4%',
+    top: '42%', left: '-6%',
   },
   {
     id: 'movimiento',
@@ -71,7 +71,17 @@ const pillars: Pillar[] = [
     shortLabel: 'Movimiento',
     description: 'No como castigo, sino como información para tu cuerpo. Moverse es la señal más potente de que estás vivo.',
     image: '/images/pilares/movimiento.webp',
-    top: '28%', right: '-2%', left: 'auto',
+    top: '42%', right: '-4%', left: 'auto',
+  },
+  {
+    id: 'ayuno',
+    icon: Timer,
+    emoji: '⏳',
+    label: 'Ayuno estratégico',
+    shortLabel: 'Ayuno',
+    description: 'Dar descanso digestivo activa la reparación celular, la autofagia y el equilibrio metabólico. Tu cuerpo sabe regenerarse cuando dejas de interrumpirlo.',
+    image: '/images/pilares/ayuno.webp',
+    top: 'auto', bottom: '22%', left: '-4%',
   },
 ];
 
@@ -129,10 +139,10 @@ function PillarCard({ pillar, onClose }: { pillar: Pillar; onClose: () => void }
         <h4 className="font-bold text-sm text-[#0F172A]">{pillar.label}</h4>
         <p className="text-xs leading-relaxed text-[#475569]">{pillar.description}</p>
         <Link
-          href="/los-5-pilares"
+          href="/los-6-pilares"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1B4332] hover:text-[#40916C] transition-colors group"
         >
-          Los 5 pilares
+          Los 6 pilares
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>

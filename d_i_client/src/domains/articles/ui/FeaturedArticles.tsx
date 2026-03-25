@@ -1,19 +1,27 @@
 import { ArticleCard } from '@domains/articles';
-
-async function fetchFeatured() {
-  try {
-    const base = process.env.NEXT_PUBLIC_CLIENT_URL || 'http://localhost:3000'
-    const res = await fetch(`${base}/api/articles?status=published&page=1&pageSize=3`, { cache: 'no-store' })
-    if (!res.ok) return []
-    const data = await res.json()
-    return Array.isArray(data?.items) ? data.items : []
-  } catch {
-    return []
-  }
-}
+import prisma from '@/lib/prisma';
 
 export default async function FeaturedArticles() {
-  const articles = await fetchFeatured()
+  let articles: any[] = [];
+  try {
+    articles = await prisma.article.findMany({
+      where: { status: 'published' },
+      orderBy: { publicationDate: 'desc' },
+      take: 3,
+      select: {
+        slug: true,
+        title: true,
+        summary: true,
+        images: true,
+        publicationDate: true,
+        category: true,
+        categoryRef: { select: { name: true, slug: true, color: true } },
+      },
+    });
+  } catch {
+    /* DB unavailable — show fallback */
+  }
+
   if (!articles.length) {
     return <div className="text-sm text-muted-foreground">Pronto habrá artículos destacados.</div>
   }
@@ -27,6 +35,9 @@ export default async function FeaturedArticles() {
           images={a.images}
           articleUrl={`/articulos/${a.slug}`}
           publicationDate={a.publicationDate}
+          category={a.categoryRef?.name}
+          categoryColor={a.categoryRef?.color}
+          categorySlug={a.categoryRef?.slug}
         />
       ))}
     </div>

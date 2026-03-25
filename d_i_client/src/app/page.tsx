@@ -23,10 +23,11 @@ import { Button } from '@/shared/ui/button';
 import SectionHeader from '@/shared/ui/SectionHeader';
 import PillarGraphic from '@/shared/ui/PillarGraphic';
 import MobilePillarToggle from '@/shared/ui/MobilePillarToggle';
+import DisconnectedGraphic from '@/shared/ui/DisconnectedGraphic';
 import { FeaturedArticles } from '@domains/articles';
 import prisma from '@/lib/prisma';
 import { fetchLatestYouTubeVideos } from '@/lib/youtube';
-import { Leaf, Sun, Moon, TreePine, Zap, ArrowRight, BookOpen, Check } from 'lucide-react';
+import { Leaf, Sun, Moon, TreePine, Zap, Timer, ArrowRight, BookOpen, Check } from 'lucide-react';
 import Link from 'next/link';
 
 const pillars = [
@@ -35,6 +36,7 @@ const pillars = [
   { num: '03', icon: Moon,     label: 'Sueño profundo y reparador',    desc: 'La base de toda recuperación y equilibrio hormonal.' },
   { num: '04', icon: TreePine, label: 'Entorno y luz natural',         desc: 'Las señales ambientales que regulan tu sistema.' },
   { num: '05', icon: Zap,      label: 'Movimiento como señal',         desc: 'No como castigo. Como información para tu cuerpo.' },
+  { num: '06', icon: Timer,    label: 'Ayuno estratégico',              desc: 'Dar descanso digestivo para activar la reparación celular.' },
 ];
 
 const symptoms = [
@@ -161,24 +163,9 @@ export default async function Home() {
           <Container className="relative z-10">
             <FadeUp className="grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
 
-              {/* Visual — fragmentación */}
+              {/* Visual — fragmentación animada */}
               <div className="flex justify-center">
-                <div className="relative w-64 h-64 md:w-72 md:h-72">
-                  <div className="absolute inset-0 rounded-full border border-white/8" />
-                  <div className="absolute inset-5 rounded-full border border-white/6" />
-                  {[
-                    'top-3 left-1/2 -translate-x-1/2', 'bottom-3 left-1/2 -translate-x-1/2',
-                    'left-3 top-1/2 -translate-y-1/2',  'right-3 top-1/2 -translate-y-1/2',
-                    'top-8 left-8', 'top-8 right-8', 'bottom-8 left-8', 'bottom-8 right-8',
-                  ].map((pos, i) => (
-                    <div key={i} className={`absolute ${pos} w-8 h-8 rounded-full border border-white/15 bg-white/5 flex items-center justify-center`}>
-                      <div className="w-2 h-2 rounded-full bg-white/25" />
-                    </div>
-                  ))}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="text-white/20 text-[10px] tracking-[0.3em] uppercase font-medium text-center">Desconectado</p>
-                  </div>
-                </div>
+                <DisconnectedGraphic />
               </div>
 
               {/* Texto */}
