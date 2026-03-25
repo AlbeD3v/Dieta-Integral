@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Instagram, Menu, X, Youtube, Leaf } from 'lucide-react';
+import UserMenu from './UserMenu';
 import { Fragment } from 'react';
 import { useScrolled } from '@/shared/hooks/useScrolled';
 import { useMenuOpen } from '@/shared/hooks/useMenuOpen';
@@ -90,6 +91,7 @@ const Header = () => {
               <Leaf className="w-3 h-3" />
               Comenzar
             </Link>
+            <UserMenu />
           </div>
 
           {/* ── Mobile hamburger ─────────────────────────── */}
@@ -158,6 +160,9 @@ const Header = () => {
                   <Leaf className="w-4 h-4" />
                   Comenzar
                 </Link>
+                <div className="mt-4">
+                  <UserMenu />
+                </div>
               </div>
 
               <div className="flex items-center gap-8 pb-8 text-muted-foreground">

@@ -3,6 +3,7 @@ import Script from 'next/script';
 import "./globals.css";
 import { Header } from "@shared";
 import ThemeProvider from "./theme-provider";
+import SessionProvider from "@/shared/ui/SessionProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -79,6 +80,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased">
+        <SessionProvider>
         <ThemeProvider />
         {/* JSON-LD Organization */}
         <Script id="ld-org" type="application/ld+json" strategy="afterInteractive">
@@ -135,6 +137,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
+        </SessionProvider>
       </body>
     </html>
   );

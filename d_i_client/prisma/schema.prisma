@@ -8,6 +8,94 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// ── NextAuth.js models ──────────────────────────────────
+model User {
+  id                String    @id @default(cuid()) @db.VarChar(191)
+  name              String?   @db.VarChar(191)
+  email             String?   @unique @db.VarChar(191)
+  emailVerified     DateTime?
+  image             String?   @db.Text
+  plan              String    @default("free") @db.VarChar(20) // 'free' | 'premium'
+  onboardingComplete Boolean  @default(false)
+  accounts          Account[]
+  sessions          Session[]
+  healthProfile     HealthProfile?
+  progressLogs      ProgressLog[]
+  bookmarks         Bookmark[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid()) @db.VarChar(191)
+  userId            String  @db.VarChar(191)
+  type              String  @db.VarChar(191)
+  provider          String  @db.VarChar(191)
+  providerAccountId String  @db.VarChar(191)
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String? @db.VarChar(191)
+  scope             String? @db.Text
+  id_token          String? @db.Text
+  session_state     String? @db.VarChar(191)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid()) @db.VarChar(191)
+  sessionToken String   @unique @db.VarChar(191)
+  userId       String   @db.VarChar(191)
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String   @db.VarChar(191)
+  token      String   @unique @db.VarChar(191)
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ── Health & progress models ────────────────────────────
+model HealthProfile {
+  id              String   @id @default(cuid()) @db.VarChar(191)
+  userId          String   @unique @db.VarChar(191)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  age             Int?
+  sex             String?  @db.VarChar(20)  // 'male' | 'female' | 'other'
+  weight          Float?                     // kg
+  height          Float?                     // cm
+  activityLevel   String?  @db.VarChar(40)  // 'sedentary' | 'light' | 'moderate' | 'active' | 'athlete'
+  goal            String?  @db.VarChar(40)  // 'lose' | 'gain' | 'maintain' | 'energy' | 'health'
+  conditions      Json?                      // string[] — health conditions
+  preferences     Json?                      // string[] — interests (fasting, sleep, etc.)
+  freeText        String?  @db.Text         // optional open notes
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ProgressLog {
+  id        String   @id @default(cuid()) @db.VarChar(191)
+  userId    String   @db.VarChar(191)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  weight    Float?
+  energy    Int?     // 1-5 scale
+  mood      Int?     // 1-5 scale
+  notes     String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId, date])
+}
+
+// ── Existing models ─────────────────────────────────────
 model Setting {
   id        String   @id @db.VarChar(191)
   value     Json
@@ -39,8 +127,22 @@ model Article {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
+  bookmarks       Bookmark[]
+
   @@index([status, publicationDate])
   @@index([categoryId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid()) @db.VarChar(191)
+  userId    String   @db.VarChar(191)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articleId String   @db.VarChar(191)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, articleId])
+  @@index([userId])
 }
 
 model Category {

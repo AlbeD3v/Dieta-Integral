@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@/lib/auth'
 
 const ALLOWED_ORIGINS = new Set([
   'http://localhost:3001',
@@ -28,7 +29,15 @@ function corsHeaders(origin: string | null) {
   return headers
 }
 
-export function middleware(req: NextRequest) {
+// Routes that require authentication
+const PROTECTED_PATHS = ['/dashboard', '/onboarding', '/api/user']
+
+function isProtectedRoute(pathname: string): boolean {
+  return PROTECTED_PATHS.some(p => pathname.startsWith(p))
+}
+
+export default auth((req) => {
+  const { pathname } = req.nextUrl
   const origin = req.headers.get('origin')
 
   // Handle preflight OPTIONS immediately — prevents 307 redirects from breaking CORS
@@ -36,16 +45,42 @@ export function middleware(req: NextRequest) {
     return new NextResponse(null, { status: 204, headers: corsHeaders(origin) })
   }
 
-  // For actual requests, add CORS headers to the response
-  const response = NextResponse.next()
-  const cors = corsHeaders(origin)
-  cors.forEach((value, key) => {
-    response.headers.set(key, value)
-  })
+  // Auth protection for dashboard/user routes
+  if (isProtectedRoute(pathname)) {
+    if (!req.auth) {
+      // API routes get 401; pages get redirected to login
+      if (pathname.startsWith('/api/')) {
+        return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+      }
+      const loginUrl = new URL('/iniciar-sesion', req.url)
+      loginUrl.searchParams.set('callbackUrl', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
 
-  return response
-}
+    // If authenticated but onboarding not complete, redirect to onboarding
+    const user = req.auth.user as any
+    if (
+      !user?.onboardingComplete &&
+      !pathname.startsWith('/onboarding') &&
+      !pathname.startsWith('/api/')
+    ) {
+      return NextResponse.redirect(new URL('/onboarding', req.url))
+    }
+  }
+
+  // For API requests, add CORS headers
+  if (pathname.startsWith('/api/')) {
+    const response = NextResponse.next()
+    const cors = corsHeaders(origin)
+    cors.forEach((value, key) => {
+      response.headers.set(key, value)
+    })
+    return response
+  }
+
+  return NextResponse.next()
+})
 
 export const config = {
-  matcher: '/api/:path*',
+  matcher: ['/api/:path*', '/dashboard/:path*', '/onboarding/:path*'],
 }
