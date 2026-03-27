@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     const row = await prisma.setting.findUnique({ where: { id: 'about' } });
     let data: AboutPayload | null = null;
     if (row?.value) {
-      try { data = typeof row.value === 'string' ? JSON.parse(row.value as any) : (row.value as any); } catch {}
+      try { data = typeof row.value === 'string' ? JSON.parse(row.value) : (row.value as unknown as AboutPayload); } catch {}
     }
     const payload = { ...defaults, ...(data || {}) } as AboutPayload;
     return allow(req, NextResponse.json(payload));
@@ -62,13 +62,13 @@ export async function POST(req: NextRequest) {
     const merged = { ...defaults, ...Object.fromEntries(Object.entries(data).filter(([,v]) => v !== undefined)) } as AboutPayload;
     await prisma.setting.upsert({
       where: { id: 'about' },
-      update: { value: JSON.stringify(merged) as any },
-      create: { id: 'about', value: JSON.stringify(merged) as any },
+      update: { value: JSON.stringify(merged) },
+      create: { id: 'about', value: JSON.stringify(merged) },
     });
     return allow(req, NextResponse.json({ ok: true }));
-  } catch (e: any) {
+  } catch (e) {
     console.error('[api/about] POST db error:', e);
-    const msg = e?.message ? String(e.message).slice(0, 500) : 'db error';
+    const msg = e instanceof Error ? String(e.message).slice(0, 500) : 'db error';
     return allow(req, NextResponse.json({ error: 'db error', message: msg }, { status: 500 }));
   }
 }

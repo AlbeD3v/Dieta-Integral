@@ -8,7 +8,7 @@ async function readTheme(): Promise<string> {
     if (!row) return 'light';
     const v: unknown = row.value;
     if (typeof v === 'string') return v;
-    if (v && typeof (v as any).theme === 'string') return (v as any).theme;
+    if (v && typeof v === 'object' && 'theme' in v && typeof (v as Record<string, unknown>).theme === 'string') return (v as Record<string, unknown>).theme as string;
     return 'light';
   } catch {
     return 'light';
@@ -43,6 +43,11 @@ export async function POST(req: NextRequest) {
     }
     await writeTheme(theme);
     const ok = NextResponse.json({ ok: true, theme });
+    ok.cookies.set('theme', theme, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: 'lax',
+    });
     return withCORS(req, ok);
   } catch (e) {
     const err = NextResponse.json({ error: 'invalid request' }, { status: 400 });

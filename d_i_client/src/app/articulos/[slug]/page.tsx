@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div>
-      <main>
+      <div>
         {/* <section className="relative h-96 mx-auto">
           <Image
             src={normalizeImageUrl(Array.isArray(data.images) && data.images[0] ? String(data.images[0]) : undefined)}
@@ -118,10 +118,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <section className="mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-16 max-w-3xl">
           <ArticleContent 
             content={String(data.content)}
-            images={Array.isArray(data.images) ? (data.images as any[]) : []}
+            images={Array.isArray(data.images) ? data.images.map(String) : []}
           />
         </section>
-      </main>
+      </div>
       <Footer />
     </div>
   );

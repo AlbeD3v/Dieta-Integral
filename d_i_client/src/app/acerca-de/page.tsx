@@ -21,8 +21,7 @@ import Image from 'next/image';
 export default function AcercaDePage() {
   return (
     <div>
-      <Header />
-      <main className="container mx-auto px-6 py-16">
+      <div className="container mx-auto px-6 py-16">
         <div className="flex flex-col md:flex-row-reverse items-center md:items-start gap-12">
           <aside className="md:sticky md:top-24 flex-shrink-0">
             <div className="relative w-[250px] h-[250px]">
@@ -75,7 +74,7 @@ export default function AcercaDePage() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
       <Footer />
     </div>
   );

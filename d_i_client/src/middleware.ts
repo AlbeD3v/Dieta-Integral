@@ -24,6 +24,7 @@ function corsHeaders(origin: string | null) {
   }
   headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
   headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  headers.set('Access-Control-Allow-Credentials', 'true')
   headers.set('Access-Control-Max-Age', '86400')
   headers.set('Vary', 'Origin')
   return headers
@@ -58,7 +59,7 @@ export default auth((req) => {
     }
 
     // If authenticated but onboarding not complete, redirect to onboarding
-    const user = req.auth.user as any
+    const user = req.auth.user
     if (
       !user?.onboardingComplete &&
       !pathname.startsWith('/onboarding') &&

@@ -41,7 +41,7 @@ export default async function ContentPage() {
         slug: a.slug,
         title: a.title,
         summary: a.summary,
-        image: Array.isArray(a.images) && (a.images as any[])[0] ? String((a.images as any[])[0]) : null,
+        image: Array.isArray(a.images) && a.images[0] ? String(a.images[0]) : null,
         date: a.publicationDate?.toISOString() || null,
         category: a.categoryRef
           ? { name: a.categoryRef.name, slug: a.categoryRef.slug, color: a.categoryRef.color }

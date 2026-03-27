@@ -70,11 +70,11 @@ export async function POST(req: NextRequest) {
   if (Array.isArray(body?.categories)) {
     const parsed = LegacyCategoriesSchema.safeParse(body)
     if (!parsed.success) return badRequest(req, formatZodError(parsed.error))
-    const names = Array.from(new Set(parsed.data.categories.map((s: any) => String(s).trim()).filter(Boolean)))
+    const names = Array.from(new Set(parsed.data.categories.map((s: string) => String(s).trim()).filter(Boolean)))
     try {
       const existing = await prisma.category.findMany({ select: { id: true, name: true, slug: true } })
       const existingByName = new Map(existing.map(c => [c.name.toLowerCase(), c]))
-      const created: any[] = []
+      const created: { id: string; name: string; slug: string; color: string | null; order: number }[] = []
       for (const nRaw of names) {
         const n: string = String(nRaw)
         const key = n.toLowerCase()
@@ -92,9 +92,9 @@ export async function POST(req: NextRequest) {
       // Fallback: persist legacy array into Setting('categories')
       try {
         const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
-        const prev: string[] = Array.isArray(setting?.value) ? setting!.value as any : []
+        const prev: string[] = Array.isArray(setting?.value) ? (setting!.value as unknown as string[]) : []
         const merged = Array.from(new Set([ ...prev.map(String), ...names ]))
-        await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as any }, create: { id: 'categories', value: merged as any } })
+        await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as unknown as string }, create: { id: 'categories', value: merged as unknown as string } })
         return ok(req, { ok: true, createdCount: names.length, storage: 'setting' })
       } catch {
         return serverError(req, undefined, 'unable to persist categories')
@@ -115,15 +115,17 @@ export async function POST(req: NextRequest) {
   try {
     const created = await prisma.category.create({ data: { name, slug, color: color || undefined, order }, select: { id: true, name: true, slug: true, color: true, order: true } })
     return createdResp(req, created)
-  } catch (e: any) {
+  } catch (error) {
+    console.error(error)
     // Fallback: append name to Setting('categories') if table write fails
     try {
       const setting = await prisma.setting.findUnique({ where: { id: 'categories' } })
-      const prev: string[] = Array.isArray(setting?.value) ? setting!.value as any : []
+      const prev: string[] = Array.isArray(setting?.value) ? (setting!.value as unknown as string[]) : []
       const merged = Array.from(new Set([ ...prev.map(String), name ]))
-      await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as any }, create: { id: 'categories', value: merged as any } })
+      await prisma.setting.upsert({ where: { id: 'categories' }, update: { value: merged as unknown as string }, create: { id: 'categories', value: merged as unknown as string } })
       return createdResp(req, { ok: true, id: null, name, slug, color, order, storage: 'setting' })
-    } catch {
+    } catch (error) {
+      console.error(error)
       return badRequest(req, 'unable to create')
     }
   }

@@ -2,7 +2,7 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
 const securityHeaders = [
-  { key: 'Content-Security-Policy',   value: "frame-ancestors 'self' https://dieta-integral-admin.vercel.app" },
+  { key: 'Content-Security-Policy',   value: "frame-ancestors 'self' http://localhost:3001 https://dieta-integral-admin.vercel.app" },
   { key: 'X-Content-Type-Options',   value: 'nosniff' },
   { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy',       value: 'camera=(), microphone=(), geolocation=()' },
@@ -11,9 +11,6 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }];
   },

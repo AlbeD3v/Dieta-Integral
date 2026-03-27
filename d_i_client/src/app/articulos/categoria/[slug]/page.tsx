@@ -51,7 +51,7 @@ export default async function CategoryArticlesPage({ params }: { params: { slug:
 
   return (
     <div className="min-h-screen bg-background">
-      <main>
+      <div>
         <Container className="py-16 md:py-24">
           <SectionHeader
             title={current?.name ? `Artículos: ${current.name}` : 'Artículos por categoría'}
@@ -76,7 +76,7 @@ export default async function CategoryArticlesPage({ params }: { params: { slug:
                 description={article.summary}
                 images={article.images}
                 articleUrl={`/articulos/${article.slug}`}
-                publicationDate={article.publicationDate as any}
+                publicationDate={article.publicationDate ? String(article.publicationDate) : undefined}
                 category={article.categoryRef?.name ?? (article.category ?? undefined)}
                 categoryColor={article.categoryRef?.color ?? undefined}
                 categorySlug={article.categoryRef?.slug ?? undefined}
@@ -85,7 +85,7 @@ export default async function CategoryArticlesPage({ params }: { params: { slug:
           </div>
           )}
         </Container>
-      </main>
+      </div>
     </div>
   )
 }

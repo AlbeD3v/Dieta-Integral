@@ -20,7 +20,7 @@ import { Header, Footer, Button, Breadcrumbs } from '@shared';
 export default function ContactoPage() {
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-6 py-16 max-w-3xl">
+      <div className="container mx-auto px-6 py-16 max-w-3xl">
         <Breadcrumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Contacto' }]} />
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">Contacto</h1>
         <p className="text-muted-foreground mb-8">Escríbeme por email o WhatsApp Business.</p>
@@ -32,7 +32,7 @@ export default function ContactoPage() {
             <Button>WhatsApp Business</Button>
           </a>
         </div>
-      </main>
+      </div>
       <Footer />
     </div>
   );

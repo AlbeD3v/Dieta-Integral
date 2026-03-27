@@ -22,6 +22,6 @@ export function notFound(req: NextRequest, message = 'not found') {
 }
 
 export function serverError(req: NextRequest, e?: unknown, fallback = 'server error') {
-  const message = typeof (e as any)?.message === 'string' ? (e as any).message : fallback
+  const message = e instanceof Error ? e.message : fallback
   return withCORS(req, NextResponse.json({ ok: false, error: message }, { status: 500 }))
 }

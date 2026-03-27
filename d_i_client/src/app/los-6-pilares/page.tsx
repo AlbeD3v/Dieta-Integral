@@ -101,7 +101,7 @@ const pillars = [
 export default function Los6PilaresPage() {
   return (
     <div>
-      <main>
+      <div>
         {/* Hero */}
         <section className="relative bg-[#F7F6F2] overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,#1B4332_0%,transparent_50%)] opacity-5" />
@@ -177,7 +177,7 @@ export default function Los6PilaresPage() {
             </FadeUp>
           </Container>
         </section>
-      </main>
+      </div>
       <Footer />
     </div>
   );

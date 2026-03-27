@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
+import { assertAdmin } from '@/lib/admin'
 
 export async function GET() {
+  const { error } = await assertAdmin()
+  if (error) return error
+
   try {
     const now = new Date()
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)

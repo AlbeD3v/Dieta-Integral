@@ -41,7 +41,7 @@ export default function ArticleForm({ initial, mode }: Props) {
   const [category, setCategory] = useState(initial?.category || '')
   const [categories, setCategories] = useState<CategoryDTO[]>([])
   const [catSelect, setCatSelect] = useState<string>('')
-  const [status, setStatus] = useState<Article['status']>((initial?.status as any) || 'draft')
+  const [status, setStatus] = useState<Article['status']>(initial?.status || 'draft')
   const [publicationDate, setPublicationDate] = useState<string | ''>(initial?.publicationDate ? String(initial.publicationDate).slice(0,10) : '')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -57,7 +57,7 @@ export default function ArticleForm({ initial, mode }: Props) {
   // Load categories from client API
   useEffect(() => {
     let cancelled = false
-    fetch(`${base}/api/categories`, { cache: 'no-store' })
+    fetch(`${base}/api/categories`, { cache: 'no-store', credentials: 'include' })
       .then(r => r.json())
       .then((d) => {
         if (cancelled) return
@@ -83,16 +83,16 @@ export default function ArticleForm({ initial, mode }: Props) {
     setError(null)
     setOk(null)
     try {
-      const payload: any = {
+      const payload: Omit<Article, 'id'> = {
         title, summary, content, images, category, status,
         slug: slug || slugify(title),
         publicationDate: publicationDate ? new Date(publicationDate).toISOString() : null,
       }
       let resp: Response
       if (mode === 'create') {
-        resp = await fetch(`${base}/api/articles`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        resp = await fetch(`${base}/api/articles`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       } else {
-        resp = await fetch(`${base}/api/articles/${encodeURIComponent(String(initial?.slug || slug))}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        resp = await fetch(`${base}/api/articles/${encodeURIComponent(String(initial?.slug || slug))}`, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       }
       const data = await resp.json().catch(() => ({}))
       if (!resp.ok) throw new Error(data?.error || `Error ${resp.status}`)
@@ -102,6 +102,7 @@ export default function ArticleForm({ initial, mode }: Props) {
       try {
         fetch(`${base}/api/revalidate`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''}`,
@@ -114,8 +115,8 @@ export default function ArticleForm({ initial, mode }: Props) {
       } catch {}
       router.push(`/articles/${encodeURIComponent(targetSlug)}`)
       router.refresh()
-    } catch (e: any) {
-      setError(e?.message || 'Error guardando')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Error guardando')
     } finally {
       setBusy(false)
     }
@@ -172,7 +173,7 @@ export default function ArticleForm({ initial, mode }: Props) {
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Estado</label>
-          <select className="w-full border rounded p-2" value={status} onChange={(e)=>setStatus(e.target.value as any)}>
+          <select className="w-full border rounded p-2" value={status} onChange={(e)=>setStatus(e.target.value as Article['status'])}>
             <option value="draft">Borrador</option>
             <option value="published">Publicado</option>
           </select>

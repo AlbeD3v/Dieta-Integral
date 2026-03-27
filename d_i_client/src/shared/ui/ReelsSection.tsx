@@ -39,8 +39,8 @@ const ReelsSection: React.FC<Props> = ({ reels = [] }) => {
       </div>
       {hasReels && (
         <Script id="ig-embed" src="https://www.instagram.com/embed.js" strategy="lazyOnload" onLoad={() => {
-          if (typeof window !== 'undefined' && (window as any).instgrm?.Embeds?.process) {
-            (window as any).instgrm.Embeds.process()
+          if (typeof window !== 'undefined' && window.instgrm?.Embeds?.process) {
+            window.instgrm.Embeds.process()
           }
         }} />
       )}

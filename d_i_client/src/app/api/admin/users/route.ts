@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Prisma } from '@prisma/client'
 import prisma from '@/lib/prisma'
+import { assertAdmin } from '@/lib/admin'
 
 export async function GET(req: NextRequest) {
+  const { error } = await assertAdmin()
+  if (error) return error
+
   try {
     const { searchParams } = new URL(req.url)
     const q = (searchParams.get('q') || '').trim()
@@ -10,7 +15,7 @@ export async function GET(req: NextRequest) {
     const plan = searchParams.get('plan') || undefined
     const onboarding = searchParams.get('onboarding') // 'true' | 'false' | null
 
-    const where: any = {}
+    const where: Prisma.UserWhereInput = {}
     if (q) {
       where.OR = [
         { name: { contains: q } },

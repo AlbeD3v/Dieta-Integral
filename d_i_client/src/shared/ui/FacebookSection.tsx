@@ -12,8 +12,8 @@ export default function FacebookSection({ posts = [] }: Props) {
   useEffect(() => {
     if (!hasPosts) return
     // Reprocesar embeds si el SDK ya está cargado
-    if (typeof window !== 'undefined' && (window as any).FB?.XFBML?.parse) {
-      (window as any).FB.XFBML.parse()
+    if (typeof window !== 'undefined' && window.FB?.XFBML?.parse) {
+      window.FB.XFBML.parse()
     }
   }, [hasPosts])
 

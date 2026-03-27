@@ -1,9 +1,25 @@
 import type { Metadata } from "next";
 import Script from 'next/script';
+import { Libre_Baskerville, Cormorant_Garamond } from 'next/font/google';
+import { cookies } from 'next/headers';
 import "./globals.css";
 import { Header } from "@shared";
-import ThemeProvider from "./theme-provider";
 import SessionProvider from "@/shared/ui/SessionProvider";
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-body',
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  display: 'swap',
+  variable: '--font-brand',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -72,16 +88,21 @@ export const metadata: Metadata = {
   category: 'health',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const theme = cookieStore.get('theme')?.value || 'light';
+
   return (
-    <html lang="es">
+    <html lang="es" className={`${libreBaskerville.variable} ${cormorantGaramond.variable} ${theme === 'dark' ? 'dark' : ''}`}>
+      <head>
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+      </head>
       <body className="antialiased">
         <SessionProvider>
-        <ThemeProvider />
         {/* JSON-LD Organization */}
         <Script id="ld-org" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify({

@@ -49,7 +49,7 @@ export default async function ArticlesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <main>
+      <div>
         <Container className="py-16 md:py-24">
           <SectionHeader
             title="Artículos"
@@ -72,7 +72,7 @@ export default async function ArticlesPage() {
                   description={article.summary}
                   images={article.images}
                   articleUrl={`/articulos/${article.slug}`}
-                  publicationDate={article.publicationDate as any}
+                  publicationDate={article.publicationDate ? String(article.publicationDate) : undefined}
                   category={article.categoryRef?.name ?? (article.category ?? undefined)}
                   categoryColor={article.categoryRef?.color !== null && article.categoryRef?.color !== undefined ? article.categoryRef.color : undefined}
                   categorySlug={article.categoryRef?.slug || undefined}
@@ -82,7 +82,7 @@ export default async function ArticlesPage() {
           </StaggerGrid>
           )}
         </Container>
-      </main>
+      </div>
     </div>
   );
 }

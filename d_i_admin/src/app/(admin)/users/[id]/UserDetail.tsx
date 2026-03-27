@@ -71,7 +71,7 @@ export default function UserDetail({ userId, clientBase }: { userId: string; cli
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch(`${clientBase}/api/admin/users/${userId}`)
+    fetch(`${clientBase}/api/admin/users/${userId}`, { credentials: 'include' })
       .then(r => r.json())
       .then(d => setUser(d.user || null))
       .catch(console.error)
@@ -83,6 +83,7 @@ export default function UserDetail({ userId, clientBase }: { userId: string; cli
     try {
       const res = await fetch(`${clientBase}/api/admin/users/${userId}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });

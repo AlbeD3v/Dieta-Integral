@@ -1,6 +1,6 @@
 "use client";
-import React from 'react'
-import { Youtube } from 'lucide-react'
+import React, { useState } from 'react'
+import { Youtube, Play } from 'lucide-react'
 
 type Props = {
   videos?: string[] // IDs o URLs públicas de YouTube
@@ -40,6 +40,44 @@ function extractYouTubeId(input: string): string | null {
   }
 }
 
+function LazyYouTubeEmbed({ videoId }: { videoId: string }) {
+  const [loaded, setLoaded] = useState(false)
+  const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+
+  if (loaded) {
+    return (
+      <iframe
+        className="absolute inset-0 w-full h-full"
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`}
+        title="YouTube video"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+    )
+  }
+
+  return (
+    <button
+      onClick={() => setLoaded(true)}
+      className="absolute inset-0 w-full h-full group cursor-pointer bg-black"
+      aria-label="Reproducir video de YouTube"
+    >
+      <img
+        src={thumbnail}
+        alt="Video thumbnail"
+        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <Play className="w-7 h-7 text-white ml-1" fill="white" />
+        </div>
+      </div>
+    </button>
+  )
+}
+
 export default function YouTubeSection({ videos = [] }: Props) {
   const hasVideos = Array.isArray(videos) && videos.length > 0
 
@@ -57,14 +95,7 @@ export default function YouTubeSection({ videos = [] }: Props) {
           return (
             <div key={v} className="flex-shrink-0 w-[80vw] sm:w-auto snap-center rounded-2xl overflow-hidden border border-border/50 shadow-sm bg-card hover:shadow-md transition-shadow duration-300">
               <div className="relative w-full aspect-video">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube-nocookie.com/embed/${id}`}
-                  title="YouTube video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
+                <LazyYouTubeEmbed videoId={id} />
               </div>
             </div>
           )

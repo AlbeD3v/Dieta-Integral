@@ -20,11 +20,12 @@ const AboutSection = () => {
               <div className="absolute inset-0 rounded-3xl bg-[#40916C]/30 blur-2xl scale-105" />
               <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-white/10">
                 <Image
-                  src="/Fotos_Patrones/autor_web.svg"
+                  src="/Fotos_Patrones/foto_web.jpeg"
                   alt="Ale Serrano - Especialista en Dieta Integral"
                   fill
                   sizes="(max-width: 768px) 288px, 380px"
-                  className="object-cover object-center"
+                  className="object-cover"
+                  style={{ objectPosition: '50% 35%' }}
                 />
               </div>
             </div>

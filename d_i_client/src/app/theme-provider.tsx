@@ -1,29 +1,11 @@
 "use client";
-import { useEffect } from "react";
 
+/**
+ * ThemeProvider is now a no-op client component.
+ * Theme is read server-side from cookies in layout.tsx.
+ * This file is kept for backward compatibility if imported elsewhere.
+ * To toggle theme client-side, call POST /api/theme which sets the cookie.
+ */
 export default function ThemeProvider() {
-  useEffect(() => {
-    let cancelled = false;
-    const apply = (theme: string) => {
-      const root = document.documentElement;
-      const isDark = theme === 'dark';
-      root.classList.toggle('dark', isDark);
-    };
-
-    const run = async () => {
-      try {
-        const res = await fetch('/api/theme', { cache: 'no-store' });
-        if (!res.ok) return;
-        const { theme } = await res.json();
-        if (!cancelled && typeof theme === 'string') apply(theme);
-      } catch {
-        // ignore
-      }
-    };
-
-    run();
-    return () => { cancelled = true; };
-  }, []);
-
   return null;
 }

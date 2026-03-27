@@ -1,3 +1,5 @@
+export const revalidate = 300;
+
 export const metadata = {
   title: 'Dieta Integral — Nutrición ancestral, ritmos circadianos y salud holística',
   description: 'Transforma tu salud con un sistema integral: alimentación consciente, nutrición ancestral, ritmos circadianos, sueño reparador y hábitos saludables. Acompañamiento personalizado por Ale Serrano para optimizar tu energía, bienestar y claridad mental.',
@@ -21,9 +23,7 @@ import { FadeUp, ScaleIn, HeroStagger, HeroItem, StaggerGrid, StaggerItem } from
 import Container from '@/shared/ui/Container';
 import { Button } from '@/shared/ui/button';
 import SectionHeader from '@/shared/ui/SectionHeader';
-import PillarGraphic from '@/shared/ui/PillarGraphic';
-import MobilePillarToggle from '@/shared/ui/MobilePillarToggle';
-import DisconnectedGraphic from '@/shared/ui/DisconnectedGraphic';
+import { PillarGraphic, MobilePillarToggle, DisconnectedGraphic } from '@/shared/ui/DynamicGraphics';
 import { FeaturedArticles } from '@domains/articles';
 import prisma from '@/lib/prisma';
 import { fetchLatestYouTubeVideos } from '@/lib/youtube';
@@ -68,8 +68,7 @@ export default async function Home() {
   }
 
   return (
-    <div>
-      <main>
+    <>
 
         {/* ── 1. HERO ──────────────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-[#F7F6F2]">
@@ -420,8 +419,7 @@ export default async function Home() {
           </Container>
         </section>
 
-      </main>
       <Footer />
-    </div>
+    </>
   );
 }

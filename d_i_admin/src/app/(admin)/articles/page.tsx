@@ -21,7 +21,7 @@ export default function ArticlesListPage() {
   const [error, setError] = useState<string | null>(null)
 
   const qp = withPagination({ q, status, category, page, pageSize })
-  const query = useMemo(() => buildQuery(qp as any), [qp])
+  const query = useMemo(() => buildQuery(qp as Record<string, string | number | undefined | null>), [qp])
 
   useEffect(() => {
     let cancelled = false
@@ -57,7 +57,7 @@ export default function ArticlesListPage() {
 
   const handleDelete = async (slug: string) => {
     if (!confirm('¿Borrar este artículo?')) return
-    const resp = await fetch(`${base}/api/articles/${encodeURIComponent(slug)}`, { method: 'DELETE' })
+    const resp = await fetch(`${base}/api/articles/${encodeURIComponent(slug)}`, { method: 'DELETE', credentials: 'include' })
     if (!resp.ok) {
       alert('No se pudo borrar')
       return
@@ -66,6 +66,7 @@ export default function ArticlesListPage() {
     try {
       fetch(`${base}/api/revalidate`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''}`,
@@ -78,7 +79,7 @@ export default function ArticlesListPage() {
     } catch {}
     // reload current page
     const usp = new URLSearchParams(query)
-    fetch(`${base}/api/articles?${usp.toString()}`, { cache: 'no-store' })
+    fetch(`${base}/api/articles?${usp.toString()}`, { cache: 'no-store', credentials: 'include' })
       .then(r => r.json())
       .then((data) => {
         setItems(data.items || [])
@@ -95,7 +96,7 @@ export default function ArticlesListPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
         <input className="border rounded p-2" placeholder="Buscar..." value={q} onChange={(e) => { setPage(1); setQ(e.target.value) }} />
-        <select className="border rounded p-2" value={status} onChange={(e) => { setPage(1); setStatus(e.target.value as any) }}>
+        <select className="border rounded p-2" value={status} onChange={(e) => { setPage(1); setStatus(e.target.value as 'all' | 'draft' | 'published') }}>
           <option value="all">Todos</option>
           <option value="draft">Borradores</option>
           <option value="published">Publicados</option>

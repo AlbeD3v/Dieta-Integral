@@ -4,6 +4,7 @@ export async function apiGet<T = any>(path: string, init?: RequestInit): Promise
   const base = getClientBaseUrl()
   const res = await fetch(`${base}${path}`, {
     cache: 'no-store',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
     ...init,
   })

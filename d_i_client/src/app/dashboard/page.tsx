@@ -51,7 +51,7 @@ export default async function DashboardPage() {
         slug: a.slug,
         title: a.title,
         summary: a.summary,
-        image: Array.isArray(a.images) && (a.images as any[])[0] ? String((a.images as any[])[0]) : null,
+        image: Array.isArray(a.images) && a.images[0] ? String(a.images[0]) : null,
       }))}
     />
   );

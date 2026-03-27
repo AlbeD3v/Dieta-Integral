@@ -21,9 +21,14 @@ export default function AdminDashboard({ clientBase }: { clientBase: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${clientBase}/api/admin/stats`)
-      .then(r => r.json())
-      .then(setStats)
+    fetch(`${clientBase}/api/admin/stats`, { credentials: 'include' })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => {
+        if (data && data.users) setStats(data);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [clientBase]);

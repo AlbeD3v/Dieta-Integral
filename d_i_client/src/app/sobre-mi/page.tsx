@@ -33,17 +33,17 @@ async function getAbout() {
   } as const;
   try {
     const row = await prisma.setting.findUnique({ where: { id: 'about' } });
-    let data: any = null;
+    let data: Record<string, unknown> | null = null;
     if (row?.value) {
-      try { data = typeof row.value === 'string' ? JSON.parse(row.value as any) : (row.value as any); } catch {}
+      try { data = typeof row.value === 'string' ? JSON.parse(row.value) : (row.value as unknown as Record<string, unknown>); } catch {}
     }
-    return { ...defaults, ...(data || {}) } as any;
+    return { ...defaults, ...(data || {}) };
   } catch {
     try {
       const res = await fetch('/api/about', { cache: 'no-store', next: { revalidate: 0 } });
       if (res.ok) return res.json();
     } catch {}
-    return defaults as any;
+    return defaults;
   }
 }
 
@@ -56,7 +56,7 @@ export default async function SobreMiPage() {
   const ctaLabel = data?.ctaLabel ?? 'Hablemos';
   return (
     <div className="min-h-screen bg-background">
-      <main>
+      <div>
         <Container className="py-16">
           <Breadcrumbs items={[{ label: 'Inicio', href: '/' }, { label: 'Sobre mí' }]} />
           <div className="flex flex-col md:flex-row-reverse items-center md:items-start gap-12">
@@ -70,7 +70,7 @@ export default async function SobreMiPage() {
                   sizes="250px"
                   priority
                   className="rounded-full object-cover"
-                  style={{ objectFit: 'cover', objectPosition: 'center 100%' }}
+                  style={{ objectFit: 'cover', objectPosition: 'center 35%' }}
                 />
               </div>
             </aside>
@@ -133,7 +133,7 @@ export default async function SobreMiPage() {
             </div>
           </div>
         </Container>
-      </main>
+      </div>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function UsersList({ clientBase }: { clientBase: string }) {
       const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
       if (search) params.set('q', search);
       if (planFilter) params.set('plan', planFilter);
-      const res = await fetch(`${clientBase}/api/admin/users?${params}`);
+      const res = await fetch(`${clientBase}/api/admin/users?${params}`, { credentials: 'include' });
       const data = await res.json();
       setUsers(data.users || []);
       setTotal(data.total || 0);

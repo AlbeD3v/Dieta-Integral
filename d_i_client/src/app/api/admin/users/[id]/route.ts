@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Prisma } from '@prisma/client'
 import prisma from '@/lib/prisma'
+import { assertAdmin } from '@/lib/admin'
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await assertAdmin()
+  if (error) return error
+
   try {
     const { id } = await params
 
@@ -54,14 +59,17 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await assertAdmin()
+  if (error) return error
+
   try {
     const { id } = await params
     const body = await req.json()
 
-    const allowedFields: Record<string, boolean> = { plan: true, onboardingComplete: true }
-    const data: any = {}
+    const allowedFields = new Set(['plan', 'onboardingComplete'])
+    const data: Record<string, unknown> = {}
     for (const [key, value] of Object.entries(body)) {
-      if (allowedFields[key]) data[key] = value
+      if (allowedFields.has(key)) data[key] = value
     }
 
     if (Object.keys(data).length === 0) {

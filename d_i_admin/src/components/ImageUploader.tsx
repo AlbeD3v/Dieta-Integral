@@ -37,16 +37,16 @@ export default function ImageUploader({ label = 'Subir imagen', onUploaded, acce
       const base = getClientBaseUrl()
       const fd = new FormData()
       fd.append('file', file)
-      const resp = await fetch(`${base}/api/upload`, { method: 'POST', body: fd })
-      const data = await resp.json().catch(() => ({})) as any
+      const resp = await fetch(`${base}/api/upload`, { method: 'POST', credentials: 'include', body: fd })
+      const data: { url?: string; href?: string; error?: string } = await resp.json().catch(() => ({}))
       if (!resp.ok) throw new Error(data?.error || `Upload failed: ${resp.status}`)
       const url = String(data?.url || data?.href || '')
       if (!url) throw new Error('Respuesta inválida del servidor')
       onUploaded(url)
       if (inputRef.current) inputRef.current.value = ''
       setFile(null)
-    } catch (e: any) {
-      setError(e?.message || 'Error subiendo imagen')
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Error subiendo imagen')
     } finally {
       setBusy(false)
     }

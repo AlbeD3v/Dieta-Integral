@@ -37,7 +37,7 @@ function SuscriptoresContent() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${base}/api/newsletter?${qs}`, { cache: 'no-store' })
+    fetch(`${base}/api/newsletter?${qs}`, { cache: 'no-store', credentials: 'include' })
       .then(r => r.json())
       .then(data => {
         setRows(data.items ?? []);

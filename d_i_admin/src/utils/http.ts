@@ -10,5 +10,5 @@ export type Pagination = { page?: number; pageSize?: number }
 export function withPagination<T extends object>(params: T & Pagination): T & Required<Pagination> {
   const page = Math.max(1, Number(params.page || 1))
   const pageSize = Math.min(50, Math.max(1, Number(params.pageSize || 12)))
-  return { ...(params as any), page, pageSize }
+  return { ...params, page, pageSize } as T & Required<Pagination>
 }
