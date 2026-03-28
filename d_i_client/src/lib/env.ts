@@ -10,6 +10,7 @@ const REQUIRED = [
   'GOOGLE_CLIENT_ID',
   'GOOGLE_CLIENT_SECRET',
   'DATABASE_URL',
+  'AUTH_SECRET',
 ] as const
 
 const OPTIONAL_DEFAULTS: Record<string, string> = {
