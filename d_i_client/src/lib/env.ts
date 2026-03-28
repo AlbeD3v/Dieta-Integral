@@ -18,6 +18,7 @@ const OPTIONAL_DEFAULTS: Record<string, string> = {
   NEXT_PUBLIC_CLIENT_URL: 'http://localhost:3000',
   NEXT_PUBLIC_BASE_URL: '',
   ADMIN_ORIGIN: 'http://localhost:3001',
+  ADMIN_API_SECRET: '',
   YT_API_KEY: '',
   YT_CHANNEL_ID: '',
   BLOB_READ_WRITE_TOKEN: '',

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { getAuthHeaders } from '@/utils/fetcher';
 import {
   Users, UserCheck, Crown, FileText, TrendingUp,
   Bookmark, ArrowRight, Loader2,
@@ -21,7 +22,7 @@ export default function AdminDashboard({ clientBase }: { clientBase: string }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${clientBase}/api/admin/stats`, { credentials: 'include' })
+    fetch(`${clientBase}/api/admin/stats`, { headers: { ...getAuthHeaders() } })
       .then(r => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
@@ -159,7 +160,7 @@ export default function AdminDashboard({ clientBase }: { clientBase: string }) {
               />
             </div>
             <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
-              {['/', '/blog', '/sobre-mi', '/contacto'].map(p => (
+              {['/', '/articulos', '/sobre-mi', '/contacto'].map(p => (
                 <a
                   key={p}
                   href={`${clientBase}${p}`}

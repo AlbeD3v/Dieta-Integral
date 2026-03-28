@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Target, Activity, HeartPulse, Sparkles, Scale,
@@ -52,8 +53,11 @@ const activityLabels: Record<string, string> = {
 /* ── Component ──────────────────────────────── */
 export default function DashboardHome({ user, profile, recentLogs, latestArticles }: Props) {
   const firstName = user.name.split(' ')[0];
-  const hour = new Date().getHours();
-  const greeting = hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches';
+  const [greeting, setGreeting] = useState('Hola');
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches');
+  }, []);
 
   return (
     <div className="space-y-8">

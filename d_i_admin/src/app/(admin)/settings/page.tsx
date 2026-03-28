@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useEffect, useRef, useState } from 'react'
 import { getClientBaseUrl } from '../../../utils/env'
+import { getAuthHeaders } from '../../../utils/fetcher'
 
 export default function SettingsPage() {
   const [saving, setSaving] = useState(false)
@@ -77,7 +78,7 @@ export default function SettingsPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch(`${base}/api/theme`, { cache: 'no-store', credentials: 'include' })
+        const res = await fetch(`${base}/api/theme`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
         if (!res.ok) return
         const data = await res.json()
         if (data?.theme === 'dark' || data?.theme === 'light') setTheme(data.theme)
@@ -90,7 +91,7 @@ export default function SettingsPage() {
     const loadAbout = async () => {
       setAboutLoading(true)
       try {
-        const r = await fetch(`${base}/api/about`, { cache: 'no-store', credentials: 'include' })
+        const r = await fetch(`${base}/api/about`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
         const d = await r.json()
         setAboutTitle(d?.title ?? 'Sobre mí')
         setAboutMarkdown(d?.markdown ?? '')
@@ -107,7 +108,7 @@ export default function SettingsPage() {
     const loadReels = async () => {
       setReelsLoading(true)
       try {
-        const r = await fetch(`${base}/api/settings/instagram.reels`, { cache: 'no-store', credentials: 'include' })
+        const r = await fetch(`${base}/api/settings/instagram.reels`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
         if (r.ok) {
           const d = await r.json()
           const arr = Array.isArray(d?.value) ? d.value : []
@@ -123,7 +124,7 @@ export default function SettingsPage() {
     const loadYT = async () => {
       setYtLoading(true)
       try {
-        const r = await fetch(`${base}/api/settings/youtube.videos`, { cache: 'no-store', credentials: 'include' })
+        const r = await fetch(`${base}/api/settings/youtube.videos`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
         if (r.ok) {
           const d = await r.json()
           const arr = Array.isArray(d?.value) ? d.value : []
@@ -218,8 +219,7 @@ export default function SettingsPage() {
                   try {
                     await fetch(`${base}/api/theme`, {
                       method: 'POST',
-                      credentials: 'include',
-                      headers: { 'Content-Type': 'application/json' },
+                      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                       body: JSON.stringify({ theme }),
                     })
                   } finally {
@@ -323,7 +323,7 @@ export default function SettingsPage() {
                   try {
                     const fd = new FormData()
                     fd.set('file', file)
-                    const r = await fetch(`${base}/api/upload`, { method: 'POST', credentials: 'include', body: fd })
+                    const r = await fetch(`${base}/api/upload`, { method: 'POST', headers: { ...getAuthHeaders() }, body: fd })
                     const j = await r.json().catch(() => ({}))
                     if (!r.ok) {
                       setUploadError(typeof j?.error === 'string' ? j.error : 'Error al subir. Intenta nuevamente.')
@@ -361,8 +361,7 @@ export default function SettingsPage() {
                   try {
                     await fetch(`${base}/api/about`, {
                       method: 'POST',
-                      credentials: 'include',
-                      headers: { 'Content-Type': 'application/json' },
+                      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                       body: JSON.stringify({ title: aboutTitle, markdown: aboutMarkdown, imageUrl: aboutImageUrl, ctaLabel: aboutCTA })
                     })
                   } finally {
@@ -408,8 +407,7 @@ export default function SettingsPage() {
                     const lines = reelsText.split('\n').map(s => s.trim()).filter(Boolean)
                     const r = await fetch(`${base}/api/settings/instagram.reels`, {
                       method: 'POST',
-                      credentials: 'include',
-                      headers: { 'Content-Type': 'application/json' },
+                      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                       body: JSON.stringify({ value: lines })
                     })
                     if (!r.ok) throw new Error('Error al guardar')
@@ -459,8 +457,7 @@ export default function SettingsPage() {
                     const lines = ytText.split('\n').map(s => s.trim()).filter(Boolean)
                     const r = await fetch(`${base}/api/settings/youtube.videos`, {
                       method: 'POST',
-                      credentials: 'include',
-                      headers: { 'Content-Type': 'application/json' },
+                      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
                       body: JSON.stringify({ value: lines })
                     })
                     if (!r.ok) throw new Error('Error al guardar')

@@ -7,6 +7,7 @@ import rehypeSanitize from 'rehype-sanitize'
 import ImageUploader from './ImageUploader'
 import { slugify } from '../utils/slug'
 import { getClientBaseUrl } from '../utils/env'
+import { getAuthHeaders } from '../utils/fetcher'
 import type { CategoryDTO } from '@dieta/shared-types'
 import { CategorySelect } from '@dieta/shared-ui'
 
@@ -57,7 +58,7 @@ export default function ArticleForm({ initial, mode }: Props) {
   // Load categories from client API
   useEffect(() => {
     let cancelled = false
-    fetch(`${base}/api/categories`, { cache: 'no-store', credentials: 'include' })
+    fetch(`${base}/api/categories`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
       .then(r => r.json())
       .then((d) => {
         if (cancelled) return
@@ -90,9 +91,9 @@ export default function ArticleForm({ initial, mode }: Props) {
       }
       let resp: Response
       if (mode === 'create') {
-        resp = await fetch(`${base}/api/articles`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        resp = await fetch(`${base}/api/articles`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(payload) })
       } else {
-        resp = await fetch(`${base}/api/articles/${encodeURIComponent(String(initial?.slug || slug))}`, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        resp = await fetch(`${base}/api/articles/${encodeURIComponent(String(initial?.slug || slug))}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(payload) })
       }
       const data = await resp.json().catch(() => ({}))
       if (!resp.ok) throw new Error(data?.error || `Error ${resp.status}`)
@@ -102,7 +103,6 @@ export default function ArticleForm({ initial, mode }: Props) {
       try {
         fetch(`${base}/api/revalidate`, {
           method: 'POST',
-          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''}`,

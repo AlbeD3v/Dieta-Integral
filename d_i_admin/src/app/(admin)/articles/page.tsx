@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { buildQuery, withPagination } from '../../../utils/http'
-import { apiGet } from '../../../utils/fetcher'
+import { apiGet, getAuthHeaders } from '../../../utils/fetcher'
 import type { ArticleDTO, CategoryDTO } from '@dieta/shared-types'
 import { CategorySelect } from '@dieta/shared-ui'
 import { getClientBaseUrl } from '../../../utils/env'
@@ -57,7 +57,7 @@ export default function ArticlesListPage() {
 
   const handleDelete = async (slug: string) => {
     if (!confirm('¿Borrar este artículo?')) return
-    const resp = await fetch(`${base}/api/articles/${encodeURIComponent(slug)}`, { method: 'DELETE', credentials: 'include' })
+    const resp = await fetch(`${base}/api/articles/${encodeURIComponent(slug)}`, { method: 'DELETE', headers: { ...getAuthHeaders() } })
     if (!resp.ok) {
       alert('No se pudo borrar')
       return
@@ -66,7 +66,6 @@ export default function ArticlesListPage() {
     try {
       fetch(`${base}/api/revalidate`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${process.env.NEXT_PUBLIC_REVALIDATE_TOKEN || ''}`,
@@ -79,7 +78,7 @@ export default function ArticlesListPage() {
     } catch {}
     // reload current page
     const usp = new URLSearchParams(query)
-    fetch(`${base}/api/articles?${usp.toString()}`, { cache: 'no-store', credentials: 'include' })
+    fetch(`${base}/api/articles?${usp.toString()}`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
       .then(r => r.json())
       .then((data) => {
         setItems(data.items || [])

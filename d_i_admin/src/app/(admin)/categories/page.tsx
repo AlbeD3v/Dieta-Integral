@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import type { CategoryDTO } from '@dieta/shared-types'
 import { getClientBaseUrl } from '../../../utils/env'
+import { getAuthHeaders } from '../../../utils/fetcher'
 
 export default function CategoriesPage() {
   const base = getClientBaseUrl()
@@ -26,7 +27,7 @@ export default function CategoriesPage() {
   const load = async () => {
     setError(null)
     try {
-      const r = await fetch(`${base}/api/categories`, { cache: 'no-store', credentials: 'include' })
+      const r = await fetch(`${base}/api/categories`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
       const d = await r.json()
       const arr: CategoryDTO[] = Array.isArray(d?.items) ? d.items : []
       setItems(arr)
@@ -56,7 +57,7 @@ export default function CategoriesPage() {
     if (Number.isFinite(eOrder)) payload.order = eOrder
     try {
       setBusy(true); setError(null); setOk(null)
-      const r = await fetch(`${base}/api/categories/${encodeURIComponent(originalSlug)}`, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      const r = await fetch(`${base}/api/categories/${encodeURIComponent(originalSlug)}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(payload) })
       const d = await r.json().catch(() => ({}))
       if (!r.ok) throw new Error(d?.error || `HTTP ${r.status}`)
       setOk('Actualizada')
@@ -76,7 +77,7 @@ export default function CategoriesPage() {
     if (Number.isFinite(order)) payload.order = order
     try {
       setBusy(true); setError(null); setOk(null)
-      const r = await fetch(`${base}/api/categories`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      const r = await fetch(`${base}/api/categories`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...getAuthHeaders() }, body: JSON.stringify(payload) })
       const d = await r.json().catch(() => ({}))
       if (!r.ok) throw new Error(d?.error || `HTTP ${r.status}`)
       setOk('Creada')
@@ -91,7 +92,7 @@ export default function CategoriesPage() {
     if (!confirm('¿Borrar esta categoría?')) return
     try {
       setBusy(true); setError(null); setOk(null)
-      const r = await fetch(`${base}/api/categories/${encodeURIComponent(slug)}`, { method: 'DELETE', credentials: 'include' })
+      const r = await fetch(`${base}/api/categories/${encodeURIComponent(slug)}`, { method: 'DELETE', headers: { ...getAuthHeaders() } })
       if (!r.ok) {
         const d = await r.json().catch(() => ({}))
         throw new Error(d?.error || `HTTP ${r.status}`)

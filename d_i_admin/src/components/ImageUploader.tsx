@@ -1,6 +1,7 @@
 "use client"
 import React, { useRef, useState } from 'react'
 import { getClientBaseUrl } from '../utils/env'
+import { getAuthHeaders } from '../utils/fetcher'
 
 type Props = {
   label?: string
@@ -37,7 +38,7 @@ export default function ImageUploader({ label = 'Subir imagen', onUploaded, acce
       const base = getClientBaseUrl()
       const fd = new FormData()
       fd.append('file', file)
-      const resp = await fetch(`${base}/api/upload`, { method: 'POST', credentials: 'include', body: fd })
+      const resp = await fetch(`${base}/api/upload`, { method: 'POST', headers: { ...getAuthHeaders() }, body: fd })
       const data: { url?: string; href?: string; error?: string } = await resp.json().catch(() => ({}))
       if (!resp.ok) throw new Error(data?.error || `Upload failed: ${resp.status}`)
       const url = String(data?.url || data?.href || '')

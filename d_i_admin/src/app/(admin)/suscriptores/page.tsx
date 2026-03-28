@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getClientBaseUrl } from '../../../utils/env';
+import { getAuthHeaders } from '../../../utils/fetcher';
 
 type Subscriber = { id: string; email: string; createdAt: string; verified: boolean };
 
@@ -37,7 +38,7 @@ function SuscriptoresContent() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${base}/api/newsletter?${qs}`, { cache: 'no-store', credentials: 'include' })
+    fetch(`${base}/api/newsletter?${qs}`, { cache: 'no-store', headers: { ...getAuthHeaders() } })
       .then(r => r.json())
       .then(data => {
         setRows(data.items ?? []);

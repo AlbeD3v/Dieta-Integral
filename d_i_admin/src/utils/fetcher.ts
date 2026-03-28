@@ -1,11 +1,16 @@
 import { getClientBaseUrl } from './env'
 
+export function getAuthHeaders(): Record<string, string> {
+  const secret = process.env.NEXT_PUBLIC_ADMIN_API_SECRET || ''
+  if (secret) return { Authorization: `Bearer ${secret}` }
+  return {}
+}
+
 export async function apiGet<T = any>(path: string, init?: RequestInit): Promise<T> {
   const base = getClientBaseUrl()
   const res = await fetch(`${base}${path}`, {
     cache: 'no-store',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json', ...(init?.headers || {}) },
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders(), ...(init?.headers || {}) },
     ...init,
   })
   if (!res.ok) {
