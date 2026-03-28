@@ -212,7 +212,7 @@ export default function DashboardHome({ user, profile, recentLogs, latestArticle
             <h2 className="font-bold text-[#0F172A] flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-[#1B4332]" /> Artículos recomendados
             </h2>
-            <Link href="/blog" className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] flex items-center gap-1">
+            <Link href="/articulos" className="text-xs font-semibold text-[#1B4332] hover:text-[#2D6A4F] flex items-center gap-1">
               Ver blog <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -220,7 +220,7 @@ export default function DashboardHome({ user, profile, recentLogs, latestArticle
             {latestArticles.map(a => (
               <Link
                 key={a.slug}
-                href={`/blog/${a.slug}`}
+                href={`/articulos/${a.slug}`}
                 className="rounded-2xl border border-black/8 bg-white p-5 hover:shadow-md hover:border-black/12 transition-all space-y-2 group"
               >
                 <h3 className="text-sm font-semibold text-[#0F172A] group-hover:text-[#1B4332] transition-colors line-clamp-2">
