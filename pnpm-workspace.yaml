@@ -1,6 +1,7 @@
 packages:
   - d_i_client
   - d_i_admin
+  - packages/*
 
 ignoredBuiltDependencies:
   - '@prisma/client'
