@@ -21,9 +21,9 @@ const pillars = [
     bg: 'from-amber-50 to-orange-50',
     border: 'border-amber-200/60',
     content: [
-      'Tu cuerpo tiene un reloj interno que regula prácticamente cada función biológica: el metabolismo, la producción hormonal, el estado de ánimo, la temperatura corporal, la reparación celular.',
-      'Cuando sincronizas tus hábitos con los ciclos de luz y oscuridad, todo empieza a funcionar mejor. No porque hagas más, sino porque lo haces en el momento correcto.',
-      'La exposición a luz solar temprana, la regulación de horarios de comida y el respeto al ciclo de oscuridad nocturna son las herramientas más potentes y gratuitas que tienes.',
+      'Tienes un reloj interno que lleva millones de años funcionando. Se llama ritmo circadiano y regula desde cuándo produces energía hasta cuándo reparan tus células. El problema es que la vida moderna lo tiene completamente desajustado.',
+      'La luz artificial de noche, las comidas a deshora, el sueño inconsistente... cada uno de esos hábitos le manda señales contradictorias a tu biología. Y cuando el reloj se desajusta, el metabolismo, las hormonas y el sistema inmune lo pagan.',
+      'Volver a sincronizar tus ritmos no es complicado. Es cuestión de respetar la luz del día, la oscuridad de la noche y los horarios que tu cuerpo espera. Cuando lo haces, la energía se dispara, el sueño mejora y el cuerpo empieza a funcionar como fue diseñado.',
     ],
   },
   {
@@ -49,9 +49,9 @@ const pillars = [
     bg: 'from-indigo-50 to-violet-50',
     border: 'border-indigo-200/60',
     content: [
-      'El sueño no es tiempo perdido. Es el momento en que tu cuerpo repara tejidos, consolida memoria, regula hormonas, limpia el cerebro de metabolitos tóxicos y resetea el sistema inmune.',
-      'Sin sueño profundo y continuado, ninguna otra intervención funciona al máximo. Puedes comer perfecto y entrenar fuerte, pero si duermes mal, el sistema no se recupera.',
-      'Optimizar el sueño implica controlar la luz nocturna, mantener horarios regulares, cuidar la temperatura de la habitación y gestionar el estrés antes de dormir.',
+      'Mientras duermes, tu cuerpo hace todo lo que no puede hacer despierto. Repara tejidos, consolida la memoria, regula las hormonas y limpia el cerebro de residuos metabólicos. El sueño no es tiempo perdido. Es la base de todo lo demás.',
+      'El problema es que muy pocas personas duermen bien de verdad, y no es solo una cuestión de horas. La luz artificial, la temperatura del cuarto, los horarios irregulares, las pantallas justo antes de dormir... todo eso interfiere con los procesos que deberían ocurrir cada noche de forma automática.',
+      'Desde Dieta Integral, el sueño es tan prioritario como la alimentación. Porque puedes comer perfecto y entrenar todos los días, pero si no descansas bien, tu cuerpo no puede repararse, tu metabolismo no puede regularse y tu energía no puede recuperarse. Sin sueño real, todo lo demás falla.',
     ],
   },
   {
@@ -63,9 +63,9 @@ const pillars = [
     bg: 'from-green-50 to-teal-50',
     border: 'border-green-200/60',
     content: [
-      'Tu biología se diseñó para funcionar en un entorno natural: luz solar directa, variaciones de temperatura, contacto con la tierra, aire fresco, sonidos naturales.',
-      'Las señales ambientales regulan tu sistema nervioso, tu producción hormonal y tu estado de ánimo de formas que la ciencia apenas empieza a cuantificar pero que la experiencia humana siempre supo.',
-      'Integrar más naturaleza, más luz real y menos entornos artificiales no es un lujo. Es una necesidad biológica que tu cuerpo reclama silenciosamente todos los días.',
+      'Tu cuerpo no vive en el vacío. Cada estímulo del entorno — la luz que recibes, los campos electromagnéticos a los que te expones, la naturaleza que pisas o que ignoras — le manda señales constantes a tu biología. Señales que la moldean sin que te des cuenta.',
+      'El electrosmog, la falta de contacto con la tierra, los espacios cerrados sin luz natural... son factores que tu sistema nervioso percibe como estrés crónico. No porque seas sensible, sino porque tu biología fue diseñada para un entorno completamente diferente.',
+      'Optimizar el entorno no es un lujo ni una moda. Es recuperar las condiciones en las que tu cuerpo funciona mejor. A veces con cambios pequeños — una caminata descalzo, menos pantallas por la noche, más verde y menos cemento — se producen los mayores saltos en salud.',
     ],
   },
   {
@@ -77,9 +77,9 @@ const pillars = [
     bg: 'from-orange-50 to-amber-50',
     border: 'border-orange-200/60',
     content: [
-      'El movimiento no es solo ejercicio. Es la señal más potente que le puedes enviar a tu cuerpo de que estás vivo, activo y necesitas seguir funcionando.',
-      'El músculo es un órgano endocrino: cuando se contrae libera mioquinas antiinflamatorias, mejora la sensibilidad a la insulina, regula el sistema inmune y protege el cerebro.',
-      'No necesitas un gimnasio ni una rutina extrema. Necesitas moverte con frecuencia, con variedad y con intención. Caminar, cargar, trepar, agacharte. Lo que tu cuerpo siempre hizo.',
+      'Durante miles de años, el movimiento fue parte de la vida, no un bloque de 60 minutos separado del resto del día. Caminar, cargar, agacharse, correr cuando era necesario. Tu biología se construyó sobre esa base y la sigue esperando.',
+      'El sedentarismo moderno no solo debilita los músculos. Altera la sensibilidad a la insulina, desregula las hormonas, deteriora el sueño y acelera el envejecimiento. No es un problema estético, es un problema metabólico con consecuencias reales.',
+      'Desde Dieta Integral, el movimiento que defendemos es el que tu cuerpo reconoce: fuerza funcional, caminata diaria, patrones naturales. Sin obsesiones ni extremos. Simplemente mover más, mover bien y mover con consistencia.',
     ],
   },
   {
@@ -91,9 +91,9 @@ const pillars = [
     bg: 'from-violet-50 to-purple-50',
     border: 'border-violet-200/60',
     content: [
-      'El ayuno no es pasar hambre. Es darle a tu cuerpo ventanas de descanso digestivo para que active procesos de reparación que solo ocurren cuando no estás comiendo: autofagia, reciclaje celular, equilibrio hormonal.',
-      'Durante miles de años, comer cada 3 horas no existió. Tu biología está diseñada para alternar entre períodos de alimentación y períodos de ayuno. Esa alternancia es una señal de salud, no de carencia.',
-      'Un ayuno bien llevado mejora la sensibilidad a la insulina, reduce la inflamación sistémica, clarifica la mente y enseña a tu cuerpo a usar sus reservas. No es una moda, es biología básica.',
+      'Vivimos convencidos de que debemos comer cada pocas horas para estar bien. Pero eso es exactamente lo contrario a lo que tu biología espera. Durante la mayor parte de la historia humana, los períodos sin comida eran la norma, no la excepción.',
+      'Cuando dejas de comer durante suficientes horas, ocurre algo importante: el cuerpo deja de gestionar la digestión y empieza a repararse. Se activa la autofagia — el sistema de limpieza celular —, bajan la insulina y la inflamación, y el metabolismo aprende a usar la grasa como combustible principal.',
+      'El ayuno intermitente no es una moda pasajera. Es una herramienta ancestral con respaldo científico sólido. Y lo mejor: no cuesta dinero, no requiere suplementos y puede empezarse hoy mismo con un protocolo sencillo.'
     ],
   },
 ];

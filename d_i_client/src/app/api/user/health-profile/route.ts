@@ -8,7 +8,7 @@ const HealthProfileSchema = z.object({
   sex: z.enum(['male', 'female', 'other']).optional(),
   weight: z.number().min(20).max(400).optional(),
   height: z.number().min(50).max(300).optional(),
-  activityLevel: z.enum(['sedentary', 'light', 'moderate', 'active', 'athlete']).optional(),
+  activityLevel: z.enum (['sedentary', 'light', 'moderate', 'active', 'athlete']).optional(),
   goal: z.enum(['lose', 'gain', 'maintain', 'energy', 'health']).optional(),
   conditions: z.array(z.string()).optional(),
   preferences: z.array(z.string()).optional(),

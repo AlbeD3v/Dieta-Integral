@@ -83,14 +83,14 @@ export default async function Home() {
                 <HeroItem><p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B08D57]">Dieta Integral · Sistema de Salud</p></HeroItem>
                 <HeroItem>
                   <h1 className="text-5xl md:text-[3.75rem] font-bold leading-[1.06] tracking-tight text-[#0F172A]">
-                    Volver a vivir<br />
-                    como tu cuerpo<br />
-                    <span className="text-[#1B4332]">espera.</span>
+                    Te ayudo<br />
+                    a recuperar<br />
+                    <span className="text-[#1B4332]">tu salud.</span>
                   </h1>
                 </HeroItem>
                 <HeroItem>
                   <p className="text-lg text-[#475569] leading-relaxed max-w-[46ch]">
-                    Un sistema que integra biología ancestral y vida moderna para optimizar tu energía, claridad y salud desde la raíz.
+                    Utilizando un sistema que integra biología ancestral y vida moderna.
                   </p>
                 </HeroItem>
                 <HeroItem>

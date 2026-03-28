@@ -29,7 +29,7 @@ const pillars: Pillar[] = [
     emoji: '☀',
     label: 'Ritmos circadianos',
     shortLabel: 'Ritmos',
-    description: 'Tu cuerpo tiene un reloj interno. Sincronizarlo con la luz y la oscuridad cambia tu energía, sueño y metabolismo.',
+    description: 'Tu reloj interno lleva millones de años sincronizado con el sol. Cuando lo respetas, todo cambia: energía, metabolismo, ánimo.',
     image: '/images/pilares/ritmos.webp',
     top: '4%', right: '12%', left: 'auto',
   },
@@ -49,7 +49,7 @@ const pillars: Pillar[] = [
     emoji: '💤',
     label: 'Sueño reparador',
     shortLabel: 'Sueño',
-    description: 'La base de toda recuperación y equilibrio hormonal. Sin sueño profundo, nada más funciona.',
+    description: 'Ocho horas en la cama no son ocho horas de sueño reparador. La calidad del descanso depende de factores que la mayoría ignora por completo.',
     image: '/images/pilares/sueno.webp',
     top: 'auto', bottom: '4%', left: '50%',
   },
@@ -59,7 +59,7 @@ const pillars: Pillar[] = [
     emoji: '🌿',
     label: 'Entorno y luz natural',
     shortLabel: 'Entorno',
-    description: 'Las señales ambientales que regulan tu sistema. Luz solar, temperatura, naturaleza: el contexto que tu cuerpo necesita.',
+    description: 'El entorno que construyes es el entorno que te construye. Luz, campo electromagnético y naturaleza impactan tu biología más de lo que imaginas.',
     image: '/images/pilares/entorno.webp',
     top: '42%', left: '-6%',
   },
@@ -69,7 +69,7 @@ const pillars: Pillar[] = [
     emoji: '⚡',
     label: 'Movimiento funcional',
     shortLabel: 'Movimiento',
-    description: 'No como castigo, sino como información para tu cuerpo. Moverse es la señal más potente de que estás vivo.',
+    description: 'No hablamos de machacarte en el gym. Hablamos del movimiento que tu biología espera: funcional, constante y con propósito real.',
     image: '/images/pilares/movimiento.webp',
     top: '42%', right: '-4%', left: 'auto',
   },
@@ -79,7 +79,7 @@ const pillars: Pillar[] = [
     emoji: '⏳',
     label: 'Ayuno estratégico',
     shortLabel: 'Ayuno',
-    description: 'Dar descanso digestivo activa la reparación celular, la autofagia y el equilibrio metabólico. Tu cuerpo sabe regenerarse cuando dejas de interrumpirlo.',
+    description: 'Tu cuerpo sabe exactamente lo que hace cuando no comes. El ayuno activa procesos de reparación que ningún suplemento puede replicar.',
     image: '/images/pilares/ayuno.webp',
     top: 'auto', bottom: '22%', left: '-4%',
   },
@@ -121,7 +121,7 @@ function PillarCard({ pillar, onClose }: { pillar: Pillar; onClose: () => void }
       exit={{ opacity: 0, y: 8, scale: 0.97 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
       className="absolute z-50 w-[260px] bg-white rounded-xl shadow-xl border border-black/8 overflow-hidden"
-      style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+      style={{ top: '13%', left: '17%', transform: 'translate(-50%, -50%)' }}
     >
       {/* Image header */}
       <div className="relative h-28 bg-gradient-to-br from-[#1B4332] to-[#40916C] flex items-center justify-center overflow-hidden">
